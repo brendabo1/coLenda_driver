@@ -17,7 +17,7 @@
 void setBgColor(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int r, int g, int b); //0000
 void setBgBlock(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int endereco, int r, int g, int b); //0010
 void setSprite(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int registrador, int sprite, int cord_x, int cord_y, int sp); //0000   
-void setForm(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int endereco, int forma, int tamanho, int cord_x, int cord_y, int r, int g, int b); //0011
+void setPolygon(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int endereco, int forma, int tamanho, int cord_x, int cord_y, int r, int g, int b); //0011
 
 
 
@@ -46,7 +46,7 @@ void setSprite(volatile int * wrreg, volatile int * dataA, volatile int * dataB,
     *wrreg = 0;
 }
 
-void setForm(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int endereco, int forma, int tamanho, int cord_x, int cord_y, int r, int g, int b) {
+void setPolygon(volatile int * wrreg, volatile int * dataA, volatile int * dataB, int endereco, int forma, int tamanho, int cord_x, int cord_y, int r, int g, int b) {
     *dataA = (endereco << 4) | 0b0011;
     *dataB = (forma << 31) | (b << 28) | (g << 25) | (r << 22) | (tamanho << 18) | (cord_y << 9) | cord_x;
 
@@ -79,6 +79,8 @@ int main(){
     dataA = (int*) (LW_virtual + DATAA);
     dataB = (int*) (LW_virtual + DATAB);
     wrreg = (int*) (LW_virtual + WRREG);
+
+    setPolygon(wrreg, dataA, dataB, 0b0000, 0, 0b0000, 320, 240, 0,0,7);
 
 
 }
