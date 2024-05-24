@@ -1,5 +1,7 @@
 #include "address_map_arm.h" //atualizar diretorio
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -63,18 +65,30 @@ typedef struct Polygon
 
 /* Protótipos das funções*/
 void open();
-void set_background_color(int, int, int);
+void set_background_color(int red, int green, int blue);
 void set_block_background(int, int, int, int);
-void set_sprite(Sprite *);  
-void set_polygon(Polygon *);
-int  intToBinary(int, char*, int);
+void set_sprite(Sprite * sprite);
+void set_polygon(Polygon * polygon);
+void clear();
+int  intToBinary(long long int, char*, int);
 void close();
 
 
 
+void set_polygon(Polygon * polygon) {
+  long long int data = 0;
+  char * string[65];
 
 
-int intToBinary(int number, char * string, int size){
+  data = (polygon.shape << 39 | polygon.blue << 36 | polygon.green << 33| polygon.red << 30| polygon.size << 26 | polygon.coord_y << 17 | polygon.coord_x << 8 | polygon.mem_address << 4 | DP);
+
+  intToBinary(data, string, 65);
+
+  //fazer a parte de escrever no documento
+
+}
+
+int intToBinary(long long int number, char * string, int size){
   int i = 0;
   string[size - 1] = '\0';
   for(i = size-2; i >=0; i--){
