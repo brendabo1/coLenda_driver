@@ -17,9 +17,7 @@ static struct
 {
   dev_t devnum;
   struct cdev cdev;
-  char buffer[256];
-  size_t buffer_pointer;
-  
+  char buffer[256];  
 } char_driver_data;
 
 
@@ -33,40 +31,40 @@ static int char_driver_close(struct inode *device_file, struct file *instance){
   return 0;
 }
 
-static ssize_t char_driver_read(struct file *file, char* user_buffer, size_t count, 
-loff_t *offs){
+static ssize_t char_driver_read(struct file *file, char* __user buf, size_t count, 
+loff_t *offset){
 
-  int to_copy, not_copied, delta;
+  ssize_t size = min(sizeof(char_driver_data.buffer) - *offset, count);
 
-  //amout of data to copy
-  to_copy = min(char_driver_data.buffer_pointer, count);
+  if (size <= 0)
+  {
+    return 0;
+  }
+
+  if(copy_to_user(buf, char_driver_data.buffer+ *offset, size)){
+    return -EFAULT;
+  }
   
-  //copy data to user
-  not_copied = copy_to_user(user_buffer, char_driver_data.buffer, to_copy);
+  *offset += size;
 
-  delta = to_copy - not_copied;
-
-  return delta;
-  
+  return size;
 }
 
-static ssize_t char_driver_write(struct file *file, const char* user_buffer, size_t count,
-loff_t *offs){
+static ssize_t char_driver_write(struct file *file, const char* __user buf, size_t count,
+loff_t *offset){
 
-  int to_copy, not_copied, delta;
+  ssize_t size = min(sizeof(char_driver_data.buffer) - *offset, count);
 
-  //amout of data to copy
-  to_copy = min(sizeof(char_driver_data.buffer), count);
-  
-  //copy data to user
-  not_copied = copy_from_user(char_driver_data.buffer, user_buffer, to_copy);
-  
-  char_driver_data.buffer_pointer = to_copy;
-  
-  delta = to_copy - not_copied;
+  if(size <= 0){
+    return 0;
+  }
+  if (copy_from_user(char_driver_data.buffer + *offset, buf, size))
+  {
+    return -EFAULT;
+  }
 
-  return delta;
-
+  *offset += size;
+  return size;
 }
 
 static const struct file_operations fops = {
