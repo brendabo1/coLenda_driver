@@ -67,5 +67,19 @@ void set_background_color(int, int, int);
 void set_block_background(int, int, int, int);
 void set_sprite(Sprite *);  
 void set_polygon(Polygon *);
+int  intToBinary(int, char*, int);
 void close();
-int  intToBinary(int n, )
+
+
+
+
+
+int intToBinary(int number, char * string, int size){
+  int i = 0;
+  string[size - 1] = '\0';
+  for(i = size-2; i >=0; i--){
+    string[i] = (n & 1) ? '1':'0';
+    n = n >> 1;
+  }
+
+}
