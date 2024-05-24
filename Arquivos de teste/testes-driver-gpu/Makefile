@@ -1,4 +1,4 @@
-obj-m += char_driver_test.o
+obj-m += colenda_driver.o
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 clean:

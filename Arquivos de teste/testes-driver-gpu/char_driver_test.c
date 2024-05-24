@@ -63,6 +63,19 @@ loff_t *offset){
     return -EFAULT;
   }
 
+
+int  result;
+char *str = "7";  // Example string to be converted
+int value;
+
+result = kstrtoint(str, 2, &value);  // Convert base 10 string to integer
+
+if (result == 0) {
+    printk(KERN_INFO "Converted value: %d\n", value);
+} else {
+    printk(KERN_ERR "Conversion failed\n");
+}
+
   *offset += size;
   return size;
 }

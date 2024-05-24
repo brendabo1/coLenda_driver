@@ -4,7 +4,8 @@
 #include<linux/fs.h>
 #include<linux/cdev.h>
 #include<linux/uaccess.h>
-#include<asm/io>
+#include "/usr/src/3.18.0/arch/arm/include/asm/io.h"
+#include "./address_map_arm.h"
 
 /* Meta information*/
 MODULE_LICENSE("GPL");
@@ -19,7 +20,7 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 
 /*Nome do driver */
 #define DRIVER_NAME "colenda_driver"
-#define BUFF_SIZE 64 //tamanho das instruções
+
 
 
 /*Driver data*/
@@ -27,7 +28,7 @@ static struct
 {
   dev_t devnum;
   struct cdev cdev;
-  char next_instruction[BUFF_SIZE];
+  size_t buffer_size;
   void *LW_virtual;
   volatile int *data_a;
   volatile int *data_b;
@@ -46,25 +47,80 @@ static int colenda_driver_close(struct inode *device_file, struct file *instance
   return 0;
 }
 
-static ssize_t colenda_driver_read(struct file *file, char __user buffer, size_t count, 
-loff_t *ppos){ 
-    //TODO
-}
-
-static ssize_t colenda_driver_write(struct file *file, const char __user buffer, size_t count,
+static ssize_t colenda_driver_write(struct file *file, const char __user *buffer, size_t count,
 loff_t *ppos){
-  int size = BUFF_SIZE;
+  ssize_t size = min(colenda_driver_data.buffer_size, count);
+  char kbuffer[colenda_driver_data.buffer_size];
+  long long int value = 0;
+  long long int opcode = 0;
+  int i = 0;
 
-  if(size > count){
-    size = count;
+  if(size == 0){
+    return 0;
   }
 
-  if(copy_from_user(colenda_driver_data.next_instruction, buffer, size)){
+  while (*colenda_driver_data.wr_full)
+  {
+  }
+  
+
+  if(copy_from_user(kbuffer, buffer, size)){
     return -EFAULT;
   }
+  printk("%s\n", kbuffer);
 
-  //processing data from buffer here
-  
+
+  while(kbuffer[i] != '\0'){
+    if(kbuffer[i] == '1'){
+      value = (value << 1) | 1;
+      printk("value: %d\n", value);
+      printk("caracter: %c\n", kbuffer[i]);
+    }else if(kbuffer[i] == '0') {
+      value = value << 1;
+      printk("value: %d\n", value);
+      printk("caracter: %c\n", kbuffer[i]);
+    }
+    i++;
+  }
+
+  if(value == -1){
+    pr_err("%s: fail to converto buffer to int", DRIVER_NAME);
+    return -1;
+  }
+
+  //pega o opcode referente ao função atual
+  opcode = (value & 0b1111);
+
+  switch (opcode)
+  {
+    //caso seja wbr
+  case 0b0000:
+    *colenda_driver_data.data_a = (value & 0b111111111);
+    *colenda_driver_data.data_b = (value >> 9);
+    break;
+
+  //caso seja wsm
+  case 0b0001:
+    *colenda_driver_data.data_a = (value & 0b111111111111111111);
+    *colenda_driver_data.data_b = (value >> 18);
+    break;
+
+  //caso seja wbm
+  case 0b0010:
+    *colenda_driver_data.data_b = (value >> 16);
+    *colenda_driver_data.data_a = (value & 0b1111111111111111);
+    break;
+
+  //caso seja dp
+  case 0b0011:
+  *colenda_driver_data.data_a = (value & 0b11111111);
+    *colenda_driver_data.data_b = (value >> 8);
+    break;
+  }
+
+  //escreve no fila
+  *colenda_driver_data.wr_reg = 1;
+  *colenda_driver_data.wr_reg = 0;
   return size;
 
 }
@@ -74,9 +130,7 @@ static const struct file_operations fops = {
   .owner = THIS_MODULE,
   .open = colenda_driver_open,
   .release = colenda_driver_close,
-  .write = colenda_driver_write,
-  .read = colenda_driver_read,
-
+  .write = colenda_driver_write
 };
 
 
@@ -85,6 +139,9 @@ static int __init colenda_driver_init(void){
   int result;
   /*Alocando device number*/
   result = alloc_chrdev_region(&colenda_driver_data.devnum, 0, 1, DRIVER_NAME);
+
+  //iniciação do tamanho do buffer
+  colenda_driver_data.buffer_size = 65;
 
   if(result)
   {

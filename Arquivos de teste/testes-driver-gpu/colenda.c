@@ -33,6 +33,7 @@
 
 /*Opcodes */
 #define WBR 0 //0000
+#define WSM 1 //0001
 #define WBM 2 //0010
 #define DP 3 //0011
 
@@ -67,3 +68,4 @@ void set_block_background(int, int, int, int);
 void set_sprite(Sprite *);  
 void set_polygon(Polygon *);
 void close();
+int  intToBinary(int n, )
