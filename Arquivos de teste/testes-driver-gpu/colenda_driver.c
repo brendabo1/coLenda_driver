@@ -18,9 +18,16 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 #define WRFULL 0xb0
 #define WRREG 0xc0
 
+/*Opcodes */
+#define WBR 0 //0000
+#define WSM 1 //0001
+#define WBM 2 //0010
+#define DP 3 //0011
+
 /*Nome do driver */
 #define DRIVER_NAME "colenda_driver"
 
+#define BUFF_SIZE 65 
 
 
 /*Driver data*/
@@ -49,27 +56,31 @@ static int colenda_driver_close(struct inode *device_file, struct file *instance
 
 static ssize_t colenda_driver_write(struct file *file, const char __user *buffer, size_t count,
 loff_t *ppos){
-  ssize_t size = min(colenda_driver_data.buffer_size, count);
   char kbuffer[colenda_driver_data.buffer_size];
+  ssize_t size = min(sizeof(kbuffer), count); 
   long long int value = 0;
   long long int opcode = 0;
   int i = 0;
 
-  if(size == 0){
+  /* Atualizando offset passado pelo usuario*/
+  *ppos = 0;
+
+  if(size == 0){ //sem bytes a serem escritos
     return 0;
   }
 
-  while (*colenda_driver_data.wr_full)
+  while (*colenda_driver_data.wr_full) //esperando espaço vazio na fila do processador grafico
   {
   }
   
-
+  /* Copiando buffer do usuário*/
   if(copy_from_user(kbuffer, buffer, size)){
     return -EFAULT;
   }
+
   printk("%s\n", kbuffer);
 
-
+  /* Convertendo string em inteiro*/ 
   while(kbuffer[i] != '\0'){
     if(kbuffer[i] == '1'){
       value = (value << 1) | 1;
@@ -83,36 +94,38 @@ loff_t *ppos){
     i++;
   }
 
+  /*String não pode ser convertida*/
   if(value == -1){
     pr_err("%s: fail to converto buffer to int", DRIVER_NAME);
     return -1;
   }
 
-  //pega o opcode referente ao função atual
+  /*Extrai o campo opcode*/
   opcode = (value & 0b1111);
 
+  /* Separando as informações referentes ao dataA e dataB de acordo com a instrução*/
   switch (opcode)
   {
-    //caso seja wbr
-  case 0b0000:
+  //instrução WBR
+  case WBR:
     *colenda_driver_data.data_a = (value & 0b111111111);
     *colenda_driver_data.data_b = (value >> 9);
     break;
 
-  //caso seja wsm
-  case 0b0001:
+  //instrução WSM
+  case WSM:
     *colenda_driver_data.data_a = (value & 0b111111111111111111);
     *colenda_driver_data.data_b = (value >> 18);
     break;
 
-  //caso seja wbm
-  case 0b0010:
+  //instrução WBM
+  case WBM:
     *colenda_driver_data.data_b = (value >> 16);
     *colenda_driver_data.data_a = (value & 0b1111111111111111);
     break;
 
-  //caso seja dp
-  case 0b0011:
+  //instrução DP
+  case DP:
   *colenda_driver_data.data_a = (value & 0b11111111);
     *colenda_driver_data.data_b = (value >> 8);
     break;
@@ -141,7 +154,7 @@ static int __init colenda_driver_init(void){
   result = alloc_chrdev_region(&colenda_driver_data.devnum, 0, 1, DRIVER_NAME);
 
   //iniciação do tamanho do buffer
-  colenda_driver_data.buffer_size = 65;
+  colenda_driver_data.buffer_size = BUFF_SIZE;
 
   if(result)
   {
