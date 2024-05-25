@@ -120,18 +120,18 @@ loff_t *ppos){
 
   //instrução WBM
   case WBM:
-    *colenda_driver_data.data_b = (value >> 16);
     *colenda_driver_data.data_a = (value & 0b1111111111111111);
+    *colenda_driver_data.data_b = (value >> 16);
     break;
 
   //instrução DP
   case DP:
-  *colenda_driver_data.data_a = (value & 0b11111111);
+    *colenda_driver_data.data_a = (value & 0b11111111);
     *colenda_driver_data.data_b = (value >> 8);
     break;
   }
 
-  //escreve no fila
+  //Envia sinal para escrita na fila
   *colenda_driver_data.wr_reg = 1;
   *colenda_driver_data.wr_reg = 0;
   return size;
@@ -153,7 +153,7 @@ static int __init colenda_driver_init(void){
   /*Alocando device number*/
   result = alloc_chrdev_region(&colenda_driver_data.devnum, 0, 1, DRIVER_NAME);
 
-  //iniciação do tamanho do buffer
+  /*Inicializando o tamanho do buffer*/
   colenda_driver_data.buffer_size = BUFF_SIZE;
 
   if(result)
