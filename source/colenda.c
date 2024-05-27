@@ -5,6 +5,8 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <string.h>
 
 /*Sprite's offset*/
 #define ORANGE_BLOCK 0
@@ -39,76 +41,72 @@
 #define WBM 2 //0010
 #define DP 3 //0011
 
-
 int dev;
 
-typedef struct Color
-{
+typedef struct {
   int red;
   int green;
   int blue;
-}
+} Color;
 
 /* Sprite data*/
-typedef struct Sprite
-{
+typedef struct {
   int coord_x;
   int coord_y;
   int offset;
   int data_register;
   int visibility;
-};
+} Sprite;
 
-typedef struct Polygon
-{
+typedef struct {
   int coord_x;
   int coord_y;
   int mem_address;
-  int shape; //0 -> quadrado  1 -> triangulo
+  int shape; //0 . quadrado  1 . triangulo
   int size;
-  struct Color color;
-};
+  Color color;
+} Polygon;
 
 
-typedef struct BackGroundBlock
-{
-  int mem_adress;
-  struct Color color;
-};
+typedef struct {
+  int mem_address;
+  Color color;
+} BackGroundBlock;
 
 
-typedef struct Pixel
-{
-  int mem_adress; // vai de 0 ate 6384
-  struct Color color;
-};
+typedef struct {
+  int mem_address; // vai de 0 ate 6384
+  Color color;
+} Pixel;
 
 /* Protótipos das funções*/
-int open();
-int set_background_color(Color * color);
-int set_block_background(BackGroundBlock * bgBlock);
-int set_sprite(Sprite * sprite);
-int set_polygon(Polygon * polygon);
-int setPixel(Pixel * pixel);
+int GPU_open();
+int set_background_color(Color color);
+int set_block_background(BackGroundBlock bgBlock);
+int set_sprite(Sprite sprite);
+int set_polygon(Polygon polygon);
+int set_pixel(Pixel pixel);
 int clear();
-int  intToBinary(long long int, char*, int);
-int close();
+int intToBinary(int, int *, int);
+int binaryToString(int*, char*, int );
+int intToBinaryString(int, char*, int);
+int GPU_close();
 
 
-int open(){
+int GPU_open(){
 
-  //abrir o arquivo com permissão de escrita e caso exista dobreescreve o arquivo
+  //abrir o arquivo com permissão de escrita e caso exista, sobreescreve o arquivo
   dev = open("/dev/colenda", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
   if(dev == -1) {
     perror("Fail to open file");
-    return -1
+    return -1;
   }
   return 0;
 }
 
-int set_background_color(Color * color){
+int set_background_color(Color color){
   long long int data = 0;
-  char * string[65];
+  char string[19];
   ssize_t bytes_written;
 
   //validação dos valores inseridos pelo usuario
@@ -122,7 +120,6 @@ int set_background_color(Color * color){
 
   data = ((color.blue << 15)|(color.green << 12)|(color.red <<9)|(0b0 << 4)|WBR);
 
-  intToBinary(data, string, 65);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -133,22 +130,31 @@ int set_background_color(Color * color){
   return 0;
 }
 
-int set_block_background(BackGroundBlock * bgBlock) {
-  long long int data = 0;
-  char * string[65];
+int set_block_background(BackGroundBlock bgBlock) {
+  char string[65] = {0};
+  char retorno[13] = {0};
   ssize_t bytes_written;
 
-  if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_adress > 4096){
+  if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4096){
     perror("valor fora do limite de representação\n");
     return -1;
-  } else if(bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_adress < 0){
+  } else if(bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_address < 0){
     perror("valor fora do limite de representação\n");
     return -1;
   }
 
-  data = ((bgBlock.color.blue << 22) |( bgBlock.color.green << 19) | (bgBlock.color.red << 16) | (bgBlock.mem_adress << 4) | WSM);
+  intToBinaryString(bgBlock.color.blue, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(bgBlock.color.green, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(bgBlock.color.red, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(bgBlock.mem_address, retorno, 12);
+  strcat(string, retorno);
+  intToBinary(WBM, retorno, 4);
+  strcat(string, retorno);
 
-  intToBinary(data, string, 65);
+  lseek(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -160,9 +166,9 @@ int set_block_background(BackGroundBlock * bgBlock) {
 }
 
 /*func para desenhar um sprite*/
-int set_sprite(Sprite * sprite) {
-  long long int data = 0;
-  char * string[65];
+int set_sprite(Sprite sprite) {
+  char string[65] = {0};
+  char retorno[11] = {0};
   ssize_t bytes_written;
 
   if (sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) {
@@ -172,10 +178,21 @@ int set_sprite(Sprite * sprite) {
     perror("valor fora do limite de representação\n");
     return -1;
   }
+  string[0] = (sprite.visibility & 1) ? '1' : '0';
+  intToBinaryString(sprite.coord_x, retorno, 10);
+  strcat(string, retorno);
+  intToBinaryString(sprite.coord_y, retorno, 10);
+  strcat(string, retorno);
+  intToBinaryString(sprite.offset, retorno, 9);
+  strcat(string, retorno);
+  intToBinaryString(sprite.data_register, retorno, 5);
+  strcat(string, retorno);
+  intToBinaryString(WBR, retorno, 4);
+  strcat(string, retorno);
+  
+  printf("string: %s\n", string);
 
-  data = ((sprite.visibility << 38)|(sprite.coord_x << 28)|(sprite.coord_y << 18)|(sprite.offset << 9)|(sprite.data_register << 4)|WBR);
-
-  intToBinary(data, string, 65);
+  lseek64(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -189,9 +206,9 @@ int set_sprite(Sprite * sprite) {
 
 
 /*func para desenhar um poligno*/
-int set_polygon(Polygon * polygon) {
-  long long int data = 0;
-  char * string[65];
+int set_polygon(Polygon polygon) {
+  char string[65] = {0};
+  char retorno[20] = {0}; 
   ssize_t bytes_written;
 
   if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 640 || polygon.mem_address > 15) {
@@ -202,10 +219,28 @@ int set_polygon(Polygon * polygon) {
     return -1;
   }
 
+  intToBinaryString(polygon.shape, retorno, 1);
+  strcat(string, retorno);
+  intToBinaryString(polygon.color.blue, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(polygon.color.green, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(polygon.color.red, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(polygon.size, retorno, 4);
+  strcat(string, retorno);
+  intToBinaryString(polygon.coord_x, retorno, 9);
+  strcat(string, retorno);
+  intToBinaryString(polygon.coord_y, retorno, 9);
+  strcat(string, retorno);
+  intToBinaryString(polygon.mem_address, retorno, 4);
+  strcat(string, retorno);
+  intToBinaryString(DP, retorno, 4);
+  strcat(string, retorno);
 
-  data = ((polygon.shape << 39) | (polygon.color.blue << 36) | (polygon.color.green << 33)| (polygon.color.red << 30)| (polygon.size << 26) | (polygon.coord_y << 17) | (polygon.coord_x << 8) | (polygon.mem_address << 4) | DP);
+  printf("string: %s\n", string);
 
-  intToBinary(data, string, 65);
+  lseek64(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -217,22 +252,35 @@ int set_polygon(Polygon * polygon) {
   return 0;
 }
 
-int setPixel(Pixel * pixel) {
-  long long int data = 0;
-  char * string[65];
+int set_pixel(Pixel pixel) {
+  char string[65] = {0};
+  char retorno[20] = {0};
   ssize_t bytes_written;
 
 
-  if(pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_adress > 6384){
+  if(pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384){
     perror("valor fora do limite de representação\n");
     return -1;
-  } else if (pixel.color.blue < 0 || pixel.color.green < 0  || pixel.color.red < 0 || pixel.mem_adress < 0) {
+  } else if (pixel.color.blue < 0 || pixel.color.green < 0  || pixel.color.red < 0 || pixel.mem_address < 0) {
     perror("valor fora do limite de representação\n");
     return -1;
   }
 
   //soma o endereco de memoria com 10000 pois esse eh o primeiro endereco livre na memoria de sprites
-  data = ((pixel.color.blue << 24)|(pixel.color.green << 21)|(pixel.color.red << 18)|((pixel.mem_adress + 10000) << 4)|WSM);
+  pixel.mem_address += 10000;
+
+  intToBinaryString(pixel.color.blue, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(pixel.color.green, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(pixel.color.red, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(pixel.mem_address, retorno, 14);
+  strcat(string, retorno);
+  intToBinaryString(WSM, retorno, 4);
+  strcat(string, retorno);
+
+  lseek64(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -257,9 +305,9 @@ int clear() {
   disablePolygon.color.green = 0;
   disablePolygon.color.blue = 0;
   for(i = 0; i < 16; i++){
-    disablePolygon.mem_adress = i;
+    disablePolygon.mem_address = i;
 
-    if(set_polygon(&disablePolygon) == -1){
+    if(set_polygon(disablePolygon) == -1){
       perror("erro ao limpar memoria de polignos\n");
       break;
     }
@@ -271,7 +319,7 @@ int clear() {
   bgBasicColor.green = 0;
   bgBasicColor.blue = 0;
 
-  if(set_background_color(&bgBasicColor) == -1){
+  if(set_background_color(bgBasicColor) == -1){
     perror("erro ao mudar a cor de fundo\n");
   }
 
@@ -283,59 +331,57 @@ int clear() {
 
   for(i = 1; i < 32; i++){
     disableSprite.data_register = i;
-    if(set_sprite(&disableSprite) == -1){
+    if(set_sprite(disableSprite) == -1){
       perror("erro ao desabilitar sprite\n");
       break;  
     }
   }
 
-  Pixel disablePixel;
-  //decimal correspondente ao 111 111 110
-  disablePixel.color.red = 6;
-  disablePixel.color.green = 7;
-  disablePixel.color.blue = 7;
-
-  for(i = 0; i < 6385; i++){
-    disablePixel.mem_adress = i;
-    if(set_pixel(&disablePixel) == -1){
-      perror("erro ao desabilitar pixel\n");
-      break;
-    }
-  }
-
-  BackGroundBlock disableBgBlock;
-  //decimal correspondente ao 111 111 110
-  disableBgBlock.color.red = 6;
-  disableBgBlock.color.green = 7;
-  disableBgBlock.color.blue = 7;
-
-  for(i = 0; i < 4096; i++){
-    disableBgBlock.mem_adress = i;
-
-    if(set_background_block(&disableBgBlock) == -1){
-      perror("erro ao desabilitar bloco de background\n");
-      break;
-    }
-  }
-
   return 0;
 
 }
 
-/*func para converter um numero em uma string binaria*/
-int intToBinary(long long int number, char * string, int size){
-  int i = 0;
-  string[size - 1] = '\0';
-  for(i = size-2; i >=0; i--){
-    string[i] = (n & 1) ? '1':'0';
-    n = n >> 1;
+/* Função para converter um número em uma string binária */
+int intToBinary(int number, int* binary_vector, int tamanho){
+  int indice = 0;
+
+  for (int i = 0; i < tamanho; i++) {
+        binary_vector[i] = 0;
   }
 
+  while(number > 0 && indice < tamanho) {
+    binary_vector[indice] = number % 2;
+    number = number / 2;
+    indice++;
+  }
   return 0;
-
 }
 
-int close() {
+int binaryToString(int* binaryVector, char* binaryString, int size) {
+  for (int i = 0; i < size; i++) {
+      binaryString[size - 1 - i] = (binaryVector[i] & 1) ? '1' : '0';
+  }
+  binaryString[size] = '\0'; // Termina a string com o caractere nulo
+  return 0;
+}
+
+int intToBinaryString(int number, char* retorno, int size){
+    int len = size; // Número de bits necessário
+
+    int *binaryVector = (int*)malloc(len * sizeof(int));
+    if (binaryVector == NULL) {
+        perror("Erro ao alocar memória para binaryVector");
+        return -1;
+    }
+    
+    intToBinary(number, binaryVector, len);
+    binaryToString(binaryVector, retorno, len);
+
+    free(binaryVector);
+    return 0;
+}
+
+int GPU_close() {
 
   if(close(dev) == -1) {
     perror("não foi possivel encerrar o arquivo\n");
