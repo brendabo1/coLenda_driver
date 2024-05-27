@@ -93,6 +93,12 @@ int  intToBinary(long long int, char*, int);
 void close();
 
 
+void open(){
+  int dev = open("/dev/colenda", O_RDONLY)
+  if(dev == -1) printf("Fail to open file");
+  printf("Deu certo");
+  close(dev);
+}
 
 void set_background_color(Color * color){
   long long int data = 0;
