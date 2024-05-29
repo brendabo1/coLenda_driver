@@ -105,8 +105,8 @@ int GPU_open(){
 }
 
 int set_background_color(Color color){
-  long long int data = 0;
-  char string[19];
+  char string[65] = {0};
+  char retorno[11] = {0};
   ssize_t bytes_written;
 
   //validação dos valores inseridos pelo usuario
@@ -118,7 +118,17 @@ int set_background_color(Color color){
     return -1;
   } 
 
-  data = ((color.blue << 15)|(color.green << 12)|(color.red <<9)|(0b0 << 4)|WBR);
+  intToBinaryString(color.blue, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(color.green, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(color.red, retorno, 3);
+  strcat(string, retorno);
+  intToBinaryString(0,retorno, 5);
+  strcat(string, retorno);
+  intToBinaryString(WBR, retorno, 4);
+  strcat(string, retorno);
+
 
 
   bytes_written = write(dev, string, strlen(string));
@@ -151,7 +161,7 @@ int set_block_background(BackGroundBlock bgBlock) {
   strcat(string, retorno);
   intToBinaryString(bgBlock.mem_address, retorno, 12);
   strcat(string, retorno);
-  intToBinary(WBM, retorno, 4);
+  intToBinaryString(WBM, retorno, 4);
   strcat(string, retorno);
 
   lseek(dev, 0, SEEK_SET);
@@ -192,7 +202,7 @@ int set_sprite(Sprite sprite) {
   
   printf("string: %s\n", string);
 
-  lseek64(dev, 0, SEEK_SET);
+  lseek(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -211,7 +221,7 @@ int set_polygon(Polygon polygon) {
   char retorno[20] = {0}; 
   ssize_t bytes_written;
 
-  if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 640 || polygon.mem_address > 15) {
+  if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) {
     perror("valor fora do alcance de representação\n");
     return -1;
   } else if (polygon.shape < 0 || polygon.color.blue < 0 || polygon.color.green < 0 || polygon.color.red < 0 || polygon.size < 0 | polygon.coord_y < 0 || polygon.coord_x < 0 || polygon.mem_address < 0) {
@@ -229,18 +239,16 @@ int set_polygon(Polygon polygon) {
   strcat(string, retorno);
   intToBinaryString(polygon.size, retorno, 4);
   strcat(string, retorno);
-  intToBinaryString(polygon.coord_x, retorno, 9);
-  strcat(string, retorno);
   intToBinaryString(polygon.coord_y, retorno, 9);
+  strcat(string, retorno);
+  intToBinaryString(polygon.coord_x, retorno, 9);
   strcat(string, retorno);
   intToBinaryString(polygon.mem_address, retorno, 4);
   strcat(string, retorno);
   intToBinaryString(DP, retorno, 4);
   strcat(string, retorno);
 
-  printf("string: %s\n", string);
-
-  lseek64(dev, 0, SEEK_SET);
+  lseek(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
@@ -280,7 +288,7 @@ int set_pixel(Pixel pixel) {
   intToBinaryString(WSM, retorno, 4);
   strcat(string, retorno);
 
-  lseek64(dev, 0, SEEK_SET);
+  lseek(dev, 0, SEEK_SET);
 
   bytes_written = write(dev, string, strlen(string));
 
