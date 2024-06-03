@@ -1,4 +1,4 @@
-#include "address_map_arm.h" //atualizar diretorio
+#include "colenda.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,92 +6,8 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <string.h>
-
-/*Sprite's offset*/
-#define ORANGE_BLOCK 0
-#define BLUE_BLOCK 1
-#define MEDAL 2
-#define BOMB 3
-#define TREE 4
-#define SHIP_UP 5
-#define SHIP_RIGHT 6
-#define SHIP_DOWN 7
-#define SHIP_LEFT 8
-#define COIN 9
-#define DIAMOND 10
-#define LASER_VERTICAL 11
-#define LASER_DIAGONAL1 12
-#define LASER_HORIZONTAL 13
-#define LASER_DIAGONAL2 14
-#define HEART 15
-#define LOG 16
-#define BLUE_CAR 17
-#define GREEN_CAR 18
-#define PURPLE_CAR 19
-#define YELLOW_CAR 20
-#define ALIEN1 21
-#define ALIEN2 22
-#define DRAGON 23
-#define CUP 24
-
-/*Opcodes */
-#define WBR 0 //0000
-#define WSM 1 //0001
-#define WBM 2 //0010
-#define DP 3 //0011
 
 int dev;
-
-typedef struct {
-  int red;
-  int green;
-  int blue;
-} Color;
-
-/* Sprite data*/
-typedef struct {
-  int coord_x;
-  int coord_y;
-  int offset;
-  int data_register;
-  int visibility;
-} Sprite;
-
-typedef struct {
-  int coord_x;
-  int coord_y;
-  int mem_address;
-  int shape; //0 . quadrado  1 . triangulo
-  int size;
-  Color color;
-} Polygon;
-
-
-typedef struct {
-  int mem_address;
-  Color color;
-} BackGroundBlock;
-
-
-typedef struct {
-  int mem_address; // vai de 0 ate 6384
-  Color color;
-} Pixel;
-
-/* Protótipos das funções*/
-int GPU_open();
-int set_background_color(Color color);
-int set_block_background(BackGroundBlock bgBlock);
-int set_sprite(Sprite sprite);
-int set_polygon(Polygon polygon);
-int set_pixel(Pixel pixel);
-int clear();
-int intToBinary(int, int *, int);
-int binaryToString(int*, char*, int );
-int intToBinaryString(int, char*, int);
-int GPU_close();
-
 
 int GPU_open(){
 
@@ -105,8 +21,8 @@ int GPU_open(){
 }
 
 int set_background_color(Color color){
-  long long int data = 0;
-  char string[19];
+  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  char binaryString[11] = {0};
   ssize_t bytes_written;
 
   //validação dos valores inseridos pelo usuario
@@ -118,11 +34,25 @@ int set_background_color(Color color){
     return -1;
   } 
 
-  data = ((color.blue << 15)|(color.green << 12)|(color.red <<9)|(0b0 << 4)|WBR);
+  //conversão dos campos em string e concateção das strings na instrução
+  int_to_binary_string(color.blue, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(color.green, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(color.red, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(0,binaryString, 5);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(WBR, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
 
+  //coloca o ponteiro de escrita no arquivo no começo do documento
+  lseek(dev, 0, SEEK_SET);
 
-  bytes_written = write(dev, string, strlen(string));
+  //escrita da instrução no arquivo de comunicação com a gpu
+  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
 
+  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
   if(bytes_written == -1) {
     perror("não foi possivel mudar a cor base do fundo\n");
     return -1;
@@ -131,10 +61,12 @@ int set_background_color(Color color){
 }
 
 int set_block_background(BackGroundBlock bgBlock) {
-  char string[65] = {0};
-  char retorno[13] = {0};
+
+  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  char binaryString[13] = {0}; // string responsavel por guardar o binario do numero convertido
   ssize_t bytes_written;
 
+  //verificação das informações vindas do usuario
   if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4096){
     perror("valor fora do limite de representação\n");
     return -1;
@@ -143,21 +75,25 @@ int set_block_background(BackGroundBlock bgBlock) {
     return -1;
   }
 
-  intToBinaryString(bgBlock.color.blue, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(bgBlock.color.green, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(bgBlock.color.red, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(bgBlock.mem_address, retorno, 12);
-  strcat(string, retorno);
-  intToBinary(WBM, retorno, 4);
-  strcat(string, retorno);
+  //conversão dos campos em string e concateção das strings na instrução
+  int_to_binary_string(bgBlock.color.blue, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(bgBlock.color.green, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(bgBlock.color.red, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(bgBlock.mem_address, binaryString, 12);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(WBM, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
 
+  //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
-  bytes_written = write(dev, string, strlen(string));
+  //escrita da instrução no arquivo de comunicação com a gpu
+  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
 
+  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
   if(bytes_written == -1) {
     perror("não foi possivel alterar o bloco do fundo\n");
     return -1;
@@ -165,12 +101,12 @@ int set_block_background(BackGroundBlock bgBlock) {
   return 0;
 }
 
-/*func para desenhar um sprite*/
 int set_sprite(Sprite sprite) {
-  char string[65] = {0};
-  char retorno[11] = {0};
+  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  char binaryString[11] = {0};// string responsavel por guardar o binario do numero convertido
   ssize_t bytes_written;
 
+  //verificação das informações vindas do usuario
   if (sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) {
     perror("valor fora do limite de representação\n");
     return -1;
@@ -178,24 +114,27 @@ int set_sprite(Sprite sprite) {
     perror("valor fora do limite de representação\n");
     return -1;
   }
-  string[0] = (sprite.visibility & 1) ? '1' : '0';
-  intToBinaryString(sprite.coord_x, retorno, 10);
-  strcat(string, retorno);
-  intToBinaryString(sprite.coord_y, retorno, 10);
-  strcat(string, retorno);
-  intToBinaryString(sprite.offset, retorno, 9);
-  strcat(string, retorno);
-  intToBinaryString(sprite.data_register, retorno, 5);
-  strcat(string, retorno);
-  intToBinaryString(WBR, retorno, 4);
-  strcat(string, retorno);
-  
-  printf("string: %s\n", string);
 
-  lseek64(dev, 0, SEEK_SET);
+  //conversão dos campos em string e concateção das strings na instrução
+  instruction_binary_string[0] = (sprite.visibility & 1) ? '1' : '0';
+  int_to_binary_string(sprite.coord_x, binaryString, 10);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(sprite.coord_y, binaryString, 10);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(sprite.offset, binaryString, 9);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(sprite.data_register, binaryString, 5);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(WBR, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
 
-  bytes_written = write(dev, string, strlen(string));
+  //coloca o ponteiro de escrita no arquivo no começo do documento
+  lseek(dev, 0, SEEK_SET);
 
+  //escrita da instrução no arquivo de comunicação com a gpu
+  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
+
+  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
   if(bytes_written == -1) {
     perror("não foi possivel criar sprite\n");
     return -1;
@@ -204,14 +143,13 @@ int set_sprite(Sprite sprite) {
   return 0;
 }
 
-
-/*func para desenhar um poligno*/
 int set_polygon(Polygon polygon) {
-  char string[65] = {0};
-  char retorno[20] = {0}; 
+  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  char binaryString[20] = {0}; // string responsavel por guardar o binario do numero convertido
   ssize_t bytes_written;
 
-  if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 640 || polygon.mem_address > 15) {
+  //verificação das informações vindas do usuario
+  if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) {
     perror("valor fora do alcance de representação\n");
     return -1;
   } else if (polygon.shape < 0 || polygon.color.blue < 0 || polygon.color.green < 0 || polygon.color.red < 0 || polygon.size < 0 | polygon.coord_y < 0 || polygon.coord_x < 0 || polygon.mem_address < 0) {
@@ -219,31 +157,33 @@ int set_polygon(Polygon polygon) {
     return -1;
   }
 
-  intToBinaryString(polygon.shape, retorno, 1);
-  strcat(string, retorno);
-  intToBinaryString(polygon.color.blue, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(polygon.color.green, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(polygon.color.red, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(polygon.size, retorno, 4);
-  strcat(string, retorno);
-  intToBinaryString(polygon.coord_x, retorno, 9);
-  strcat(string, retorno);
-  intToBinaryString(polygon.coord_y, retorno, 9);
-  strcat(string, retorno);
-  intToBinaryString(polygon.mem_address, retorno, 4);
-  strcat(string, retorno);
-  intToBinaryString(DP, retorno, 4);
-  strcat(string, retorno);
+  //conversão dos campos em string e concateção das strings na instrução
+  int_to_binary_string(polygon.shape, binaryString, 1);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.color.blue, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.color.green, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.color.red, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.size, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.coord_y, binaryString, 9);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.coord_x, binaryString, 9);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(polygon.mem_address, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(DP, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
 
-  printf("string: %s\n", string);
+  //coloca o ponteiro de escrita no arquivo no começo do documento
+  lseek(dev, 0, SEEK_SET);
 
-  lseek64(dev, 0, SEEK_SET);
+  //escrita da instrução no arquivo de comunicação com a gpu
+  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
 
-  bytes_written = write(dev, string, strlen(string));
-
+  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
   if(bytes_written == -1) {
     perror("não foi possivel criar o polygno\n");
     return -1;
@@ -253,11 +193,11 @@ int set_polygon(Polygon polygon) {
 }
 
 int set_pixel(Pixel pixel) {
-  char string[65] = {0};
-  char retorno[20] = {0};
+  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  char binaryString[20] = {0};// string responsavel por guardar o binario do numero convertido
   ssize_t bytes_written;
 
-
+  //verificação das informações vindas do usuario
   if(pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384){
     perror("valor fora do limite de representação\n");
     return -1;
@@ -269,21 +209,25 @@ int set_pixel(Pixel pixel) {
   //soma o endereco de memoria com 10000 pois esse eh o primeiro endereco livre na memoria de sprites
   pixel.mem_address += 10000;
 
-  intToBinaryString(pixel.color.blue, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(pixel.color.green, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(pixel.color.red, retorno, 3);
-  strcat(string, retorno);
-  intToBinaryString(pixel.mem_address, retorno, 14);
-  strcat(string, retorno);
-  intToBinaryString(WSM, retorno, 4);
-  strcat(string, retorno);
+  //conversão dos campos em string e concateção das strings na instrução
+  int_to_binary_string(pixel.color.blue, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(pixel.color.green, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(pixel.color.red, binaryString, 3);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(pixel.mem_address, binaryString, 14);
+  strcat(instruction_binary_string, binaryString);
+  int_to_binary_string(WSM, binaryString, 4);
+  strcat(instruction_binary_string, binaryString);
 
-  lseek64(dev, 0, SEEK_SET);
+  //coloca o ponteiro de escrita no arquivo no começo do documento
+  lseek(dev, 0, SEEK_SET);
 
-  bytes_written = write(dev, string, strlen(string));
+  //escrita da instrução no arquivo de comunicação com a gpu
+  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
 
+  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
   if(bytes_written == -1) {
     perror("não foi possivel criar o pixel\n");
     return -1;
@@ -291,11 +235,10 @@ int set_pixel(Pixel pixel) {
   return 0;
 }
 
-
-/*func responsavel por limpar a tela e remover todos os elementos nela dispostos*/
 int clear() {
   int i;
 
+  //Poligno desabilitado
   Polygon disablePolygon;
   disablePolygon.coord_x = 0;
   disablePolygon.coord_y = 0;
@@ -304,33 +247,41 @@ int clear() {
   disablePolygon.color.red = 0;
   disablePolygon.color.green = 0;
   disablePolygon.color.blue = 0;
+
+  //passa por todos os endereços 
   for(i = 0; i < 16; i++){
     disablePolygon.mem_address = i;
 
+    //escreve um poligno desabilitado
     if(set_polygon(disablePolygon) == -1){
       perror("erro ao limpar memoria de polignos\n");
       break;
     }
   }
 
-  
+  //Cor preta
   Color bgBasicColor;
   bgBasicColor.red = 0;
   bgBasicColor.green = 0;
   bgBasicColor.blue = 0;
 
+  //muda a cor do fundo para preto
   if(set_background_color(bgBasicColor) == -1){
     perror("erro ao mudar a cor de fundo\n");
   }
 
+  //criar um sprite desabilitado
   Sprite disableSprite;
   disableSprite.coord_x = 0;
   disableSprite.coord_y = 0;
   disableSprite.visibility = 0;
   disableSprite.offset = 0;
 
+  //passa por todos os endereços de sprite
   for(i = 1; i < 32; i++){
     disableSprite.data_register = i;
+
+    //insere um sprite desabilitado
     if(set_sprite(disableSprite) == -1){
       perror("erro ao desabilitar sprite\n");
       break;  
@@ -341,48 +292,59 @@ int clear() {
 
 }
 
-/* Função para converter um número em uma string binária */
-int intToBinary(int number, int* binary_vector, int tamanho){
-  int indice = 0;
-
-  for (int i = 0; i < tamanho; i++) {
-        binary_vector[i] = 0;
+int int_to_binary(int number, int* binaryVector, int size){
+  
+  //inicia o vetor com 0's
+  for (int i = 0; i < size; i++) {
+        binaryVector[i] = 0;
   }
 
-  while(number > 0 && indice < tamanho) {
-    binary_vector[indice] = number % 2;
+  int i = 0;
+
+  //enquanto o numero for maior que 0 e não tiver utrapassado a quantidade de bits realiza a conversão para binario
+  while(number > 0 && i < size) {
+    binaryVector[i] = number % 2;
     number = number / 2;
-    indice++;
+    i++;
   }
   return 0;
 }
 
-int binaryToString(int* binaryVector, char* binaryString, int size) {
+int binary_to_instruction_binary_string(int* binaryVector, char* binaryString, int size) {
+
+  //enquanto não chegar no tamanho
   for (int i = 0; i < size; i++) {
+    //verifica se o bit é um ou zero e coloca no vetor a respectiva representação em caractere
       binaryString[size - 1 - i] = (binaryVector[i] & 1) ? '1' : '0';
   }
   binaryString[size] = '\0'; // Termina a string com o caractere nulo
   return 0;
 }
 
-int intToBinaryString(int number, char* retorno, int size){
+int int_to_binary_string(int number, char* binaryString, int size){
     int len = size; // Número de bits necessário
 
+    //aloca dinamicamente memoria pro vetor binario
     int *binaryVector = (int*)malloc(len * sizeof(int));
     if (binaryVector == NULL) {
         perror("Erro ao alocar memória para binaryVector");
         return -1;
     }
-    
-    intToBinary(number, binaryVector, len);
-    binaryToString(binaryVector, retorno, len);
 
+    //realiza a conversão pra um vetor de binarios
+    int_to_binary(number, binaryVector, len);
+
+    //realiza a conversão do vetor de binarios pra string
+    binary_to_instruction_binary_string(binaryVector, binaryString, len);
+
+    //limpa a memoria reservada para o vetor de binarios 
     free(binaryVector);
     return 0;
 }
 
 int GPU_close() {
 
+  //caso haja algum erro ao encerrar a comunicação retorna -1
   if(close(dev) == -1) {
     perror("não foi possivel encerrar o arquivo\n");
     return -1;
