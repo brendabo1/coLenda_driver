@@ -62,7 +62,6 @@ loff_t *ppos){
   char kbuffer[colenda_driver_data.buffer_size];
   ssize_t size = min(sizeof(kbuffer), count); 
   long long int value = 0;
-  long long int opcode = 0;
   int i = 0;
 
   /* Atualizando offset passado pelo usuario*/
