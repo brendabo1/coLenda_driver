@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <string.h>
 
@@ -142,9 +143,12 @@ int binary_to_string(int* binaryVector, char* binaryString, int size);
 */
 int int_to_binary_string(int number, char* binaryString, int size);
 
+
+void write_in_gpu(char * instruction_binary_string);
 /**Função responsavel por encerrar a comunicação com a GPU
  * retorno: Retorna 0 se bem sucedido e -1 caso contrario
 */
+
 int GPU_close();
 
 
