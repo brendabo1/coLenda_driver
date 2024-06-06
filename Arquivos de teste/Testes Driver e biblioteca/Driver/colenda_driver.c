@@ -91,13 +91,8 @@ loff_t *ppos){
   printk("%s\n", kbuffer);
 
   /* Convertendo string em inteiro*/ 
-  while(kbuffer[i] != '\0'){
-    if(kbuffer[i] == '1'){
-      value = (value << 1) | 1;
-    }else if(kbuffer[i] == '0') {
-      value = value << 1;
-    }
-    i++;
+  for(i = 7; i>=0; i--){
+    value |= kbuffer[i] << ( 8 * i);
   }
 
   /*String não pode ser convertida*/
@@ -106,36 +101,10 @@ loff_t *ppos){
     return -1;
   }
 
-  /*Extrai o campo opcode*/
-  opcode = (value & 0b1111);
-
-  /* Separando as informações referentes ao dataA e dataB de acordo com a instrução*/
-  switch (opcode)
-  {
-  //instrução WBR
-  case WBR:
-    *colenda_driver_data.data_a = (value & 0b111111111);
-    *colenda_driver_data.data_b = (value >> 9);
-    break;
-
-  //instrução WSM
-  case WSM:
-    *colenda_driver_data.data_a = (value & 0b111111111111111111);
-    *colenda_driver_data.data_b = (value >> 18);
-    break;
-
-  //instrução WBM
-  case WBM:
-    *colenda_driver_data.data_a = (value & 0b1111111111111111);
-    *colenda_driver_data.data_b = (value >> 16);
-    break;
-
-  //instrução DP
-  case DP:
-    *colenda_driver_data.data_a = (value & 0b11111111);
-    *colenda_driver_data.data_b = (value >> 8);
-    break;
-  }
+  
+  *colenda_driver_data.data_a = (value & 0xFFFFFFFF);
+  *colenda_driver_data.data_b = (value >> 32);
+    
 
   //Envia sinal para escrita na fila
   *colenda_driver_data.wr_reg = 1;
