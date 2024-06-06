@@ -17,6 +17,8 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 #define DATAB 0x70
 #define WRFULL 0xb0
 #define WRREG 0xc0
+#define SCREEN 0xa0
+#define RESET_PULSECOUNTER 0x90
 
 /*Opcodes */
 #define WBR 0 //0000
@@ -29,7 +31,6 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 
 #define BUFF_SIZE 65 
 
-
 /*Driver data*/
 static struct
 {
@@ -41,6 +42,8 @@ static struct
   volatile int *data_b;
   volatile int *wr_full;
   volatile int *wr_reg;
+  volatile int *screen;
+  volatile int *reset_pulsecounter;
   
 } colenda_driver_data;
 
@@ -69,13 +72,20 @@ loff_t *ppos){
     return 0;
   }
 
-  while (*colenda_driver_data.wr_full) //esperando espaço vazio na fila do processador grafico
-  {
+  if (!*colenda_driver_data.screen){
+    printk("tela em renderização\n");
+    return -1;
   }
   
   /* Copiando buffer do usuário*/
   if(copy_from_user(kbuffer, buffer, size)){
     return -EFAULT;
+  }
+
+  if(*colenda_driver_data.wr_full){
+    
+    printk("fila cheia\n");
+    return -1;
   }
 
   printk("%s\n", kbuffer);
@@ -84,12 +94,8 @@ loff_t *ppos){
   while(kbuffer[i] != '\0'){
     if(kbuffer[i] == '1'){
       value = (value << 1) | 1;
-      printk("value: %d\n", value);
-      printk("caracter: %c\n", kbuffer[i]);
     }else if(kbuffer[i] == '0') {
       value = value << 1;
-      printk("value: %d\n", value);
-      printk("caracter: %c\n", kbuffer[i]);
     }
     i++;
   }
@@ -182,6 +188,8 @@ static int __init colenda_driver_init(void){
   colenda_driver_data.data_b = (int*) (colenda_driver_data.LW_virtual + DATAB);
   colenda_driver_data.wr_reg = (int*) (colenda_driver_data.LW_virtual + WRREG);
   colenda_driver_data.wr_full = (int*) (colenda_driver_data.LW_virtual + WRFULL);
+  colenda_driver_data.screen = (int*) (colenda_driver_data.LW_virtual + SCREEN);
+  colenda_driver_data.reset_pulsecounter = (int*) (colenda_driver_data.LW_virtual + RESET_PULSECOUNTER);
 
 
   pr_info("%s: initialized!\n",DRIVER_NAME);
@@ -199,4 +207,3 @@ static void __exit colenda_driver_exit(void){
 
 module_init(colenda_driver_init);
 module_exit(colenda_driver_exit);
-
