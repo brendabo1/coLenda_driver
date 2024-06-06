@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
+#include "colenda.c"
 #include "colenda.h"
 
 
 
 int main() {
 
-    struct timespec req = {0, 500000000};
+    clock_t start, end;
+    double cpu_used_time;
 
     GPU_open();
 
@@ -21,10 +24,11 @@ int main() {
     pol.color.red = 7;
     pol.color.blue = 7;
     pol.color.green = 7;
-    pol.coord_x = 150;
-    pol.mem_address = 2;
-    pol.shape = 0;
-    pol.size = 1;
+    pol.coord_x = 511;
+    pol.coord_y = 480;
+    pol.mem_address = 0;
+    pol.shape = 1;
+    pol.size = 0;
 
     Color color;
 
@@ -32,12 +36,27 @@ int main() {
     color.blue = 7;
     color.green = 5;
 
-    set_background_color(color);
+    clear();
 
+    set_background_color(color);
     set_sprite(sp);
 
+    printf("inicio da execição\n");
+    start =  clock();
+    set_polygon(pol);
+    for(int i = 0; i<15; i++) {
+        pol.mem_address++;
+        set_polygon(pol);
+    }
+    end = clock();
+
+    cpu_used_time = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("fim\ntempo de execução: %f\n", cpu_used_time);
+
+    
     while(1){
-        nanosleep(&req, NULL);
+        usleep(50000);
         sp.coord_y -= 20;
         set_sprite(sp);
         if(sp.coord_y <=20){
