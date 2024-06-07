@@ -17,7 +17,7 @@ int GPU_open(){
   //abrir o arquivo com permissão de escrita e caso exista, sobreescreve o arquivo
   dev = open("/dev/colenda", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
   if(dev == -1) {
-    perror("Fail to open file");
+    printf("Fail to open file");
     return -1;
   }
   return 0;
@@ -29,11 +29,8 @@ int set_background_color(Color color){
 
 
   //validação dos valores inseridos pelo usuario
-  if(color.red > 7 || color.green > 7 || color.blue > 7){
-    perror("valor fora do limite de representação\n");
-    return -1;
-  } else if(color.red < 0 || color.green < 0 || color.blue < 0) {
-    perror("valor fora do limite de representação\n");
+  if((color.red > 7 || color.green > 7 || color.blue > 7) || (color.red < 0 || color.green < 0 || color.blue < 0)){
+    printf("valor fora do limite de representação\n");
     return -1;
   } 
 
@@ -58,11 +55,8 @@ int set_block_background(BackGroundBlock bgBlock) {
 
 
   //verificação das informações vindas do usuario
-  if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4800){
-    perror("valor fora do limite de representação\n");
-    return -1;
-  } else if(bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_address < 0){
-    perror("valor fora do limite de representação\n");
+  if((bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4800 || (bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_address < 0))){
+    printf("valor fora do limite de representação\n");
     return -1;
   }
 
@@ -81,13 +75,9 @@ int set_sprite(Sprite sprite) {
   char instruction2driver[8] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
   wchar_t data2A, data2B;
 
-
   //verificação das informações vindas do usuario
-  if (sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) {
-    perror("valor fora do limite de representação\n");
-    return -1;
-  } else if (sprite.visibility < 0 || sprite.coord_x < 0 || sprite.coord_y < 0 || sprite.offset < 0 || sprite.data_register < 1) {
-    perror("valor fora do limite de representação\n");
+  if ((sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) || (sprite.visibility < 0 || sprite.coord_x < 0 || sprite.coord_y < 0 || sprite.offset < 0 || sprite.data_register < 1)) {
+    printf("valor fora do limite de representação\n");
     return -1;
   }
 
@@ -110,11 +100,13 @@ int set_polygon(Polygon polygon) {
 
 
   //verificação das informações vindas do usuario
-  if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) {
-    perror("valor fora do alcance de representação\n");
+  if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) || (polygon.shape < 0 || polygon.color.blue < 0 || polygon.color.green < 0 || polygon.color.red < 0 || polygon.size < 0 | polygon.coord_y < 0 || polygon.coord_x < 0 || polygon.mem_address < 0)) {
+    printf("valor fora do alcance de representação\n");
     return -1;
-  } else if (polygon.shape < 0 || polygon.color.blue < 0 || polygon.color.green < 0 || polygon.color.red < 0 || polygon.size < 0 | polygon.coord_y < 0 || polygon.coord_x < 0 || polygon.mem_address < 0) {
-    perror("valor fora do alcance de representação\n");
+  } 
+
+  if (polygon.shape == 1 && (polygon.coord_x < 45 || polygon.coord_y < 45)){
+    printf("posição invalida para triangulos, por favor informar um numero maior ou igual a 45\n");
     return -1;
   }
 
@@ -137,11 +129,8 @@ int set_pixel(Pixel pixel) {
 
 
   //verificação das informações vindas do usuario
-  if(pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384){
-    perror("valor fora do limite de representação\n");
-    return -1;
-  } else if (pixel.color.blue < 0 || pixel.color.green < 0  || pixel.color.red < 0 || pixel.mem_address < 0) {
-    perror("valor fora do limite de representação\n");
+  if((pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384) || (pixel.color.blue < 0 || pixel.color.green < 0  || pixel.color.red < 0 || pixel.mem_address < 0)){
+    printf("valor fora do limite de representação\n");
     return -1;
   }
 
@@ -252,7 +241,7 @@ int GPU_close() {
 
   //caso haja algum erro ao encerrar a comunicação retorna -1
   if(close(dev) == -1) {
-    perror("não foi possivel encerrar o arquivo\n");
+    printf("não foi possivel encerrar o arquivo\n");
     return -1;
   }
   return 0;
