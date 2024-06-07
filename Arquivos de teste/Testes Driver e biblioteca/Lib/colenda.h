@@ -127,22 +127,7 @@ int clear();
  *             binaryVector -> vetor de inteiro que vai armazenar os binarios referentes ao numero convertido
  *             size -> inteito referente ao tamanho da quantidade de bits necessarios para representar o numero
 */
-int int_to_binary(int number, int* binaryVector, int size);
-
-/**Função responsavel por converter um vetor de binarios em uma string de binarios
- * parametros: binaryVector -> vetor de inteiro, sequencia binaria que deseja converter em string
- *             binaryString -> string, vetor binario convertido em texto
- *             size -> inteiro, valor referente ao tamanho do vetor
-*/
-int binary_to_string(int* binaryVector, char* binaryString, int size);
-
-/**Função responsavel por converter um numero em uma cadeia de caracters 0's e 1's
- * parametros: number -> inteiro, numero a ser convertido em binario
- *             binaryString -> string, texto referente ao binario do numero convertido
- *             size -> inteiro, referente a quantidade de bits esperada apos a conversão
-*/
-int int_to_binary_string(int number, char* binaryString, int size);
-
+void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno)
 
 void write_in_gpu(char * instruction_binary_string);
 /**Função responsavel por encerrar a comunicação com a GPU

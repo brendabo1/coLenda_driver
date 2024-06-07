@@ -24,9 +24,9 @@ int GPU_open(){
 }
 
 int set_background_color(Color color){
-  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  char binaryString[11] = {0};
-  ssize_t bytes_written = 0;
+  char instruction2driver[8] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  wchar_t data2A, data2B;
+
 
   //validação dos valores inseridos pelo usuario
   if(color.red > 7 || color.green > 7 || color.blue > 7){
@@ -37,40 +37,28 @@ int set_background_color(Color color){
     return -1;
   } 
 
-  //conversão dos campos em string e concateção das strings na instrução
-  int_to_binary_string(color.blue, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(color.green, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(color.red, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(0,binaryString, 5);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(WBR, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
+  data2A = (0b00000 << 4) | WBR;
+  data2B = (color.blue << 8) | (color.green << 3) | color.red;
+
+  wchar2string(data2A, data2B, instruction2driver);
 
   //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
   //escrita da instrução no arquivo de comunicação com a gpu
-  write_in_gpu(instruction_binary_string);
+  write_in_gpu(instruction2driver);
 
-  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
-  if(bytes_written == -1) {
-    perror("não foi possivel mudar a cor base do fundo\n");
-    return -1;
-  }
   return 0;
 }
 
 int set_block_background(BackGroundBlock bgBlock) {
 
-  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  char binaryString[13] = {0}; // string responsavel por guardar o binario do numero convertido
-  ssize_t bytes_written = 0;
+  char instruction2driver[8] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  wchar_t data2A, data2B;
+
 
   //verificação das informações vindas do usuario
-  if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4096){
+  if(bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4800){
     perror("valor fora do limite de representação\n");
     return -1;
   } else if(bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_address < 0){
@@ -78,38 +66,21 @@ int set_block_background(BackGroundBlock bgBlock) {
     return -1;
   }
 
-  //conversão dos campos em string e concateção das strings na instrução
-  int_to_binary_string(bgBlock.color.blue, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(bgBlock.color.green, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(bgBlock.color.red, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(bgBlock.mem_address, binaryString, 12);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(WBM, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
+  data2A = (bgBlock.mem_address << 4) | WBM;
+  data2B = (bgBlock.color.blue << 6) | (bgBlock.color.green << 3) | bgBlock.color.red;
+  wchar2string(data2A, data2B, instruction2driver);
 
   //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
-  //escrita da instrução no arquivo de comunicação com a gpu
-  do{
-    bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
-  }while(bytes_written == -1);
-
-  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
-  if(bytes_written == -1) {
-    perror("não foi possivel alterar o bloco do fundo\n");
-    return -1;
-  }
+  write_in_gpu(instruction2driver);
   return 0;
 }
 
 int set_sprite(Sprite sprite) {
-  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  char binaryString[11] = {0};// string responsavel por guardar o binario do numero convertido
-  ssize_t bytes_written = 0;
+  char instruction2driver[8] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
+  wchar_t data2A, data2B;
+
 
   //verificação das informações vindas do usuario
   if (sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) {
@@ -120,38 +91,23 @@ int set_sprite(Sprite sprite) {
     return -1;
   }
 
-  //conversão dos campos em string e concateção das strings na instrução
-  instruction_binary_string[0] = (sprite.visibility & 1) ? '1' : '0';
-  int_to_binary_string(sprite.coord_x, binaryString, 10);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(sprite.coord_y, binaryString, 10);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(sprite.offset, binaryString, 9);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(sprite.data_register, binaryString, 5);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(WBR, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
+  data2A = (sprite.data_register << 4) | WBR;
+  data2B = (sprite.visibility << 29) | (sprite.coord_x << 19) | (sprite.coord_y << 9) | sprite.offset;
+  wchar2string(data2A, data2B, instruction2driver);
 
   //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
   //escrita da instrução no arquivo de comunicação com a gpu
-  write_in_gpu(instruction_binary_string);
-
-  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
-  if(bytes_written == -1) {
-    perror("não foi possivel criar sprite\n");
-    return -1;
-  }
+  write_in_gpu(instruction2driver);
 
   return 0;
 }
 
 int set_polygon(Polygon polygon) {
-  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  char binaryString[20] = {0}; // string responsavel por guardar o binario do numero convertido
-  ssize_t bytes_written = 0;
+  char instruction2driver[8] = {0};
+  wchar_t data2A, data2B;
+
 
   //verificação das informações vindas do usuario
   if (polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) {
@@ -162,45 +118,23 @@ int set_polygon(Polygon polygon) {
     return -1;
   }
 
-  //conversão dos campos em string e concateção das strings na instrução
-  int_to_binary_string(polygon.shape, binaryString, 1);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.color.blue, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.color.green, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.color.red, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.size, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.coord_y, binaryString, 9);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.coord_x, binaryString, 9);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(polygon.mem_address, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(DP, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
+  data2A =  (polygon.mem_address << 4) | DP;
+  data2B = (polygon.shape << 31) | (polygon.color.blue << 28) | (polygon.color.green << 25) | (polygon.color.red << 22) | (polygon.size << 18) | (polygon.coord_y << 9) | polygon.coord_x;
+  wchar2string(data2A, data2B, instruction2driver);
 
   //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
   //escrita da instrução no arquivo de comunicação com a gpu
-  write_in_gpu(instruction_binary_string);
-
-  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
-  if(bytes_written == -1) {
-    perror("não foi possivel criar o polygno\n");
-    return -1;
-  }
+  write_in_gpu(instruction2driver);
 
   return 0;
 }
 
 int set_pixel(Pixel pixel) {
-  char instruction_binary_string[65] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  char binaryString[20] = {0};// string responsavel por guardar o binario do numero convertido
-  ssize_t bytes_written = 0;
+  char instruction2driver[8] = {0};
+  wchar_t data2A, data2B;
+
 
   //verificação das informações vindas do usuario
   if(pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384){
@@ -214,29 +148,15 @@ int set_pixel(Pixel pixel) {
   //soma o endereco de memoria com 10000 pois esse eh o primeiro endereco livre na memoria de sprites
   pixel.mem_address += 10000;
 
-  //conversão dos campos em string e concateção das strings na instrução
-  int_to_binary_string(pixel.color.blue, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(pixel.color.green, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(pixel.color.red, binaryString, 3);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(pixel.mem_address, binaryString, 14);
-  strcat(instruction_binary_string, binaryString);
-  int_to_binary_string(WSM, binaryString, 4);
-  strcat(instruction_binary_string, binaryString);
+  data2A = (pixel.mem_address << 4) | WSM;
+  data2B = (pixel.color.blue << 6) | (pixel.color.green << 3) | (pixel.color.red);
+  wchar2string(data2A, data2B, instruction2driver);
 
   //coloca o ponteiro de escrita no arquivo no começo do documento
   lseek(dev, 0, SEEK_SET);
 
   //escrita da instrução no arquivo de comunicação com a gpu
-  write_in_gpu(instruction_binary_string);
-
-  //caso ocorra algum erro retorna que não foi possivel alterar a cor do fundo
-  if(bytes_written == -1) {
-    perror("não foi possivel criar o pixel\n");
-    return -1;
-  }
+  write_in_gpu(instruction2driver);
   return 0;
 }
 
@@ -298,54 +218,11 @@ int clear() {
 
 }
 
-int int_to_binary(int number, int* binaryVector, int size){
-  
-  //inicia o vetor com 0's
-  for (int i = 0; i < size; i++) {
-        binaryVector[i] = 0;
+void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno){
+  for(int i = 0; i <4 ; i++){
+    retorno[i] = (data2B>> 8*(3-i)) && 0xFF;
+    retorno[i+4] = (data2A >> 8*(3-i)) && 0xFF;
   }
-
-  int i = 0;
-
-  //enquanto o numero for maior que 0 e não tiver utrapassado a quantidade de bits realiza a conversão para binario
-  while(number > 0 && i < size) {
-    binaryVector[i] = number % 2;
-    number = number / 2;
-    i++;
-  }
-  return 0;
-}
-
-int binary_to_string(int* binaryVector, char* binaryString, int size) {
-
-  //enquanto não chegar no tamanho
-  for (int i = 0; i < size; i++) {
-    //verifica se o bit é um ou zero e coloca no vetor a respectiva representação em caractere
-      binaryString[size - 1 - i] = (binaryVector[i] & 1) ? '1' : '0';
-  }
-  binaryString[size] = '\0'; // Termina a string com o caractere nulo
-  return 0;
-}
-
-int int_to_binary_string(int number, char* binaryString, int size){
-    int len = size; // Número de bits necessário
-
-    //aloca dinamicamente memoria pro vetor binario
-    int *binaryVector = (int*)malloc(len * sizeof(int));
-    if (binaryVector == NULL) {
-        perror("Erro ao alocar memória para binaryVector");
-        return -1;
-    }
-
-    //realiza a conversão pra um vetor de binarios
-    int_to_binary(number, binaryVector, len);
-
-    //realiza a conversão do vetor de binarios pra string
-    binary_to_string(binaryVector, binaryString, len);
-
-    //limpa a memoria reservada para o vetor de binarios 
-    free(binaryVector);
-    return 0;
 }
 
 void write_in_gpu(char * instruction_binary_string){
