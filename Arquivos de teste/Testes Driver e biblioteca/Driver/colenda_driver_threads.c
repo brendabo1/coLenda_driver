@@ -139,15 +139,6 @@ static int __init colenda_driver_init(void){
   /*Registrando dispositivo de caractere*/
   cdev_init(&colenda_driver_data.cdev, &fops);
 
-  result = cdev_add(&colenda_driver_data.cdev, colenda_driver_data.devnum, 1);
-
-  if (result)
-  {
-    pr_err("%s: char device registration failed!\n",DRIVER_NAME);
-    unregister_chrdev_region(colenda_driver_data.devnum, 1);
-    return result;
-  }
-
   /*Mapeando lightweight HPS-to-FPGA brigde*/
   colenda_driver_data.LW_virtual = ioremap(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
   
@@ -159,6 +150,16 @@ static int __init colenda_driver_init(void){
   colenda_driver_data.screen = (int*) (colenda_driver_data.LW_virtual + SCREEN);
   colenda_driver_data.reset_pulsecounter = (int*) (colenda_driver_data.LW_virtual + RESET_PULSECOUNTER);
 
+  /* Adicionando dispositivo de caractere */
+  result = cdev_add(&colenda_driver_data.cdev, colenda_driver_data.devnum, 1);
+
+  if (result)
+  {
+    pr_err("%s: char device registration failed!\n",DRIVER_NAME);
+    iounmap(colenda_driver_data.LW_virtual);
+    unregister_chrdev_region(colenda_driver_data.devnum, 1);
+    return result;
+  }
 
   pr_info("%s: initialized!\n",DRIVER_NAME);
   return 0;
