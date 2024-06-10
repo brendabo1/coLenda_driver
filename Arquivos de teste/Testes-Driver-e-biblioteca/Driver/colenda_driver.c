@@ -29,7 +29,7 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 /*Nome do driver */
 #define DRIVER_NAME "colenda_driver"
 
-#define BUFF_SIZE 65 
+#define BUFF_SIZE 8
 
 /*Driver data*/
 static struct
@@ -61,8 +61,6 @@ static ssize_t colenda_driver_write(struct file *file, const char __user *buffer
 loff_t *ppos){
   char kbuffer[colenda_driver_data.buffer_size];
   ssize_t size = min(sizeof(kbuffer), count); 
-  long long int value = 0;
-  int i = 0;
 
   /* Atualizando offset passado pelo usuario*/
   *ppos = 0;
@@ -70,6 +68,9 @@ loff_t *ppos){
   if(size == 0){ //sem bytes a serem escritos
     return 0;
   }
+
+  *colenda_driver_data.wr_reg = 0;
+  
 
   if (!*colenda_driver_data.screen){
     printk("tela em renderização\n");
@@ -86,24 +87,14 @@ loff_t *ppos){
     printk("fila cheia\n");
     return -1;
   }
-
-  printk("%s\n", kbuffer);
-
-  /* Convertendo string em inteiro*/ 
-  for(i = 7; i>=0; i--){
-    value |= kbuffer[i] << ( 8 * i);
-  }
-
-  /*String não pode ser convertida*/
-  if(value == -1){
-    pr_err("%s: fail to converto buffer to int", DRIVER_NAME);
-    return -1;
-  }
+  //printk("%lld\n", kbuffer);
 
   
-  *colenda_driver_data.data_a = (value & 0xFFFFFFFF);
-  *colenda_driver_data.data_b = (value >> 32);
-    
+  *colenda_driver_data.data_a = (kbuffer[4]) << 24 | (kbuffer[5]) << 16 | (kbuffer[6]) << 8 | (kbuffer[7]);
+  *colenda_driver_data.data_b = (kbuffer[0]) << 24 | (kbuffer[1]) << 16 | (kbuffer[2]) << 8 | (kbuffer[3]);
+  
+
+
 
   //Envia sinal para escrita na fila
   *colenda_driver_data.wr_reg = 1;

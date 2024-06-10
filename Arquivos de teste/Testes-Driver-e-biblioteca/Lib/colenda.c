@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <sys/mman.h>
 #include <unistd.h>
 #include <time.h>
-#include <sys/mman.h>
 #include <sys/stat.h>
+#include <wchar.h>
 
 int dev;
 
@@ -25,7 +26,7 @@ int GPU_open(){
 
 int set_background_color(Color color){
   char instruction2driver[8] = {0}; //string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU
-  wchar_t data2A, data2B;
+  wchar_t data2A = {0}, data2B = {0};
 
 
   //validação dos valores inseridos pelo usuario
@@ -35,7 +36,7 @@ int set_background_color(Color color){
   } 
 
   data2A = (0b00000 << 4) | WBR;
-  data2B = (color.blue << 8) | (color.green << 3) | color.red;
+  data2B = (color.blue << 6) | (color.green << 3) | color.red;
 
   wchar2string(data2A, data2B, instruction2driver);
 
@@ -105,7 +106,13 @@ int set_polygon(Polygon polygon) {
     return -1;
   } 
 
-  if (polygon.shape == 1 && (polygon.coord_x < 45 || polygon.coord_y < 45)){
+
+
+if((polygon.color.blue | polygon.color.green | polygon.color.red) & ~7){
+  
+}
+
+  if (((polygon.shape+1)*10)/2 > polygon.coord_x || ((polygon.shape+1)*10)/2 > polygon.coord_y){
     printf("posição invalida para triangulos, por favor informar um numero maior ou igual a 45\n");
     return -1;
   }
@@ -154,8 +161,8 @@ int clear() {
 
   //Poligno desabilitado
   Polygon disablePolygon;
-  disablePolygon.coord_x = 0;
-  disablePolygon.coord_y = 0;
+  disablePolygon.coord_x = 320;
+  disablePolygon.coord_y = 320;
   disablePolygon.size = 0;
   disablePolygon.shape = 0;
   disablePolygon.color.red = 0;
@@ -183,7 +190,7 @@ int clear() {
   bgDisableBlock.color.blue = 7;
   bgDisableBlock.color.green = 7;
   bgDisableBlock.color.red = 6;
-  for(i = 0; i < 4096; i++){
+  for(i = 0; i < 4800; i++){
     bgDisableBlock.mem_address = i;
     set_block_background(bgDisableBlock);
   }
@@ -209,32 +216,33 @@ int clear() {
 
 void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno){
   for(int i = 0; i <4 ; i++){
-    retorno[i] = (data2B>> 8*(3-i)) && 0xFF;
-    retorno[i+4] = (data2A >> 8*(3-i)) && 0xFF;
+    retorno[i] = (data2B >> (8 * (3 - i))) & 0xFF;
+    retorno[i+4] = (data2A >> (8 * (3 - i))) & 0xFF;
   }
+  //00000000000000000000000000000000
 }
 
 void write_in_gpu(char * instruction_binary_string){
   ssize_t bytes_written;
 
-  if(instCount == 12) {
-    printf("limite de instruções\n");
+  if(instCount == 14) {
     usleep(7500);
     instCount = 0;
   }
 
   instCount++;
-  bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
+  bytes_written = write(dev, instruction_binary_string, 8);
 
   if(bytes_written == -1) {
     printf("erro na escrita\n");
   }
 
   while(bytes_written == -1){
-    usleep(5000);
+    usleep(8000);
     printf("tentando de novo\n");
-    bytes_written = write(dev, instruction_binary_string, strlen(instruction_binary_string));
+    bytes_written = write(dev, instruction_binary_string, 8);
   }
+  //printf("%d", bytes_written);
 }
 
 int GPU_close() {

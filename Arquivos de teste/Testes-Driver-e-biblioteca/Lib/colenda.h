@@ -9,7 +9,8 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/stat.h>
-#include <string.h>
+#include <wchar.h>
+#include <stdint.h>
 
 /*offset de cada sprite*/
 #define ORANGE_BLOCK 0
@@ -46,39 +47,39 @@
 
 /*Estrutura das cores*/
 typedef struct {
-    int red; // valor da intensidade da cor vermelha: vai de 0 a 7
-    int green; //valor da intensidade da cor verde: vai de 0 a 7
-    int blue; // valor da intensidade da cor azul: vai de 0 a 7
+    uint64_t red; // valor da intensidade da cor vermelha: vai de 0 a 7
+    uint64_t green; //valor da intensidade da cor verde: vai de 0 a 7
+    uint64_t blue; // valor da intensidade da cor azul: vai de 0 a 7
 } Color;
 
 /*Estrutura dos sprites*/
 typedef struct {
-    int coord_x; //coordenada do eixo x do centro do sprite: vai de 0 a 640
-    int coord_y; //coordenada do eixo y do centro do sprite: vai de 0 a 480
-    int offset; // identificação do sprite: vai de 0 a 24
-    int data_register; //localização do sprite na memoria: vai de 1 a 31
-    int visibility; // visibilidade do sprite: 0. invisivel  1. visivel
+    uint64_t coord_x; //coordenada do eixo x do centro do sprite: vai de 0 a 640
+    uint64_t coord_y; //coordenada do eixo y do centro do sprite: vai de 0 a 480
+    uint64_t offset; // identificação do sprite: vai de 0 a 24
+    uint64_t data_register; //localização do sprite na memoria: vai de 1 a 31
+    uint64_t visibility; // visibilidade do sprite: 0. invisivel  1. visivel
 } Sprite;
 
 /*Estrutura dos polignos*/
 typedef struct {
-    int coord_x; // coordenada referente ao eixo x do centro do poligno: vai de 0 a 511
-    int coord_y; // coordenada referente ao eixo y do centro do poligno: vai de 0 a 480
-    int mem_address; // numero referente a sobreposição: vai de 0 a 15
-    int shape; //forma do poligno: 0 . quadrado  1 . triangulo
-    int size; // tamanho do poligno: vai de 0 a 15
+    uint64_t coord_x; // coordenada referente ao eixo x do centro do poligno: vai de 0 a 511
+    uint64_t coord_y; // coordenada referente ao eixo y do centro do poligno: vai de 0 a 480
+    uint64_t mem_address; // numero referente a sobreposição: vai de 0 a 15
+    uint64_t shape; //forma do poligno: 0 . quadrado  1 . triangulo
+    uint64_t size; // tamanho do poligno: vai de 0 a 15
     Color color; 
 } Polygon;
 
 /*Estrura dos blocos do background*/
 typedef struct {
-    int mem_address; // endereço do bloco vai de 0 a 4096
+    uint64_t mem_address; // endereço do bloco vai de 0 a 4096
     Color color; // cor referenteao bloco
 } BackGroundBlock;
 
 /*estrutura dos pixels*/
 typedef struct {
-  int mem_address; // endereço do pixel, vai de 0 a 6384
+  uint64_t mem_address; // endereço do pixel, vai de 0 a 6384
   Color color; //cor do pixel
 } Pixel;
 
@@ -127,7 +128,7 @@ int clear();
  *             binaryVector -> vetor de inteiro que vai armazenar os binarios referentes ao numero convertido
  *             size -> inteito referente ao tamanho da quantidade de bits necessarios para representar o numero
 */
-void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno)
+void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno);
 
 void write_in_gpu(char * instruction_binary_string);
 /**Função responsavel por encerrar a comunicação com a GPU
