@@ -73,7 +73,8 @@ typedef struct {
 
 /*Estrura dos blocos do background*/
 typedef struct {
-    uint64_t mem_address; // endereço do bloco vai de 0 a 4096
+    uint64_t coord_x; // endereço do bloco vai de 0 a 80
+    uint64_t coord_y; // endereço do bloco vai de 0 a 60
     Color color; // cor referenteao bloco
 } BackGroundBlock;
 
@@ -122,6 +123,10 @@ int set_pixel(Pixel pixel);
  * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
 */
 int clear();
+
+int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
+
+int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
 
 /**Função responsavel por converter um inteiro pra um vetor de 1's e 0's
  * parametros: number -> inteiro que deseja ser convertido em binario

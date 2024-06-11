@@ -56,12 +56,14 @@ int set_block_background(BackGroundBlock bgBlock) {
 
 
   //verificação das informações vindas do usuario
-  if((bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.mem_address > 4800 || (bgBlock.color.blue < 0 || bgBlock.color.green < 0 || bgBlock.color.red < 0 || bgBlock.mem_address < 0))){
+  if((bgBlock.color.blue > 7 || bgBlock.color.green > 7 | bgBlock.color.red > 7 || bgBlock.coord_x > 80 || bgBlock.coord_y > 60)){
     printf("valor fora do limite de representação\n");
     return -1;
   }
 
-  data2A = (bgBlock.mem_address << 4) | WBM;
+  uint64_t mem_adress = (bgBlock.coord_y * 80) + bgBlock.coord_x;
+
+  data2A = (mem_adress << 4) | WBM;
   data2B = (bgBlock.color.blue << 6) | (bgBlock.color.green << 3) | bgBlock.color.red;
   wchar2string(data2A, data2B, instruction2driver);
 
@@ -77,7 +79,7 @@ int set_sprite(Sprite sprite) {
   wchar_t data2A, data2B;
 
   //verificação das informações vindas do usuario
-  if ((sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) || (sprite.visibility < 0 || sprite.coord_x < 0 || sprite.coord_y < 0 || sprite.offset < 0 || sprite.data_register < 1)) {
+  if ((sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 24 || sprite.data_register > 32) || sprite.data_register < 1) {
     printf("valor fora do limite de representação\n");
     return -1;
   }
@@ -101,16 +103,10 @@ int set_polygon(Polygon polygon) {
 
 
   //verificação das informações vindas do usuario
-  if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15) || (polygon.shape < 0 || polygon.color.blue < 0 || polygon.color.green < 0 || polygon.color.red < 0 || polygon.size < 0 | polygon.coord_y < 0 || polygon.coord_x < 0 || polygon.mem_address < 0)) {
+  if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15)) {
     printf("valor fora do alcance de representação\n");
     return -1;
   } 
-
-
-
-if((polygon.color.blue | polygon.color.green | polygon.color.red) & ~7){
-  
-}
 
   if (((polygon.shape+1)*10)/2 > polygon.coord_x || ((polygon.shape+1)*10)/2 > polygon.coord_y){
     printf("posição invalida para triangulos, por favor informar um numero maior ou igual a 45\n");
@@ -136,7 +132,7 @@ int set_pixel(Pixel pixel) {
 
 
   //verificação das informações vindas do usuario
-  if((pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384) || (pixel.color.blue < 0 || pixel.color.green < 0  || pixel.color.red < 0 || pixel.mem_address < 0)){
+  if((pixel.color.blue > 7 || pixel.color.green > 7  || pixel.color.red > 7 || pixel.mem_address > 6384)){
     printf("valor fora do limite de representação\n");
     return -1;
   }
@@ -187,12 +183,17 @@ int clear() {
   set_background_color(bgBasicColor);
 
   BackGroundBlock bgDisableBlock;
+
+  //codigo da cor invisivel;
   bgDisableBlock.color.blue = 7;
   bgDisableBlock.color.green = 7;
   bgDisableBlock.color.red = 6;
-  for(i = 0; i < 4800; i++){
-    bgDisableBlock.mem_address = i;
-    set_block_background(bgDisableBlock);
+  for(int i = 0; i < 60; i++){
+    bgDisableBlock.coord_y = i;
+    for(int j = 0; j<80; j++) {
+      bgDisableBlock.coord_x = j;
+      set_block_background(bgDisableBlock);
+    }
   }
 
   //criar um sprite desabilitado
@@ -214,12 +215,49 @@ int clear() {
 
 }
 
-void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno){
-  for(int i = 0; i <4 ; i++){
-    retorno[i] = (data2B >> (8 * (3 - i))) & 0xFF;
-    retorno[i+4] = (data2A >> (8 * (3 - i))) & 0xFF;
+int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color)
+{
+  BackGroundBlock bgBlock;
+  bgBlock.color = color;
+  bgBlock.coord_y = coord_y;
+
+  if(coord_x > 80 || coord_y > 60 || coord_x+size>80){
+    printf("valor fora do limite de representação");
+    return -1;
   }
-  //00000000000000000000000000000000
+
+  for(int i = coord_x; i < (coord_x+size); i++){
+    bgBlock.coord_x = i;
+    set_block_background(bgBlock);
+  }
+  return 0;
+}
+
+int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color)
+{
+  BackGroundBlock bgBlock;
+  bgBlock.color = color;
+  bgBlock.coord_x = coord_x;
+
+  if(coord_x > 80 || coord_y > 60 || coord_y+size>60){
+    printf("valor fora do limite de representação");
+    return -1;
+  }
+
+  for(int i = coord_y; i < (coord_y+size); i++){
+    bgBlock.coord_y = i;
+    set_block_background(bgBlock);
+  }
+  return 0;
+}
+
+void wchar2string(wchar_t data2A, wchar_t data2B, char *retorno)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        retorno[i] = (data2B >> (8 * (3 - i))) & 0xFF;
+        retorno[i + 4] = (data2A >> (8 * (3 - i))) & 0xFF;
+    }
 }
 
 void write_in_gpu(char * instruction_binary_string){
@@ -242,7 +280,6 @@ void write_in_gpu(char * instruction_binary_string){
     printf("tentando de novo\n");
     bytes_written = write(dev, instruction_binary_string, 8);
   }
-  //printf("%d", bytes_written);
 }
 
 int GPU_close() {
