@@ -103,15 +103,15 @@ int set_polygon(Polygon polygon) {
 
 
   //verificação das informações vindas do usuario
-  if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 512 || polygon.mem_address > 15)) {
+  if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
     printf("valor fora do alcance de representação\n");
     return -1;
   } 
 
-  if (((polygon.shape+1)*10)/2 > polygon.coord_x || ((polygon.shape+1)*10)/2 > polygon.coord_y){
-    printf("posição invalida para triangulos, por favor informar um numero maior ou igual a 45\n");
-    return -1;
-  }
+  // if (((polygon.shape+1)*10)/2 > polygon.coord_x || ((polygon.shape+1)*10)/2 > polygon.coord_y){
+  //   printf("posição invalida para triangulos, por favor informar um numero maior ou igual a 45\n");
+  //   return -1;
+  // }
 
   data2A =  (polygon.mem_address << 4) | DP;
   data2B = (polygon.shape << 31) | (polygon.color.blue << 28) | (polygon.color.green << 25) | (polygon.color.red << 22) | (polygon.size << 18) | (polygon.coord_y << 9) | polygon.coord_x;
@@ -155,6 +155,21 @@ int set_pixel(Pixel pixel) {
 int clear() {
   int i;
 
+  //criar um sprite desabilitado
+  Sprite disableSprite;
+  disableSprite.coord_x = 0;
+  disableSprite.coord_y = 0;
+  disableSprite.visibility = 0;
+  disableSprite.offset = 0;
+
+  //passa por todos os endereços de sprite
+  for(i = 1; i < 32; i++){
+    disableSprite.data_register = i;
+
+    //insere um sprite desabilitado
+    set_sprite(disableSprite);
+  }
+
   //Poligno desabilitado
   Polygon disablePolygon;
   disablePolygon.coord_x = 320;
@@ -173,17 +188,7 @@ int clear() {
     set_polygon(disablePolygon);
   }
 
-  //Cor preta
-  Color bgBasicColor;
-  bgBasicColor.red = 0;
-  bgBasicColor.green = 0;
-  bgBasicColor.blue = 0;
-
-  //muda a cor do fundo para preto
-  set_background_color(bgBasicColor);
-
   BackGroundBlock bgDisableBlock;
-
   //codigo da cor invisivel;
   bgDisableBlock.color.blue = 7;
   bgDisableBlock.color.green = 7;
@@ -196,20 +201,20 @@ int clear() {
     }
   }
 
-  //criar um sprite desabilitado
-  Sprite disableSprite;
-  disableSprite.coord_x = 0;
-  disableSprite.coord_y = 0;
-  disableSprite.visibility = 0;
-  disableSprite.offset = 0;
+  //Cor preta
+  Color bgBasicColor;
+  bgBasicColor.red = 0;
+  bgBasicColor.green = 0;
+  bgBasicColor.blue = 0;
 
-  //passa por todos os endereços de sprite
-  for(i = 1; i < 32; i++){
-    disableSprite.data_register = i;
+  //muda a cor do fundo para preto
+  set_background_color(bgBasicColor);
 
-    //insere um sprite desabilitado
-    set_sprite(disableSprite);
-  }
+  
+
+  
+
+  
 
   return 0;
 
@@ -251,6 +256,13 @@ int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, 
   return 0;
 }
 
+int draw_background_block(uint64_t coord_x, uint64_t coord_y, Color color)
+{
+  BackGroundBlock bg_block = {coord_x, coord_y, color};
+  set_block_background(bg_block);
+  return 0;
+}
+
 void wchar2string(wchar_t data2A, wchar_t data2B, char *retorno)
 {
     for (int i = 0; i < 4; i++)
@@ -263,21 +275,16 @@ void wchar2string(wchar_t data2A, wchar_t data2B, char *retorno)
 void write_in_gpu(char * instruction_binary_string){
   ssize_t bytes_written;
 
-  if(instCount == 14) {
+  if(instCount == 12) {
     usleep(7500);
     instCount = 0;
   }
 
   instCount++;
   bytes_written = write(dev, instruction_binary_string, 8);
-
-  if(bytes_written == -1) {
-    printf("erro na escrita\n");
-  }
-
+  printf("escrevendo\n");
   while(bytes_written == -1){
     usleep(8000);
-    printf("tentando de novo\n");
     bytes_written = write(dev, instruction_binary_string, 8);
   }
 }

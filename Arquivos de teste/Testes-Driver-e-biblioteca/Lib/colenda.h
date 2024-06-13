@@ -128,6 +128,8 @@ int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y
 
 int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
 
+int draw_background_block(uint64_t coord_x, uint64_t coord_y, Color color);
+
 /**Função responsavel por converter um inteiro pra um vetor de 1's e 0's
  * parametros: number -> inteiro que deseja ser convertido em binario
  *             binaryVector -> vetor de inteiro que vai armazenar os binarios referentes ao numero convertido
