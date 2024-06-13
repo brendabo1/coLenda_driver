@@ -89,12 +89,10 @@ loff_t *ppos){
   }
   //printk("%lld\n", kbuffer);
 
-  
+  //escreve no barramneto do data A e data B
   *colenda_driver_data.data_a = (kbuffer[4]) << 24 | (kbuffer[5]) << 16 | (kbuffer[6]) << 8 | (kbuffer[7]);
   *colenda_driver_data.data_b = (kbuffer[0]) << 24 | (kbuffer[1]) << 16 | (kbuffer[2]) << 8 | (kbuffer[3]);
   
-
-
 
   //Envia sinal para escrita na fila
   *colenda_driver_data.wr_reg = 1;
