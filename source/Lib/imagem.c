@@ -5,110 +5,105 @@
 
 int main() {
     GPU_open();
+
+    //limpa a tela e remove todos os elementos armazenados anteriormente
     clear();
 
     //cores
     Color black = {0, 0, 0};
-    Color darkBlue = {0, 0, 3};
-    Color softBlue = {0, 0, 5};
+    Color blue = {0, 0, 3};
     Color white = {7,7,7};
     Color red = {7, 0, 0};
-    Color yellow = {7, 7, 0};
 
-    
+    //muda a cor do fundo para brando
     set_background_color(white);
-    draw_horizontal_block_line(60, 10, 6, red);
-    draw_horizontal_block_line(60, 10, 7, red);
-    draw_horizontal_block_line(60, 10, 8, red);
-
-    draw_horizontal_block_line(60, 10, 9, black);
-    draw_horizontal_block_line(60, 10, 10, black);
-    draw_horizontal_block_line(60, 10, 11, black);
 
 
+    //desenha a borda superior externa
+    for (int i = 6; i < 9; i++)
+    {
+        draw_horizontal_block_line(60, 10, i, red);
+    }
 
-    draw_vertical_block_line(51, 7, 9, red);
-    draw_vertical_block_line(51, 8, 9, red);
-    draw_vertical_block_line(51, 9, 9, red);
+    //desenha a borda superior interna
+    for (int i = 9; i < 12; i++)
+    {
+        draw_horizontal_block_line(60, 10, i, black);
+    }
 
-    draw_vertical_block_line(51, 70, 9, red);
-    draw_vertical_block_line(51, 71, 9, red);
-    draw_vertical_block_line(51, 72, 9, red);
+    //lateral esquerda exterior
+    for (int i = 7; i < 10; i++)
+    {
+        draw_vertical_block_line(51, i, 9, red);
+    }
 
-    //borda interna
-    draw_vertical_block_line(33, 10, 12, black);
-    draw_vertical_block_line(33, 11, 12, black);
-    draw_vertical_block_line(33, 12, 12, black);
+    //borda interior esquerda
+    for (int i = 10; i < 13; i++)
+    {
+        draw_vertical_block_line(33, i, 12, black);
+    }
 
-    draw_vertical_block_line(33, 67, 12, black);
-    draw_vertical_block_line(33, 68, 12, black);
-    draw_vertical_block_line(33, 69, 12, black);
-
-    draw_horizontal_block_line(60, 10, 42, black);
-    draw_horizontal_block_line(60, 10, 43, black);
-    draw_horizontal_block_line(60, 10, 44, black);
-
-    draw_horizontal_block_line(60, 10, 45, red);
-    draw_horizontal_block_line(60, 10, 46, red);
-    draw_horizontal_block_line(60, 10, 47, red);
-    draw_horizontal_block_line(60, 10, 48, red);
-    draw_horizontal_block_line(60, 10, 49, red);
-    draw_horizontal_block_line(60, 10, 50, red);
-    draw_horizontal_block_line(60, 10, 51, red);
-    draw_horizontal_block_line(60, 10, 52, red);
-    draw_horizontal_block_line(60, 10, 53, red);
-    draw_horizontal_block_line(60, 10, 54, red);
-    draw_horizontal_block_line(60, 10, 55, red);
-    draw_horizontal_block_line(60, 10, 56, red);
-    draw_horizontal_block_line(60, 10, 57, red);
-    draw_horizontal_block_line(60, 10, 58, red);
-    draw_horizontal_block_line(60, 10, 59, red);
-
-
-    //desenha a tela interna
+    //muda a cor da tela interna para azul
     for(int i = 12; i<42; i++){
-        draw_horizontal_block_line(54, 13, i, darkBlue);
+        draw_horizontal_block_line(54, 13, i, blue);
+    }
+
+    //borda interior direita
+    for (int i = 67; i < 70; i++)
+    {
+        draw_vertical_block_line(33, i, 12, black);
+    }
+
+    //borda inferior interna
+    for (int i = 42; i < 45; i++)
+    {
+        draw_horizontal_block_line(60, 10, i, black);
+    }
+    
+    //parte inferior do gameboy
+    for(int i = 45; i<60; i++){
+        draw_horizontal_block_line(60, 10, i, red);
+    }
+
+    //lateral direita exterior
+    for (int i = 70; i < 73; i++)
+    {
+        draw_vertical_block_line(51, i, 9, red);
     }
     
 
     //desenho dos botões
-
     Polygon btn_quadrado;
     Polygon btn_triangulo;
-
     btn_quadrado.color = black;
     btn_triangulo.color = black;
-
     btn_quadrado.mem_address = 0;
     btn_triangulo.mem_address = 1;
-
     btn_quadrado.coord_x = 405;
     btn_quadrado.coord_y = 480;
-
     btn_triangulo.coord_x = 475;
     btn_triangulo.coord_y = 418;
-
     btn_triangulo.shape = 1;
     btn_quadrado.shape = 0;
     btn_quadrado.size = 5;
     btn_triangulo.size = 5;
     
+    //desenha os botões internos
     set_polygon(btn_quadrado);
     set_polygon(btn_triangulo);
 
 
-    draw_vertical_block_line(4, 18, 53, black);
-    draw_vertical_block_line(4, 19, 53, black);
-    draw_vertical_block_line(4, 20, 53, black);
-    draw_vertical_block_line(4, 21, 53, black);
-    draw_vertical_block_line(4, 22, 53, black);
-    draw_vertical_block_line(4, 23, 53, black);
+    //desenha os direcionais
+    for (int i = 18; i < 24; i++)
+    {
+        draw_vertical_block_line(4, i, 53, black);
+    }
+    
+    for(int i = 57; i < 60; i++){
+        draw_horizontal_block_line(16, 13, i, black);
+    }
 
-
-    draw_horizontal_block_line(16, 13, 57, black);
-    draw_horizontal_block_line(16, 13, 58, black);
-    draw_horizontal_block_line(16, 13, 59, black);
-
+    //ciração dos sprites exibidos na tela interna
     Sprite alien1 = {218, 126, ALIEN1, 1, 1};
     Sprite alien2 = {238, 146, ALIEN2, 2, 1};
     Sprite alien3 = {258, 166, ALIEN1, 3, 1};
@@ -126,14 +121,7 @@ int main() {
     Sprite laser3 = {318, 280, LASER_VERTICAL, 15, 1};
     Sprite laser4 = {218, 186, LASER_VERTICAL, 16, 1};
 
-    set_sprite(alien1);
-    set_sprite(alien2);
-    set_sprite(alien3);
-    set_sprite(alien4);
-    set_sprite(alien5);
-    set_sprite(alien6);
-    set_sprite(alien7);
-    set_sprite(alien8);
+    //desenha os sprites fixos 
     set_sprite(nave);
     set_sprite(vida1);
     set_sprite(vida2);
@@ -142,6 +130,56 @@ int main() {
     set_sprite(laser2);
     set_sprite(laser3);
     set_sprite(laser4);
+
+    //animação de troca de sprite dos aliens
+    while (1)
+    {
+        //desenha os aliens
+        set_sprite(alien1);
+        set_sprite(alien2);
+        set_sprite(alien3);
+        set_sprite(alien4);
+        set_sprite(alien5);
+        set_sprite(alien6);
+        set_sprite(alien7);
+        set_sprite(alien8);
+
+        //troca o sprite de cada um
+        alien1.offset = ALIEN2;
+        alien2.offset = ALIEN1;
+        alien3.offset = ALIEN2;
+        alien4.offset = ALIEN1;
+        alien5.offset = ALIEN2;
+        alien6.offset = ALIEN1;
+        alien7.offset = ALIEN2;
+        alien8.offset = ALIEN1;
+        
+        //aguarda 500 ms
+        usleep(500000);
+
+        //desenha os prites novamente
+        set_sprite(alien1);
+        set_sprite(alien2);
+        set_sprite(alien3);
+        set_sprite(alien4);
+        set_sprite(alien5);
+        set_sprite(alien6);
+        set_sprite(alien7);
+        set_sprite(alien8);
+
+        //troca os sprites novamente
+        alien1.offset = ALIEN1;
+        alien2.offset = ALIEN2;
+        alien3.offset = ALIEN1;
+        alien4.offset = ALIEN2;
+        alien5.offset = ALIEN1;
+        alien6.offset = ALIEN2;
+        alien7.offset = ALIEN1;
+        alien8.offset = ALIEN2;
+
+        //aguarda 500 ms
+        usleep(500000);
+    }
 
     GPU_close();
     return 0;

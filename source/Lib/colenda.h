@@ -124,24 +124,48 @@ int set_pixel(Pixel pixel);
 */
 int clear();
 
+/**Função responsavel por desenhar uma linha horizontal usando blocos de background
+ * Parametros: size -> inteiro referente ao tamanho da linha
+ *             coord_x -> inteiro referente a coordenada x
+ *             coord_y -> inteiro referente a coordenada y
+ *             color -> struct Color referente a cor da linha;
+ * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
+ */
 int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
 
+/**Função responsavel por desenhar uma linha vertical usando blocos de background
+ * Parametros: size -> inteiro referente ao tamanho da linha
+ *             coord_x -> inteiro referente a coordenada x
+ *             coord_y -> inteiro referente a coordenada y
+ *             color -> struct Color referente a cor da linha;
+ * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
+ */
 int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
 
+
+/**Função responsavel por desenhar um bloco de background sem a necessidade de instanciar uma struct de bloco
+ * Parametros: coord_x -> inteiro referente a coordenada x
+ *             coord_y -> inteiro referente a coordenada y
+ *             color -> struct Color referente a cor da linha;
+ * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
+ */
 int draw_background_block(uint64_t coord_x, uint64_t coord_y, Color color);
 
-/**Função responsavel por converter um inteiro pra um vetor de 1's e 0's
- * parametros: number -> inteiro que deseja ser convertido em binario
- *             binaryVector -> vetor de inteiro que vai armazenar os binarios referentes ao numero convertido
- *             size -> inteito referente ao tamanho da quantidade de bits necessarios para representar o numero
+/**Função responsavel por converter os 2 wchar_t de 32 bits em uma string char de 8 bits
+ * parametros: data2A -> wchar_t referente aos dados enviados para o barramento data A
+ *             data2B -> wchar_t referente aos dados enviados para o barramento data B
 */
 void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno);
 
+
+/**Função responsavel por enviar os dados para o arquivo de nó /dev/colenda 
+ * 
+*/
 void write_in_gpu(char * instruction_binary_string);
+
 /**Função responsavel por encerrar a comunicação com a GPU
  * retorno: Retorna 0 se bem sucedido e -1 caso contrario
 */
-
 int GPU_close();
 
 
