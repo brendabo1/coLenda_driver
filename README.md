@@ -3,7 +3,7 @@
 <h3 align="center">Desenvolvimento de um driver para o dispositivo gráfico CoLenda</h3>
 
 <details open>
-<summary><h2>Equipe</h2></summary>
+<h2><summary>Equipe</summary></h2>
 <ul> 
   <li><a href="https://github.com/brendabo1">Brenda Barbosa de Oliveira</a></li>
   <li><a href="https://github.com/camilaqPereira">Camila Queiroz Boa Morte Pereira</a></li>
