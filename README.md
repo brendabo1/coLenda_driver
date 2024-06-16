@@ -4,29 +4,30 @@
 
 <details open>
 <summary style= "font-size: 1.875em">Equipe</summary>
-<ul> 
-  <li><a href="https://github.com/brendabo1">Brenda Barbosa de Oliveira</a></li>
-  <li><a href="https://github.com/camilaqPereira">Camila Queiroz Boa Morte Pereira</a></li>
-  <li><a href="https://github.com/DestinyWolf">Maike de Oliveira Nascimento</a></li>
+<ul style="list-style-type: square"> 
+  <li><a href="https://github.com/brendabo1" style="text-decoration: none;">Brenda Barbosa de Oliveira</a></li>
+  <li><a href="https://github.com/camilaqPereira" style="text-decoration: none;">Camila Queiroz Boa Morte Pereira</a></li>
+  <li><a href="https://github.com/DestinyWolf" style="text-decoration: none;">Maike de Oliveira Nascimento</a></li>
 </ul>
 </details>
 
+
 <details open>
 <summary style="font-size: 1.875em">Sumário</summary>
-<ul>
-<li><a href="#about">Sobre o projeto </a></li>
-<li><a href="#used-soft">Softwares utilizados</a></li>
-<li><a href="#de1soc">Kit de desenvolvimento DE1-SoC</a></li>
-<li><a href="#gpu">O processador gráfico</a></li>
-<li><a href="#solucao">Solução geral </a></li>
-<li><a href="#driver">Driver CoLenda</a></li>
-<li><a href="#lib">Biblioteca CoLenda</a></li>
-<li><a href="#tests">Produto e testes realizados</a></li>
-<li><a href="#conclusion">Conclusão</a></li>
-<li><a href="#refs">Referências</a></li>
-<ul>
-
+<ul style="list-style: square">
+<li><a href="#about" style="text-decoration: none;">Sobre o projeto </a></li>
+<li><a href="#used-soft" style="text-decoration: none;">Softwares utilizados</a></li>
+<li><a href="#de1soc" style="text-decoration: none;">Kit de desenvolvimento DE1-SoC</a></li>
+<li><a href="#gpu" style="text-decoration: none;">O processador gráfico</a></li>
+<li><a href="#solucao" style="text-decoration: none;">Solução geral </a></li>
+<li><a href="#driver" style="text-decoration: none;">Driver CoLenda</a></li>
+<li><a href="#lib" style="text-decoration: none;">Biblioteca CoLenda</a></li>
+<li><a href="#tests" style="text-decoration: none;">Produto e testes realizados</a></li>
+<li><a href="#conclusion" style="text-decoration: none;">Conclusão</a></li>
+<li><a href="#refs" style="text-decoration: none;">Referências</a></li>
+</ul>
 </details>
+
 <h2 id="about">Sobre o projeto</h2>
 <h2 id="used-soft">Softwares utilizados</h2>
 <h2 id="de1soc">Placa</h2>
