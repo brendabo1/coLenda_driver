@@ -37,7 +37,7 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 ## Instalação
 <details>
-<summary><b>Requisitos</b></summary>
+<summary><h3 style="fot-weight:bold">Requisitos</h3></summary>
 
 - Possuir conexão com internet;
 - Possuir o compilador gcc;
@@ -95,6 +95,40 @@ O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a v
 </details>
 
 ## Kit de desenvolvimento DE1-SoC
+Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no mesmo Cyclone® V da Intel®, sistema em chip (SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso ao sistema operacional Linux embarcado na placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e computador *host*.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/kit_desenvolvimento_DE1-SoC.jpg" width="600px">
+    <figcaption>
+      <p align="center"><b>Figura 1</b> - Kit de Desenvolvimento DE1-SoC</p>
+      <p align="center">Fonte: Terasic Technologies</p>
+    </figcaption>
+  </figure>
+</div>
+<details>
+<summary><h3 style="font-weight:bold">Sistema computacional DE1-SoC</h3></summary>
+
+### Sistema computacional DE1-SoC
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/diagramaDE1SoC_FPGAcademy.png" width="500px">
+    <figcaption>
+      <p align="center"><b>Figura 2</b> - Diagrama de Blocos da DE1-SoC</p>
+      <p align="center">Fonte: FPGAcademy.org</p>
+    </figcaption>
+  </figure>
+</div>
+
+- HPS inclui um processador ARM® Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos;
+- FPGA possibilita uma variedade de implementações através da programação dos blocos lógicos.
+
+> [!NOTE]
+>A comunicação bidirecional entre a o HPS e a FPGA se dá por meio das *FPGA bridges*. No sentido HPS-FPGA, todos os dispositivos de entrada e saída (E/S) conectados à FPGA são acessíveis ao processador através do mapeamento de memória. As informações sobre o endereçamento dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
+
+</details>
+
 ## Processador gráfico
 ## Solução geral
 ## Driver CoLenda
