@@ -5,37 +5,35 @@
 
 <details open>
 <summary><h2>Sumário</h2></summary>
-<ul>
-<li><a href="#about" style="text-decoration:none">Sobre o projeto </a></li>
-<li><a href="#used-soft">Softwares utilizados</a></li>
-<li><a href="#de1soc">Kit de desenvolvimento DE1-SoC</a></li>
-<li><a href="#gpu">O processador gráfico</a></li>
-<li><a href="#solucao">Solução geral </a></li>
-<li><a href="#driver">Driver CoLenda</a></li>
-<li><a href="#lib">Biblioteca CoLenda</a></li>
-<li><a href="#tests">Produto e testes realizados</a></li>
-<li><a href="#conclusion">Conclusão</a></li>
-<li><a href="#refs">Referências</a></li>
-<ul>
+
+  - [Sobre o projeto](README.md/sobre-o-projeto)
+  - [Softwares utilizados](README.md/softwares-utilizados)
+  - [Kit de desenvolvimento DE1-SoC](README.md/kit-de-desenvolvimento-de1-soc)
+  - [O processador gráfico](README.md/processador-gráfico)
+  - [Solução geral](README.md/solução-geral)
+  - [Driver CoLenda](README.md/driver-colenda-1)
+  - [Biblioteca CoLenda](README.md/biblioteca-colenda)
+  - [Produto e testes realizados](README.md/produto-e-testes-realizados)
+  - [Conclusão](README.md/conclusão)
+  - [Referências](README.md/referências)
+
 </details>
 
 
-<h2> Contribuidores </h2>
+## Contribuidores
 <div style="display:grid;justify-content:center;grid-template-columns: auto auto auto;grid-column-gap:40px;">
 <a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50" style="border-radius:50%;border:1px solid black"></a>
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50" style="border-radius:50%; border:1px solid black"></a>
 <a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50" style="border-radius:50%; border:1px solid black"></a>
 </div>
 
-
-<h2 id="about">Sobre o projeto</h2>
-<h2 id="used-soft">Softwares utilizados</h2>
-<h2 id="de1soc">Placa</h2>
-<h2 id="gpu">GPU</h2>
-<h2 id="solution">Solução geral</h2>
-<h2 id="driver">Driver</h2>
-<h2 id="lib">Biblioteca</h2>
-
+## Sobre o projeto
+## Softwares utilizados
+## Kit de desenvolvimento DE1-SoC
+## Processador gráfico
+## Solução geral
+## Driver CoLenda
+## Biblioteca CoLenda
 <p>
 A biblioteca foi desenvolvida com a intenção de facilitar a interação do usuário com o driver do dispositivo gráfico, assim a biblioteca dispõem de estruturas e funções para facilitar o uso da GPU.
 A biblioteca possuí algumas estruturas:
@@ -124,8 +122,9 @@ Além disso, a biblioteca implementou algumas definições que visam facilitar a
 (colocar os defines)
 
 </p>
-<h2 id="tests">Produto e testes realizados</h2>
-<h2 id="conclusion">Conclusão</h2>
-<h2 id="refs">Referências</h2>
+
+## Produto e testes realizados
+## Conclusão
+## Referências
 
 
