@@ -107,7 +107,7 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
   </figure>
 </div>
 <details>
-<summary><h3 style="font-weight:bold">Sistema computacional DE1-SoC</h3></summary>
+<summary><b>Sistema computacional DE1-SoC</b></summary>
 
 ### Sistema computacional DE1-SoC
 
@@ -121,11 +121,12 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
   </figure>
 </div>
 
-- HPS inclui um processador ARM® Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos;
-- FPGA possibilita uma variedade de implementações através da programação dos blocos lógicos.
+O diagrama de blocos do sistema computacional, apresentado na figura 2,  explicita os componentes do Cyclone® V da Intel®, bem como suas conexões. O HPS inclui um processador ARM® Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos. Já a FPGA possibilita uma variedade de implementações através da programação dos blocos lógicos.
 
-> [!NOTE]
->A comunicação bidirecional entre a o HPS e a FPGA se dá por meio das *FPGA bridges*. No sentido HPS-FPGA, todos os dispositivos de entrada e saída (E/S) conectados à FPGA são acessíveis ao processador através do mapeamento de memória. As informações sobre o endereçamento dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
+
+> A comunicação bidirecional entre a o HPS e a FPGA se dá por meio das *FPGA bridges*. 
+> No sentido HPS-FPGA, todos os dispositivos de entrada e saída (E/S) conectados à FPGA são acessíveis ao processador através do mapeamento de memória.
+> As informações sobre o endereçamento dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
 
 </details>
 
