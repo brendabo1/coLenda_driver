@@ -2,8 +2,8 @@
 
 <h3 align="center">Comunicação com o dispositivo gráfico CoLenda</h3>
 
-<p align="center">O Driver CoLenda é um simples driver de caractere que realiza a comunicação entre o processador de propósito geral e o hardware. A biblioteca inclusa abstrai a
-comunicação entre aplicações de usuário e o driver</p>
+<p align="center">O Driver CoLenda é um driver de caractere simples e eficiente que realiza a comunicação entre o processador de
+	propósito geral e o hardware. A biblioteca inclusa abstrai a comunicação entre aplicações de usuário e o driver</p>
 
 <h4 align="center">
 <a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
@@ -79,18 +79,18 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 </details>
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 Abra o terminal do seu dispositivo e execute o seguinte comando:
 ```
 git clone https://github.com/camilaqPereira/coLenda_driver.git
 ```
-### 2.Acessar a pasta */source/driver* e compilar o driver
+#### 2.Acessar a pasta */source/driver* e compilar o driver
 Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
 ```
 cd /source/driver
 make all
 ```
-### 3. Executar o script de carregamento do driver
+#### 3. Executar o script de carregamento do driver
 Execute o comando:
 ```
 sudo ...
@@ -182,41 +182,23 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
     </figcaption>
   </figure>
 </div>
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware
-é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e
-funções, gerencia os dados doselementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações
-recebidas para o stream de bit compreensível pelo driver.
+O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a
+aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do
+usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e funções, gerencia os dados
+dos elementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as instruções recebidas da biblioteca.
+Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema
+necessárias e a conversão das solicitações recebidas para o stream de bit compreensível pelo driver.
+Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as
+instruções recebidas da biblioteca.
+
 ## Driver CoLenda
-Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo ou modo kernel e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
-A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações.
-
-<div align="center">
-  <figure>  
-    <img src="docs/images/arquitetura-so.jpg">
-    <figcaption>
-      <p align="center"><b>Figura 4</b> - Esquema em blocos da arquitetura típica de sistemas operacionais (adaptado)</p>
-      <p align="center">Fonte:</p>
-    </figcaption>
-  </figure>
-</div>
-
-<div align="center">
-  <figure>  
-    <img src="docs/images/kernel-file-abstraction.png">
-    <figcaption>
-      <p align="center"><b>Figura 5</b> - Esquema em blocos d (adaptado)</p>
-      <p align="center">Fonte:</p>
-    </figcaption>
-  </figure>
-</div>
-
 ## Biblioteca CoLenda
-A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o módulo kernel do hardware.
-Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
+
+A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o 
+módulo kernel do hardware. Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a
+serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
 > [!NOTE]
 > Os sprites disponíveis para seleção estão salvos em hardware no processador gráfico.
 > Nenhum deles foi criado pela biblioteca
@@ -230,37 +212,8 @@ Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para
 ### Constantes de sprite
 As constantes de sprite implementadas visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço em que um sprite específico está localizado.
 
-| Define    | Valor    | sprite associado
-|-----------|----------|-------------------
-| ORANGE_BLOCK  | 0     | bloco laranja
-| BLUE_BLOCK  	| 1     | bloco azul
-| MEDAL			| 2		| medalha
-| BOMB 			| 3		| bomba
-| TREE			| 4 	| arvore
-| SHIP_UP 		| 5 	| nave virada para cima
-| SHIP_RIGTH 	| 6 	| nave virada para direita
-| SHIP_DOWN		| 7		| nave virada para baixo
-| SHIP_LEFT		| 8 	| nave virada para esquerda
-| COIN			| 9		| meoda
-| DIAMOND		| 10	| diamante
-| LASER_VERTICAL| 11 	| laser na vertical
-| LASER_DIAGONAL1| 12 	| laser na diagonal principal
-| LASER_HORIZONTAL| 13 	| laser na horizontal
-| LASER_DIAGONAL2| 14 	| laser na diagonal secundária
-| HEART			| 15	| coração azul
-| LOG			| 16	| tronco de arvore
-| BLUE_CAR		| 17	| carro de corrida azul
-| GREEN_CAR		| 18	| carro de corrida verde
-| PURPLE_CAR	| 19	| carro de corrida roxo
-| YELLOW_CAR	| 20	| carro de corrida amarelo
-| ALIEN1		| 21	| alien do space invaders
-| ALIEN2		| 22	| alien do space invaders
-| DRAGON		| 23	| pedra
-| CUP			| 24	| troféu
+(colocar os defines)
 
-a baixo segue as imagens dos sprites que estão na memporia
-
-<img src="docs/images/sprites.png" style="">
 </details>
 
 <details>
@@ -291,13 +244,13 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 
 ### Funções 
 	
-| Função | Argumento | Instrução relacionada |
-|  -----------  | ----------- |---- |
-|Setar pixel | Struct pixel | WSM |
-|Setar cor de fundo | Struct cor | WRB |
-|Setar bloco de fundo | Struct bloco de background | WSM |
-|Setar sprite | Struct sprite | WRB |
-|Setar polígono | Struct polígono | DP |
+|      Função          |          Argumento         | Instrução relacionada |
+|     -----------      |        -----------         |           ----        |
+|   Setar pixel        |         Struct pixel       |           WSM         |
+|  Setar cor de fundo  |         Struct cor         |           WRB         |
+| Setar bloco de fundo | Struct bloco de background |           WSM         |
+|    Setar sprite      |       Struct sprite        |           WRB         |
+|    Setar polígono    |      Struct polígono       |           DP          |
 	
 </details>
 
@@ -309,10 +262,9 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 | Função | Descrição | Argumento |
 |  -----------  | ----------- |----------- |
 | Desenhar linha vertical | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada y | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
-| Desenhar linha horizontal | Desenha uma linha horizontal utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
+| Desenhar linha horizontal | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
 | Desenhar bloco de background | Seta um bloco de background. Dispensa a instância da struct| Coordenadas iniciais x e y, e cor (struct)|
 | Clear | Reseta a tela| - |
-
 
 </details>
 
@@ -322,17 +274,19 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 ### Funções internas auxiliares
 
 - função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
-- função que converte 2 wchar_t em uma string de 8 char
+- b
+- c
 
 </details>
 
 <details >
 <summary ><b>Validação de valores</b></summary>
 
-###  Validação de valores
+###  Validação de valores e tratamento de erros
 
-A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário e exibe no terminal uma mensagem referente ao erro que ocorreu.
+A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  
 
+(mostrar os trechos de validação das informações)
 </details>	
 
 ## Exemplos
@@ -358,16 +312,71 @@ As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento d
 >[!TIP]
 > Loops e alteração da posição dos elementos podem ser usadas para criar imagens dinâmicas!
 
+> [!TIP]
+> Como a GPU aceita cores no formato RGB de 9 bits, utilize a tabela de cores disponível
+> [aqui](arquivos_complementares/9-bit-rgb-palette.html) para falicitar a seleção das cores a serem usadas na sua imagem.
+
 ## Testes
 
+Testar a exibição dos recursos da GPU no monitor é verificar que a biblioteca CoLenda realiza a montagem correta das instruções a serem
+passadas para o driver, bem como o gerenciamento correto das chamadas de sistema. É verificar também que o módulo kernel CoLenda realiza
+o mapeamento adequado do barramento de dados do harware, assim como o gerenciamento preciso dos sinais de controle do processador para a
+exibição dos elementos na tela.
 
-<details >
-<summary><b>Testes isolados</b></summary>
+Este processo consiste na instanciação das structs dos elementos, chamada das respectivas funções de exibição e conferência dos dados
+obtidos na tela.  
 
+<details>
+	<summary><b>Teste background e polígono</b></summary>
+
+## Teste de background e polígono
+Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo seja definida para branco e um
+triângulo preto de tamanho 20x20 seja exibido na posição (511, 240). Como observa-se na figura 5, os devidos elementos foram setados com as configurações corretas. 
+
+```C
+// inicia a comunicação com o driver
+GPU_open();
+
+//Instanciação de structs
+color_t white = {7,7,7};
+color_t black = {0, 0, 0};
+
+polygon_t black_triangle = {511,240, 0, 1, 1, black};
+
+//seta a cor de fundo do background
+set_background_color(white);
+
+//seta o polígono
+set_polygon(black_triangle);
+
+//encerra a comunicação com o driver
+GPU_close();
+```
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/poligono_limite.jpg">
+    <figcaption>
+      <p align="center"><b>Figura 5</b> - Resultado do teste no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+
+<blockquote>
+
+**WARNING**
+
+O tamanho do campo coordenada x da instrução DP (9 bits) restringe as posições que os polígonos podem ocupar. O triângulo
+da figura 5 ilustra a posição limite, no eixo x, que os polígonos podem ocupar. 
+
+</blockquote>
  
 </details>
 
+
+
 ## Conclusão
 ## Referências
-TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 2 maio. 2024.
+
 
