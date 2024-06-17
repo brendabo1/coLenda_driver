@@ -1,19 +1,25 @@
 <h1 align="center"><i>Driver CoLenda</i></h1>
 
-<h3 align="center">Um módulo de kernel Linux para a comunicação com o dispositivo gráfico CoLenda</h3>
-<h4 align="center">
-<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
-<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
-</a>
-<a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
-</a>
+<h3 align="center">Comunicação com o dispositivo gráfico CoLenda</h3>
 
+<p align="center">O Driver CoLenda é um simples driver de caractere que realiza a comunicação entre o processador de propósito geral e o hardware. A biblioteca inclusa abstrai a
+comunicação entre aplicações de usuário e o driver</p>
+
+<h4 align="center">
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
+										  src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" 
+										  src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
+</a>
+<a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" 
+								   src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
+</a>
 </h4>
 
 <div align="center">
 	
-[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) • [Biblioteca](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
-	
+[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) •
+[Biblioteca](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
 
 </div>
 
@@ -35,9 +41,34 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
 <a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
 
+<details>
+<summary><h2>Índice</h2></summary>
+
+- [Instalação](#instalação)
+	-  [Pré-requisitos](#pré-requisitos)
+-  [Softwares utilizados](#softwares-utilizados)
+	- [Linguagem C](#linguagem-c)
+	- [Compilador GNU](#compilador-gnu)
+ 	- [VS Code](#vs-code)
+- [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
+	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
+  	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
+- [Processador gráfico](#processador-gráfico)
+- [Solução geral](#solução-geral)
+- [Driver CoLenda](#driver-colenda)
+- [Biblioteca CoLenda](#biblioteca-colenda)
+	- [Constantes de sprites](#constantes-de-sprite)
+ 	- [Structs](#structs)
+  	- [Funções](#funções)
+  	- [Pseudo-instruções](#pseudo-instruções)
+  	- [Funções internas auxiliares](#funções-internas-auxiliares)
+  	- [Validação de valores](#validação-de-valores)
+ 
+</details>
+
 ## Instalação
 <details>
-<summary><h3>Requisitos</h3></summary>
+<summary><h3>Pré-requisitos</h3></summary>
 
 - Possuir conexão com internet;
 - Possuir instalado o compilador gcc;
@@ -141,7 +172,7 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 ## Solução geral
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 3.
+
 <div align="center">
   <figure>  
     <img src="docs/images/solucao_geral.png">
@@ -151,10 +182,12 @@ O produto desenvolvido implementa a intercomunicação entre o software e o disp
     </figcaption>
   </figure>
 </div>
+O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware
+é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e
+funções, gerencia os dados doselementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e funções, gerencia os dados dos elementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
-
-Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações recebidas para o stream de bit compreensível pelo driver.
+Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações
+recebidas para o stream de bit compreensível pelo driver.
 
 Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as instruções recebidas da biblioteca.
 ## Driver CoLenda
@@ -252,28 +285,31 @@ A biblioteca apresenta recursos para validação dos valores inseridos pelo usu�
 (mostrar os trechos de validação das informações)
 </details>	
 
-
-## Validação do produto e testes
-
-A fim de validar os módulos desenvolvidos, uma imagem foi selecionada para ser criada e exibida no monitor acoplado à placa DE1-SoC.
-A imagem (figura 4) contém todos os elementos disponibilizados pelo processador gráfico:
+## Exemplos
+Apesar do número limitado de elementos disponibilizados pelo processador gráfico, uma vasta gama de imagens podem ser renderizadas. Um exemplo de imagem que pode ser criada
+é mostrada na figura 4 na qual foram utilizados todos os recursos do hardware:
 - polígonos: usados para desenhar os botões direitos do gameboy
 - cor de background: definido para branco
 - blocos de background: usados para desenhar o corpo, a tela e os botões esquerdos do gameboy
 - sprites: usados para criar o cenário na tela do gameboy
-- 
->[!NOTE]
-> As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento.
+
+As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento da imagem. O código para a renderização da imagem encontra-se [aqui](source/Lib/gameboy_example.c).
 
 <div align="center">
   <figure>  
-    <img src="docs/images/gameboy.jpg">
+    <img src="docs/images/gameboy.jpg" height="500px">
     <figcaption>
       <p align="center"><b>Figura 4</b> - Imagem exibida no monitor</p>
-      <p align="center">Fonte:Elaboração própria</p>
+      <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
 </div>
+
+>[!TIP]
+> Loops e alteração da posição dos elementos podem ser usadas para criar imagens dinâmicas!
+
+## Testes
+
 
 <details >
 <summary><b>Testes isolados</b></summary>
