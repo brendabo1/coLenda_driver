@@ -1,6 +1,14 @@
 <h1 align="center"><i>Driver CoLenda</i></h1>
 
 <h3 align="center">Um módulo de kernel Linux para a comunicação com o dispositivo gráfico CoLenda</h3>
+<h4 align="center">
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
+</a>
+<a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
+</a>
+
+</h4>
 
 <div align="center">
 	
