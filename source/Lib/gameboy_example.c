@@ -10,10 +10,10 @@ int main() {
     clear();
 
     //cores
-    Color black = {0, 0, 0};
-    Color blue = {0, 0, 3};
-    Color white = {7,7,7};
-    Color red = {7, 0, 0};
+    color_t black = {0, 0, 0};
+    color_t blue = {0, 0, 3};
+    color_t white = {7,7,7};
+    color_t red = {7, 0, 0};
 
     //muda a cor do fundo para brando
     set_background_color(white);
@@ -73,8 +73,8 @@ int main() {
     
 
     //desenho dos botões
-    Polygon btn_quadrado;
-    Polygon btn_triangulo;
+    polygon_t btn_quadrado;
+    polygon_t btn_triangulo;
     btn_quadrado.color = black;
     btn_triangulo.color = black;
     btn_quadrado.mem_address = 0;
@@ -104,22 +104,22 @@ int main() {
     }
 
     //ciração dos sprites exibidos na tela interna
-    Sprite alien1 = {218, 126, ALIEN1, 1, 1};
-    Sprite alien2 = {238, 146, ALIEN2, 2, 1};
-    Sprite alien3 = {258, 166, ALIEN1, 3, 1};
-    Sprite alien4 = {278, 186, ALIEN2, 4, 1};
-    Sprite alien5 = {298, 186, ALIEN1, 5, 1};
-    Sprite alien6 = {318, 166, ALIEN2, 6, 1};
-    Sprite alien7 = {338, 146, ALIEN1, 7, 1};
-    Sprite alien8 = {358, 126, ALIEN2, 8, 1};
-    Sprite nave = {318, 300, SHIP_UP, 9, 1};
-    Sprite vida1 = {440, 106, HEART, 10, 1};
-    Sprite vida2 = {470, 106, HEART, 11, 1};
-    Sprite vida3 = {500, 106, HEART, 12, 1};
-    Sprite laser1 = {258, 256, LASER_VERTICAL, 13, 1};
-    Sprite laser2 = {358, 244, LASER_VERTICAL, 14, 1};
-    Sprite laser3 = {318, 280, LASER_VERTICAL, 15, 1};
-    Sprite laser4 = {218, 186, LASER_VERTICAL, 16, 1};
+    sprite_t alien1 = {218, 126, ALIEN1, 1, 1};
+    sprite_t alien2 = {238, 146, ALIEN2, 2, 1};
+    sprite_t alien3 = {258, 166, ALIEN1, 3, 1};
+    sprite_t alien4 = {278, 186, ALIEN2, 4, 1};
+    sprite_t alien5 = {298, 186, ALIEN1, 5, 1};
+    sprite_t alien6 = {318, 166, ALIEN2, 6, 1};
+    sprite_t alien7 = {338, 146, ALIEN1, 7, 1};
+    sprite_t alien8 = {358, 126, ALIEN2, 8, 1};
+    sprite_t nave = {318, 300, SHIP_UP, 9, 1};
+    sprite_t vida1 = {440, 106, HEART, 10, 1};
+    sprite_t vida2 = {470, 106, HEART, 11, 1};
+    sprite_t vida3 = {500, 106, HEART, 12, 1};
+    sprite_t laser1 = {258, 256, LASER_VERTICAL, 13, 1};
+    sprite_t laser2 = {358, 244, LASER_VERTICAL, 14, 1};
+    sprite_t laser3 = {318, 280, LASER_VERTICAL, 15, 1};
+    sprite_t laser4 = {218, 186, LASER_VERTICAL, 16, 1};
 
     //desenha os sprites fixos 
     set_sprite(nave);

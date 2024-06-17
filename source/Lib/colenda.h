@@ -1,4 +1,37 @@
-#ifndef COLENDA_LIBRARY
+/**
+ * \file            colenda.h
+ * \brief           arquivo de cabeçalho da biblioteca colenda
+ */
+
+/*
+ * Copyright (c) 2024 Brenda Babosa, Camila queiroz, Maike Nascimento
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+ * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * This file is part of Colenda.
+ *
+ * Authors:          Brenda Barbosa, Camila Queiroz, Maike e Oliveira
+ */
+
+#if !defined(COLENDA_LIBRARY) 
 #define COLENDA_LIBRARY
 
 #include <stdio.h>
@@ -12,159 +45,195 @@
 #include <wchar.h>
 #include <stdint.h>
 
-/*offset de cada sprite*/
-#define ORANGE_BLOCK 0
-#define BLUE_BLOCK 1
-#define MEDAL 2
-#define BOMB 3
-#define TREE 4
-#define SHIP_UP 5
-#define SHIP_RIGHT 6
-#define SHIP_DOWN 7
-#define SHIP_LEFT 8
-#define COIN 9
-#define DIAMOND 10
-#define LASER_VERTICAL 11
-#define LASER_DIAGONAL1 12
-#define LASER_HORIZONTAL 13
-#define LASER_DIAGONAL2 14
-#define HEART 15
-#define LOG 16
-#define BLUE_CAR 17
-#define GREEN_CAR 18
-#define PURPLE_CAR 19
-#define YELLOW_CAR 20
-#define ALIEN1 21
-#define ALIEN2 22
-#define DRAGON 23
-#define CUP 24
+/* offset de cada sprite */
+#define ORANGE_BLOCK        0
+#define BLUE_BLOCK          1
+#define MEDAL               2
+#define BOMB                3
+#define TREE                4
+#define SHIP_UP             5
+#define SHIP_RIGHT          6
+#define SHIP_DOWN           7
+#define SHIP_LEFT           8
+#define COIN                9
+#define DIAMOND             10
+#define LASER_VERTICAL      11
+#define LASER_DIAGONAL1     12
+#define LASER_HORIZONTAL    13
+#define LASER_DIAGONAL2     14
+#define HEART               15
+#define LOG                 16
+#define BLUE_CAR            17
+#define GREEN_CAR           18
+#define PURPLE_CAR          19
+#define YELLOW_CAR          20
+#define ALIEN1              21
+#define ALIEN2              22
+#define DRAGON              23
+#define CUP                 24
 
-/*Codigo das operações */
-#define WBR 0 //0000
-#define WSM 1 //0001
-#define WBM 2 //0010
-#define DP 3 //0011
+/* Codigo das operações */
+#define WBR 0 /* 0000 */
+#define WSM 1 /* 0001 */
+#define WBM 2 /* 0010 */
+#define DP  3 /* 0011 */
 
-/*Estrutura das cores*/
+/**
+ * \brief           dados de uma cor
+ * \note            essa estrutura é utilizada para separar os campos de uma cor
+ */
 typedef struct {
-    uint64_t red; // valor da intensidade da cor vermelha: vai de 0 a 7
-    uint64_t green; //valor da intensidade da cor verde: vai de 0 a 7
-    uint64_t blue; // valor da intensidade da cor azul: vai de 0 a 7
-} Color;
+    uint64_t red;           /*!< Intensidade cor vermelha*/
+    uint64_t green;         /*!< Intensidade cor verde*/
+    uint64_t blue;          /*!< Intensidade cor azul*/ 
+} color_t;
 
-/*Estrutura dos sprites*/
-typedef struct {
-    uint64_t coord_x; //coordenada do eixo x do centro do sprite: vai de 0 a 640
-    uint64_t coord_y; //coordenada do eixo y do centro do sprite: vai de 0 a 480
-    uint64_t offset; // identificação do sprite: vai de 0 a 24
-    uint64_t data_register; //localização do sprite na memoria: vai de 1 a 31
-    uint64_t visibility; // visibilidade do sprite: 0. invisivel  1. visivel
-} Sprite;
-
-/*Estrutura dos polignos*/
-typedef struct {
-    uint64_t coord_x; // coordenada referente ao eixo x do centro do poligno: vai de 0 a 511
-    uint64_t coord_y; // coordenada referente ao eixo y do centro do poligno: vai de 0 a 480
-    uint64_t mem_address; // numero referente a sobreposição: vai de 0 a 15
-    uint64_t shape; //forma do poligno: 0 . quadrado  1 . triangulo
-    uint64_t size; // tamanho do poligno: vai de 0 a 15
-    Color color; 
-} Polygon;
-
-/*Estrura dos blocos do background*/
-typedef struct {
-    uint64_t coord_x; // endereço do bloco vai de 0 a 80
-    uint64_t coord_y; // endereço do bloco vai de 0 a 60
-    Color color; // cor referenteao bloco
-} BackGroundBlock;
-
-/*estrutura dos pixels*/
-typedef struct {
-  uint64_t mem_address; // endereço do pixel, vai de 0 a 6384
-  Color color; //cor do pixel
-} Pixel;
-
-/**Função responsavel por inicializar a comunicação com a gpu
- * retorno: Retorna 0 caso  a inicialização seja bem sucedida e -1 caso contrario
+/**
+ * \brief           Estrutura de um sprite
+ * \note            Essa struct é utilizada para separar os campos que um sprite 
+ *                  deve conter
 */
+typedef struct {
+    uint64_t coord_x;               /*!< Coordenada do eixo x do centro do sprite: 0 a 639*/
+    uint64_t coord_y;               /*!< Coordenada do eixo y do centro do sprite: 0 a 479*/
+    uint64_t offset;                /*!< Identificação do sprite:                  0 a 24 */ 
+    uint64_t data_register;         /*!< Localização do sprite na memoria:         1 a 31 */
+    uint64_t visibility;            /*!< Visibilidade do sprite: 0. invisivel  1. visivel */ 
+} sprite_t;
+
+/**
+ * \brief           Estrutura de um polígono
+ * \note            Essa estrutura é utilizada para definir os campos de um 
+ *                  polígono
+ */
+typedef struct {
+    uint64_t coord_x;               /*!< Eixo X:                    0 a 511 */ 
+    uint64_t coord_y;               /*!< Eixo Y:                    0 a 479 */ 
+    uint64_t mem_address;           /*!< Número referente a camada: 0 a 15 */ 
+    uint64_t shape;                 /*!< Forma do poligno: 0 . quadrado  1 . triangulo */
+    uint64_t size;                  /*!< Tamanho do poligno:        0 a 15 */ 
+    color_t color;                  /*!< Campo de cor do polígono */
+} polygon_t;
+
+/** 
+ * \brief           Estrutura de Bloco de BackGround 
+ * \note            Estrutura utilizada para definir os campos de um bloco do 
+ *                  background 
+ */
+typedef struct {
+    uint64_t coord_x;           /*!< Endereço do bloco: 0 a 79 */ 
+    uint64_t coord_y;           /*!< Endereço do bloco: 0 a 59 */ 
+    color_t color;              /*!< Cor referente ao bloco */ 
+} background_block_t;
+
+/**
+ * \brief           Estrutura de um pixel 
+ * \note            Essa Struct é utilizada para definir os campos que 
+ *                  um pixel deve conter
+ */
+typedef struct {
+    uint64_t mem_address;           /*!< Endereço do pixel: 0 a 16383 */ 
+    color_t color;                  /*!< Cor do pixel */
+} pixel_t;
+
+/**
+ * \brief           Inicializa a comunicação com a GPU
+ * \note            É necessario estar no começo do codigo antes da utilzação 
+ *                  que qualquer outra função da GPU
+ * \return          se a operação ocorreu ou não           
+ */
 int GPU_open();
 
-/**Função responsavel por definir a cor do fundo da tela
- * parametros: color -> Struct Color responsavel por organizar os dados de uma cor
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ * \brief           Alterar a cor do fundo da tela
+ * \param[in]       color: cor que será aplicada
+ * \return          se a operação ocorreu ou não
 */
-int set_background_color(Color color);
+int set_background_color(color_t color);
 
-/**Função responsavel por alterar blocos do fundo da tela
- * paramentros: bgBlock -> Struct BackGroundBlock responsavel por organizar os dados referentes a um bloco
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ * \brief           Altera a cor ou desativa um bloco do fundo
+ * \param[in]       bg_block: bloco que sera alterado
+ * \return          se a operação ocorreu ou não
 */
-int set_block_background(BackGroundBlock bgBlock);
+int set_background_block(background_block_t bg_block);
 
-/**Função responsavel por desenhar um sprite na tela
- * paramentros: sprite -> Struct Sprite responsavel por organizar os dados referentes a um sprite
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ * \brief           Insere ou desabilita um sprite da tela
+ * \param[in]       sprite: Sprite que será inserio/alterado
+ * \return          se a operação foi bem sucedida ou não
 */
-int set_sprite(Sprite sprite);
+int set_sprite(sprite_t sprite);
 
-/**Função responsavel por desenhar um poligno (quadrado ou triangulo) na tela
- * paramentros: polygon -> Struct Polygon responsavel por organizar os dados referentes a um poligno
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ * \brief           Insere ou altera um polígono da tela
+ * \param[in]       polygon: polígono a ser inserido/alterado
+ * \return          se a operação foi bem sucedida ou não
 */
-int set_polygon(Polygon polygon);
+int set_polygon(polygon_t polygon);
 
-/**Função responsavel por salvar um pixel na memória de sprites
- * paramentros: pixele -> Struct Pixel responsavel por organizar os dados referentes pixel na memoria de sprites
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ * \brief           Insere ou altera um pixel da memoria de sprites
+ * \param[in]       pixel: pixel a ser alterado/inserido
+ * \return          Se a operação foi bem sucedida ou não
 */
-int set_pixel(Pixel pixel);
+int set_pixel(pixel_t pixel);
 
-/**Função responsavel por limpar a tela, muda a cor de fundo para preto, remove todos os sprites e pixels
- * retorno: Retorna 0 caso seja bem sucedido e -1 caso ocorra algum erro
+/**
+ *\brief            Remove/Desabilita os elementos que estão na tela e troca a 
+                    cor do fundo para preto
+ *\return           Se a operação foi bem sucedida ou não
 */
 int clear();
 
-/**Função responsavel por desenhar uma linha horizontal usando blocos de background
- * Parametros: size -> inteiro referente ao tamanho da linha
- *             coord_x -> inteiro referente a coordenada x
- *             coord_y -> inteiro referente a coordenada y
- *             color -> struct Color referente a cor da linha;
- * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
+/**
+ * \brief           desenha uma linha horizontal usando blocos de background
+ * \param[in]       size: tamanho da linha
+ * \param[in]       coord_x: ponto inicial X
+ * \param[in]       coord_y: ponto inicial Y
+ * \param[in]       color: Cor da linha
+ * \return          se a operação ocorreu com sucesso ou não
  */
-int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
+int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
 
-/**Função responsavel por desenhar uma linha vertical usando blocos de background
- * Parametros: size -> inteiro referente ao tamanho da linha
- *             coord_x -> inteiro referente a coordenada x
- *             coord_y -> inteiro referente a coordenada y
- *             color -> struct Color referente a cor da linha;
- * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
+/**
+ * \brief           desenha uma linha vertical usando blocos de background
+ * \param[in]       size: tamanho da linha
+ * \param[in]       coord_x: ponto inicial X
+ * \param[in]       coord_y: ponto inicial Y
+ * \param[in]       color: Cor da linha
+ * \return          se a operação ocorreu com sucesso ou não
  */
-int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, Color color);
+int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
 
 
-/**Função responsavel por desenhar um bloco de background sem a necessidade de instanciar uma struct de bloco
- * Parametros: coord_x -> inteiro referente a coordenada x
- *             coord_y -> inteiro referente a coordenada y
- *             color -> struct Color referente a cor da linha;
- * Retorno: retorna 0 se ocorreu tudo certo e -1 caso haja algum erro
- */
-int draw_background_block(uint64_t coord_x, uint64_t coord_y, Color color);
-
-/**Função responsavel por converter os 2 wchar_t de 32 bits em uma string char de 8 bits
- * parametros: data2A -> wchar_t referente aos dados enviados para o barramento data A
- *             data2B -> wchar_t referente aos dados enviados para o barramento data B
+/**
+ * \brief           desenha um bloco de background
+ * \param[in]       coord_x: ponto inicial X
+ * \param[in]       coord_y: ponto inicial Y 
+ * \param[in]       color: Cor da linha  
+ * \return          se a operação ocorreu com sucesso ou não    
 */
-void wchar2string(wchar_t data2A, wchar_t data2B, char * retorno);
+int draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color);
 
-
-/**Função responsavel por enviar os dados para o arquivo de nó /dev/colenda 
- * 
+/**
+ * \brief           converte 2 wchar_t em um vetor de 8 char
+ * \param[in]       data_a: dados que vão para o barrramento A
+ * \param[in]       data_b: dados que vão para o barramento B
+ * \param[out]      retorno: vetor de 8 char
 */
-void write_in_gpu(char * instruction_binary_string);
+void wchar_to_string(wchar_t data_a, wchar_t data_b, const char* retorno);
 
-/**Função responsavel por encerrar a comunicação com a GPU
- * retorno: Retorna 0 se bem sucedido e -1 caso contrario
+
+/**
+ * \brief           escreve no arquivo de comunicação entre a a biblioteca e a gpu
+ * \param[in]       instruction_binary_string: bits a ser escritos no barramento
+*/
+void write_in_gpu(const char* instruction_binary_string);
+
+/**
+ * \brief encessa a comunicação entre a biblioteca e a gpu
+ * \return retorna erro ou sucesso
 */
 int GPU_close();
 

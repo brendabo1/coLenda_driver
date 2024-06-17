@@ -1,19 +1,25 @@
 <h1 align="center"><i>Driver CoLenda</i></h1>
 
-<h3 align="center">Um módulo de kernel Linux para a comunicação com o dispositivo gráfico CoLenda</h3>
-<h4 align="center">
-<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
-<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
-</a>
-<a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
-</a>
+<h3 align="center">Comunicação com o dispositivo gráfico CoLenda</h3>
 
+<p align="center">O Driver CoLenda é um simples driver de caractere que realiza a comunicação entre o processador de propósito geral e o hardware. A biblioteca inclusa abstrai a
+comunicação entre aplicações de usuário e o driver</p>
+
+<h4 align="center">
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
+										  src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
+<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" 
+										  src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
+</a>
+<a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" 
+								   src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
+</a>
 </h4>
 
 <div align="center">
 	
-[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) • [Lib](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
-	
+[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) •
+[Biblioteca](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
 
 </div>
 
@@ -35,14 +41,38 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
 <a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
 
+<details>
+<summary><h2>Índice</h2></summary>
+
+- [Instalação](#instalação)
+	-  [Pré-requisitos](#pré-requisitos)
+-  [Softwares utilizados](#softwares-utilizados)
+	- [Linguagem C](#linguagem-c)
+	- [Compilador GNU](#compilador-gnu)
+ 	- [VS Code](#vs-code)
+- [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
+	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
+  	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
+- [Processador gráfico](#processador-gráfico)
+- [Solução geral](#solução-geral)
+- [Driver CoLenda](#driver-colenda)
+- [Biblioteca CoLenda](#biblioteca-colenda)
+	- [Constantes de sprites](#constantes-de-sprite)
+ 	- [Structs](#structs)
+  	- [Funções](#funções)
+  	- [Pseudo-instruções](#pseudo-instruções)
+  	- [Funções internas auxiliares](#funções-internas-auxiliares)
+  	- [Validação de valores](#validação-de-valores)
+ 
+</details>
 
 ## Instalação
 <details>
-<summary><h3 style="fot-weight:bold">Requisitos</h3></summary>
+<summary><h3>Pré-requisitos</h3></summary>
 
 - Possuir conexão com internet;
-- Possuir o compilador gcc;
-- Possuir o git instalado;
+- Possuir instalado o compilador gcc;
+- Possuir instalado o Git ;
 - Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
 - Possuir o processador gráfico CoLenda na FPGA
 - Possuir um monitor conectado à placa por meio da saída VGA
@@ -142,124 +172,151 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 ## Solução geral
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o harware é esquematizado na figura 3.
+
 <div align="center">
   <figure>  
-    <img src="docs/images/solucao_geral.png"">
+    <img src="docs/images/solucao_geral.png">
     <figcaption>
       <p align="center"><b>Figura 3</b> - Esquema em blocos da solução geral </p>
       <p align="center">Fonte:Elaboração própria</p>
     </figcaption>
   </figure>
 </div>
+O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware
+é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e
+funções, gerencia os dados doselementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-A aplicação do usuário instancia as estruturas disponibilizadas pela biblioteca CoLenda, assim como realiza a chamada das funções disponíveis. Por sua vez, a biblioteca gerencia as chamadas de sistema necessárias durante a comunicação com o driver e converte as solicitações do usuário em um formato compreensivel pelo driver. Por fim, o driver comunica-se diretamente com barramento de dados do hardware.
+Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações
+recebidas para o stream de bit compreensível pelo driver.
+
+Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as instruções recebidas da biblioteca.
 ## Driver CoLenda
 ## Biblioteca CoLenda
-A biblioteca desenvolvida facilita a interação do usuário com o driver do dispositivo gráfico, dispondo de estruturas e funções que provem uma abstração para o uso da GPU.
+A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o módulo kernel do hardware.
+Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
+> [!NOTE]
+> Os sprites disponíveis para seleção estão salvos em hardware no processador gráfico.
+> Nenhum deles foi criado pela biblioteca
+
+> [!NOTE]
+> As pseudo-instruções são funções da biblioteca que podem ser chamadas
+
+<details >
+<summary><b>Constantes de sprite</b></summary>
+
+### Constantes de sprite
+As constantes de sprite implementadas visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço em que um sprite específico está localizado.
+
+(colocar os defines)
+
+</details>
 
 <details>
 <summary><b>Structs</b></summary>
 
 ### Structs
 
-A biblioteca disponibiliza diversas estruturas a fim de organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na GPU. A tabela abaixo lista estas structs, bem como suas finalidades específicas e atributos
-
 | Struct      | Descrição | Atributos |
 | ---- | ----------- | ----------- |
 | Cor      | Define os campos que uma cor deve possuir. Utilizada nas demais estruturas que necessitam de um campo de cor| Vermelho, verde e azul |
-| Sprite   | Define as informações de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
-| Bloco de background   | Agrupa as informações de um bloco de blockground | Cor (struct) e coordenadas x e y  |
-| Pixel   | Define as informações necessarias para a criação de um pixel de um sprite. Localizados na memória de sprites      | Endereço de memória e cor (struct) |
-| Polígono   | Organiza as informações de um polígono   | Coordenadas x e y, camada, tamanho, forma (triângulo ou quadrado e cr (struct) |
+| Sprite   | Define os dados necessários para a exibição de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
+| Bloco de background   | Agrupa as informações necessárias para a edição de um bloco de blockground | Cor (struct) e coordenadas x e y  |
+| Pixel   | Define as informações necessárias para a criação de um pixel de um sprite. Localizado na memória de sprites      | Endereço de memória e cor (struct) |
+| Polígono   | Agrupa as informações necessárias para a exibição de um polígono   | Coordenadas x e y, camada, tamanho, forma (triângulo ou quadrado e cor (struct) |
 
 
-> COORDENADAS DE SPRITES vs COORDENADAS DE BLOCOS DE BACKGROUND
-> As coordenadas de sprites são relativs a disposição dos pixels na tela (640x480).
-> Já as coordenadas dos blocos de blackground são relativas à disposião dos blocos de tamanho 8x8 (totalizand 80x60 blocos).
+<blockquote>
+
+**NOTE**
+
+As coordenadas de sprites são relativas a disposição dos pixels na tela (640x480). Já as coordenadas dos blocos de blackground são relativas à disposição dos blocos de tamanho 8x8 pixels (totalizando 80x60 blocos). Cada bloco possui um endereço na memória 
+</blockquote>
 
 </details>
-</p>
-Utilizando da função write do char drive da GPU foi possível implementar as seguintes funções:
-<ul>
-	<li>escrita ou alteração de um pixel na memória de sprite</li>
-	<li>alteração da cor do fundo da tela</li>
-	<li>alteração de um bloco do fundo</li>
-	<li>inserção de um sprite na tela</li>
-	<li>inserção de um poligno na tela</li>
-</ul>
 
-Escrita ou alteração de um pixel na memória de sprites: 
-Essa função foi implementada através da função assembly WSM que esta inserida na gpu, a mesma possibilita alterar os pixeis dentro da memória de sprite, onde cada instrução possui os seguintes campos
-(imagem dos campos da função WSM)
+<details >
+<summary ><b>Funções</b></summary>
 
-Na biblioteca foi implementada uma função que recebe uma struct pixel, que contem um endereço e um struct cor referente ao endereço do e nova cor do pixel respectivamente assim dispensando a necessidade do programador entender os campos da instrução e enviar apenas o que ele deseja que seja feito, respeitando claro os limites da gpu situados a cima
-
-Alteração da cor de fundo:
-Essa função foi implementada utilizando a instrução WRB onde em uma das suas variantes é possível ser utilizada para alterar a cor do fundo
-
-(imagem da função WRB com os campos para alterar a cor de fundo)
-
-Na biblioteca a função exige que o usuário informe apenas a cor que deseja colocar e o codigo se encarrega de enviar para a gpu o registrador responsável por guarda a cor do fundo.
-
-Alteração de um bloco do fundo:
-Essa função se utiliza da instrução WSM responsável por alterar ou desabilitar um bloco do fundo do background
-O background é dividido em blocos de 8 por 8 pixeis, assim gerando uma tela de 80x60 blocos, onde cada bloco possui um endereço na memória de background.
-A instrução WSM possui os seguintes campos
-(criar uma imagem pra instrução wsm e por aqui)
-
-Usando a biblioteca é necessário apenas informa a coordenada x e y do bloco, além da cor que o bloco tera e a própria função se encarrega de calcular o endereço do bloco e fazer a chamada do método write para o driver, dispensando a necessidade do programador realizar o calculo manual de qual o endereço do bloco e ter que entender quais os campos da instrução.
-
-Inserção de um sprite na tela:
-A gpu CoLenda possui alguns sprites pré-renderizados em sua memória de sprites, assim possibilitando o uso mais eficaz dos recursos, desse modo é possível imprimir um sprite que está na memória na tela.
-A instrução WRB também é utilizada para desenhar sprites na tela, nessa variação ela possui os seguintes campos
-
-(campos da instrução WRB no formato de settar sprites);
-
-A função desenvolvida na biblioteca solicita do usuário apenas uma struct do sprite que o mesmo deseja renderizar, facilitando a manipulação desse sprite além de facilitar e simplificar o código do programador, a biblioteca se encarrega de ler as informações, separar os campos e realizar o envio para o driver.
-
-
-Inserção de um polígono na tela:
-Para desenhar um polígono na tela a gpu conta com uma instrução chamada DP, que tem como único objetivo desenhar quadrados e triângulos na tela e os armazenar na memória de polígonos. Os campos da instrução DP estão informados abaixo
-
-(imagem da instrução DP)
-
-Na biblioteca a função de inserir polígonos recebe como parâmetro apenas uma strutura polígono e faz a identificação dos campos e os devidos deslocamentos para possibilitar seu envio e bom funcionamento no driver
-
-Além dessas funções foram inseridas algumas pseudo instruções que facilitam o desenvolvimento de aplicações para a gpu
-
-	1 → desenhar uma linha na vertical usando blocos do background
-	2 → desenhar uma linha horizontal usando blocos do background
-	3 → desenhar um bloco sem a necessidade de instanciar uma estrutura;
-
-A função de desenhar uma linha na vertical implementa por baixo dos panos a função de alterar um bloco do fundo porém faz várias chamadas a mesma função alterando apenas a coordenada do eixo y.
-Para utilizar essa função o programador deve passar a coordenada inicial x e y, a cor da linha e o tamanho dela. O fluxograma abaixo descreve o fluxo da instrução
-
-(fluxograma da instrução de criar uma linha usando blocos de fundo)
-
-A função de criar uma linha horizontal funciona semelhante a pseudo instrução de criar uma linha vertical com a diferença que dessa vez o eixo que sera incrementado é o eixo x. Os parâmetros são o tamanho da linha, a cor e a coordenada inicial x e y;
-
-(fluxograma da instrução de criar uma linha usando blocos de fundo)
-
-A pseudo instrução de criar um bloco do background surge para dispensar a criação e armazenamento de uma struct para alterar blocos do fundo, basta realizar a chamada da função 
+### Funções 
 	
-Como o drive só aceita chat foram utilizadas variáveis do tipo achar_t que, em resumo, é tipo especial de chat que possui 32 bits nas distribuições Linux, além disso, foi implementada uma função chamada de wchar2char que converte os 2 achar em uma string de 8 char para possibilitar seu envio ao driver, cada char possui 8 bits totalizando os 64 necessários para o envio de cada instrução
+| Função | Argumento | Instrução relacionada |
+|  -----------  | ----------- |---- |
+|Setar pixel | Struct pixel | WSM |
+|Setar cor de fundo | Struct cor | WRB |
+|Setar bloco de fundo | Struct bloco de background | WSM |
+|Setar sprite | Struct sprite | WRB |
+|Setar polígono | Struct polígono | DP |
+	
+</details>
 
-Além disso a biblioteca ainda possui uma função que tem como única responsabilidade escrever no buffer do driver as instruções, abstraindo assim essa funcionalidade;
+<details>
+<summary ><b>Pseudo-instruções</b></summary>
+	
+### Pseudo-instruções 
+	
+| Função | Descrição | Argumento |
+|  -----------  | ----------- |----------- |
+| Desenhar linha vertical | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada y | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
+| Desenhar linha horizontal | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
+| Desenhar bloco de background | Seta um bloco de background. Dispensa a instância da struct| Coordenadas iniciais x e y, e cor (struct)|
+| Clear | Reseta a tela| - |
 
 
+</details>
 
-A biblioteca também implementou recursos para validação dos valores inseridos pelo usuário, pois como as instruções trabalhavam com tamanhos e valor distintos foi imprescindível a existência de recursos para validar essas informações. No momento que é detectado um valor que esta a cima do que é possível representar ou que é negativo, é realizada uma interrupção no algoritmo e um erro é retornado ao usuário, para o que o mesmo trate.
+<details >
+<summary><b>Funções internas  auxiliares</b></summary>
+
+### Funções internas auxiliares
+
+- função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
+- b
+- c
+
+</details>
+
+<details >
+<summary ><b>Validação de valores</b></summary>
+
+###  Validação de valores
+
+A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  
 
 (mostrar os trechos de validação das informações)
+</details>	
 
-Além disso, a biblioteca implementou algumas definições que visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço que determinado sprite esta localizado.
+## Exemplos
+Apesar do número limitado de elementos disponibilizados pelo processador gráfico, uma vasta gama de imagens podem ser renderizadas. Um exemplo de imagem que pode ser criada
+é mostrada na figura 4 na qual foram utilizados todos os recursos do hardware:
+- polígonos: usados para desenhar os botões direitos do gameboy
+- cor de background: definido para branco
+- blocos de background: usados para desenhar o corpo, a tela e os botões esquerdos do gameboy
+- sprites: usados para criar o cenário na tela do gameboy
 
-(colocar os defines)
+As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento da imagem. O código para a renderização da imagem encontra-se [aqui](source/Lib/gameboy_example.c).
 
-</p>
+<div align="center">
+  <figure>  
+    <img src="docs/images/gameboy.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 4</b> - Imagem exibida no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
 
-## Produto e testes realizados
+>[!TIP]
+> Loops e alteração da posição dos elementos podem ser usadas para criar imagens dinâmicas!
+
+## Testes
+
+
+<details >
+<summary><b>Testes isolados</b></summary>
+
+ 
+</details>
+
 ## Conclusão
 ## Referências
 
