@@ -21,6 +21,7 @@
 
 <details>
 <summary> <h3 style="font-weight: bold">Requisitos</h3></summary>
+	
 A solução deve atender às condições e aos requisitos predeterminados, de modo que:
 - o código deve ser escrito na linguagem C
 - a biblioteca deve conter, no mínimo, uma função para cada instrução do processador gráfico
