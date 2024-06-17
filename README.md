@@ -1,30 +1,13 @@
 <h1 align="center"><i>Driver CoLenda</i></h1>
 
-<h3 align="center">Desenvolvimento de um <i>driver</i> para o dispositivo gráfico CoLenda</h3>
+<h3 align="center">Um módulo de kernel Linux para a comunicação com o dispositivo gráfico CoLenda</h3>
 
+<div align="center">
+	
+[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) • [Lib](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
+	
 
-<details open>
-<summary><h2>Sumário</h2></summary>
-
-  - [Sobre o projeto](README.md#sobre-o-projeto)
-  - [Softwares utilizados](README.md#softwares-utilizados)
-  - [Kit de desenvolvimento DE1-SoC](README.md#kit-de-desenvolvimento-de1-soc)
-  - [O processador gráfico](README.md#processador-gráfico)
-  - [Solução geral](README.md#solução-geral)
-  - [Driver CoLenda](README.md#driver-colenda-1)
-  - [Biblioteca CoLenda](README.md#biblioteca-colenda)
-  - [Produto e testes realizados](README.md#produto-e-testes-realizados)
-  - [Conclusão](README.md#conclusão)
-  - [Referências](README.md#referências)
-
-</details>
-
-
-## Contribuidores
-
-<a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50"></a>
-<a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
-<a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
+</div>
 
 ## Sobre o projeto
 
@@ -37,7 +20,45 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 </details>
 
+## Contribuidores
+
+<a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50"></a>
+<a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
+<a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
+
+
+## Instalação
+<details>
+<summary><b>Requisitos</b></summary>
+
+- Possuir conexão com internet;
+- Possuir o compilador gcc;
+- Possuir o git instalado;
+- Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
+- Possuir o processador gráfico CoLenda na FPGA
+- Possuir um monitor conectado à placa por meio da saída VGA
+
+</details>
+
+### 1. Clonar o repositório
+Abra o terminal do seu dispositivo e execute o seguinte comando:
+```
+git clone https://github.com/camilaqPereira/coLenda_driver.git
+```
+### 2.Acessar a pasta */source/driver* e compilar o driver
+Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
+```
+cd /source/driver
+make all
+```
+### 3. Executar o script de carregamento do driver
+Execute o comando:
+```
+sudo ...
+```
+
 ## Softwares utilizados
+
 <details>
 <summary> <b>Linguagem C</b> </summary>
 
