@@ -37,7 +37,7 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 ## Instalação
 <details>
-<summary><h3 style="font-weight: bold">Requisitos</h3></summary>
+<summary><h3>Requisitos</h3></summary>
 
 - Possuir conexão com internet;
 - Possuir instalado o compilador gcc;
@@ -171,6 +171,7 @@ Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para
 <details >
 <summary><b>Constantes de sprite</b></summary>
 
+### Constantes de sprite
 As constantes de sprite implementadas visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço em que um sprite específico está localizado.
 
 (colocar os defines)
@@ -202,6 +203,8 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 
 <details >
 <summary ><b>Funções</b></summary>
+
+### Funções 
 	
 | Função | Argumento | Instrução relacionada |
 |  -----------  | ----------- |---- |
@@ -215,7 +218,9 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 
 <details>
 <summary ><b>Pseudo-instruções</b></summary>
-
+	
+### Pseudo-instruções 
+	
 | Função | Descrição | Argumento |
 |  -----------  | ----------- |----------- |
 | Desenhar linha vertical | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada y | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
@@ -228,7 +233,9 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 
 <details >
 <summary><b>Funções internas  auxiliares</b></summary>
-	
+
+### Funções internas auxiliares
+
 - função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
 - b
 - c
@@ -238,13 +245,42 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 <details >
 <summary ><b>Validação de valores</b></summary>
 
+###  Validação de valores
+
 A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  
 
 (mostrar os trechos de validação das informações)
 </details>	
 
 
-## Produto e testes realizados
+## Validação do produto e testes
+
+A fim de validar os módulos desenvolvidos, uma imagem foi selecionada para ser criada e exibida no monitor acoplado à placa DE1-SoC.
+A imagem (figura 4) contém todos os elementos disponibilizados pelo processador gráfico:
+- polígonos: usados para desenhar os botões direitos do gameboy
+- cor de background: definido para branco
+- blocos de background: usados para desenhar o corpo, a tela e os botões esquerdos do gameboy
+- sprites: usados para criar o cenário na tela do gameboy
+- 
+>[!NOTE]
+> As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/gameboy.jpg">
+    <figcaption>
+      <p align="center"><b>Figura 4</b> - Imagem exibida no monitor</p>
+      <p align="center">Fonte:Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+
+<details >
+<summary><b>Testes isolados</b></summary>
+
+ 
+</details>
+
 ## Conclusão
 ## Referências
 
