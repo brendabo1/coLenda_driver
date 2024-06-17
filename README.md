@@ -21,14 +21,50 @@
 
 
 ## Contribuidores
-<div style="display:grid;justify-content:center;grid-template-columns: auto auto auto;grid-column-gap:40px;">
-<a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50" style="border-radius:50%;border:1px solid black"></a>
-<a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50" style="border-radius:50%; border:1px solid black"></a>
-<a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50" style="border-radius:50%; border:1px solid black"></a>
-</div>
+
+<a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50"></a>
+<a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
+<a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
 
 ## Sobre o projeto
+
+<details>
+<summary> <h3 style="font-weight: bold">Requisitos</h3></summary>
+A solução deve atender às condições e aos requisitos predeterminados, de modo que:
+- o código deve ser escrito na linguagem C
+- a biblioteca deve conter, no mínimo, uma função para cada instrução do processador gráfico
+- a biblioteca deve seguir as recomendações descritas em [C coding style por Tilen Majerle](https://github.com/MaJerle/c-code-style)
+
+</details>
+
 ## Softwares utilizados
+<details>
+<summary> <b>Linguagem C</b> </summary>
+
+### Linguagem C
+
+É uma linguagem de programação de propósito geral que combina abstrações e controles de baixo nível sobre o hardware resultando em ganho de eficiência. O software criado em 1970 por Dennis Ritchie é estreitamente associada ao sistema operacional UNIX, uma vez que as versões desse sistema foram escritas em linguagem C. Além disso, a sintaxe simples e a alta portabilidade desta linguagem entre dispositivos contribui para seu amplo uso em sistemas embarcados de recursos limitados.
+
+</details>
+
+<details>
+<summary> <b>Compilador GNU</b> </summary>
+
+### Compilador GNU
+
+O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um conjunto de compiladores de código aberto desenvolvido pelo Projeto GNU que oferecem suporte a uma gama de linguagens de programação, incluindo C, C++, Fortran, Ada e Go. Esta ferramenta otimiza a compilação, ou seja a produção de código de máquina, nas várias linguagens e arquiteturas de processadores suportadas.
+
+</details>
+<details>
+
+<summary> <b>VS Code</b> </summary>
+
+### VS Code
+
+O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a várias linguagens de programação, incluindo Python, Java, C, C++ e JavaScript. A ferramenta desenvolvida pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque de erros, sugestões, personalização dentre outros para auxiliar a codificação.
+
+</details>
+
 ## Kit de desenvolvimento DE1-SoC
 ## Processador gráfico
 ## Solução geral
