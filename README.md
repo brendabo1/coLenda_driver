@@ -72,22 +72,61 @@ O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a v
 ## Biblioteca CoLenda
 <p>
 A biblioteca foi desenvolvida com a intenção de facilitar a interação do usuário com o driver do dispositivo gráfico, assim a biblioteca dispõem de estruturas e funções para facilitar o uso da GPU.
-A biblioteca possuí algumas estruturas:
-	1 → cores
-	2 → sprites
-	3 → blocos do background
-	4 → pixel na memória de sprites
-	5 → polígonos
+A biblioteca possuí algumas estruturas: </p>
+
+<ul>
+	<li>cores</li>
+	<li>sprites</li>
+	<li>blocos do background</li>
+	<li>pixel na memória de sprites</li>
+	<li>polígonos</li>
+</ul>
 Cada uma dessas estruturas servem para organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na gpu
 
-(explicar os campos das estruturas e colocar uma imagem delas)
+<h3 id="structCores">Struct Cores</h3>
+<p>
+A estrutura cores serve para definir os campos que uma cor deve possuir, que sao os valores referente a vermelho, verde e azul.
+Essa estrutura foi utilizada nas demais estruturas que tinham a necessidade de um campo de cor, como bloco de background.
 
-Utilizando da função write do char drive da GPU foi possível implementar as seguintes funções:	
-	1→ escrita ou alteração de um pixel na memória de sprite
-	2 → alteração da cor do fundo da tela
-	3 → alteração de um bloco do fundo
-	4 → inserção de um sprite na tela
-	5 → inserção de um poligno na tela
+(imagem da struct)
+</p>
+
+<h3 id="structSprites">Struct Sprites</h3>
+
+<p>
+    A estrutura sprites serve para definir os campos que um sprite deve possuir, que são as coordenadas x e y, o offset que é o campo referente ao sprite que será exibido, o endereço do registrador que é referente a qual espaço na memoria o sprite irá ocupar e assim, quando for necessario alterar algum aspecto deste sprite, basta alterar o sprite armazenado nesta determinada posição de memoria e por ultimo sua visibilidade sendo 1 pra informa que o sprite será exibido e 0 para informa que o sprite não sera exibido.
+
+    (imagem da struct)
+</p>
+
+<h3 id="structBgBlock">Struct Blocos de Background</h3>
+
+<p>
+    A estrutura de blocos de background reune as 2 informações principais necessarias do programador, a cor do bloco e qual a coordena x e y do bloco. A cor foi implementada utilizando a struct e as coordenadas x e y levam em conta a disposição dos blocos (80x60)e não dos pixels em si (640x480).
+
+    (imagem da struct)
+</p>
+
+
+<h3 id="structPixel">Struct de um pixel na memoria</h3>
+<p>Essa estrutura contem os campos necessarios para a criação de um pixel de um sprite, assim, a struct possui os campos de endereço de memoria que é referente a um endereço de memoria informado pelo usuario e um campo refenrete a cor desse pixel
+
+(imagem da struct)
+
+</p>
+
+<h3 id="structPolygon">Struct Polígono</h3>
+<p>
+Essa Struct é utilizada para organizar os campos de um polígono sendo eles, coordenada x e y, endereço do polígono que é o campo referente a camada onde o polígono será exibido, tamanho, forma sendo 1 para triangulo e zero para quadrado e por ultimo cor
+</p>
+Utilizando da função write do char drive da GPU foi possível implementar as seguintes funções:
+<ul>
+	<li>escrita ou alteração de um pixel na memória de sprite</li>
+	<li>alteração da cor do fundo da tela</li>
+	<li>alteração de um bloco do fundo</li>
+	<li>inserção de um sprite na tela</li>
+	<li>inserção de um poligno na tela</li>
+</ul>
 
 Escrita ou alteração de um pixel na memória de sprites: 
 Essa função foi implementada através da função assembly WSM que esta inserida na gpu, a mesma possibilita alterar os pixeis dentro da memória de sprite, onde cada instrução possui os seguintes campos
