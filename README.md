@@ -171,6 +171,21 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 </details>
 
 ## Processador gráfico
+
+Foi utilizada a GPU CoLenda que esta localizada na parte da FPGA disponivel na placa DE1-SoC. Esta placa de video foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte do seu projeto de TCC.  A GPU conta com um conjunto de Instruções que permitem alterar a cor do fundo, alterar blocos de background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios.
+
+(tabela de instruções)
+
+a comunicação com a gpu é feita através dos dois barramentos de dados que a mesma possui, sendo o data A para acesso à memória, códigos de operações e registradores e o barramento data B para os demais dados.
+
+Alem disso a GPU retorna quando a fila de instruções está cheia e quando uma tela foi, por fim, renderizada.
+
+Abaixo segue o diagrama da GPU utilizada
+
+<img src="docs/images/diagrama_gpu.png" height=400 width=400>
+<p><b>Figura 3</b> - Diagrama interno da GPU</p>
+<p>Fonte: TCC Gabriel Barreto</p>
+
 ## Solução geral
 
 <div align="center">
