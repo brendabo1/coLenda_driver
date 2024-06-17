@@ -254,7 +254,37 @@ Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para
 ### Constantes de sprite
 As constantes de sprite implementadas visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço em que um sprite específico está localizado.
 
-(colocar os defines)
+| Define    | Valor    | sprite associado
+|-----------|----------|-------------------
+| ORANGE_BLOCK  | 0     | bloco laranja
+| BLUE_BLOCK  	| 1     | bloco azul
+| MEDAL			| 2		| medalha
+| BOMB 			| 3		| bomba
+| TREE			| 4 	| arvore
+| SHIP_UP 		| 5 	| nave virada para cima
+| SHIP_RIGTH 	| 6 	| nave virada para direita
+| SHIP_DOWN		| 7		| nave virada para baixo
+| SHIP_LEFT		| 8 	| nave virada para esquerda
+| COIN			| 9		| meoda
+| DIAMOND		| 10	| diamante
+| LASER_VERTICAL| 11 	| laser na vertical
+| LASER_DIAGONAL1| 12 	| laser na diagonal principal
+| LASER_HORIZONTAL| 13 	| laser na horizontal
+| LASER_DIAGONAL2| 14 	| laser na diagonal secundária
+| HEART			| 15	| coração azul
+| LOG			| 16	| tronco de arvore
+| BLUE_CAR		| 17	| carro de corrida azul
+| GREEN_CAR		| 18	| carro de corrida verde
+| PURPLE_CAR	| 19	| carro de corrida roxo
+| YELLOW_CAR	| 20	| carro de corrida amarelo
+| ALIEN1		| 21	| alien do space invaders
+| ALIEN2		| 22	| alien do space invaders
+| DRAGON		| 23	| pedra
+| CUP			| 24	| troféu
+
+a baixo segue as imagens dos sprites que estão na memporia
+
+<img src="docs/images/sprites.png" style="">
 
 </details>
 
@@ -286,13 +316,13 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 
 ### Funções 
 	
-| Função | Argumento | Instrução relacionada |
-|  -----------  | ----------- |---- |
-|Setar pixel | Struct pixel | WSM |
-|Setar cor de fundo | Struct cor | WRB |
-|Setar bloco de fundo | Struct bloco de background | WSM |
-|Setar sprite | Struct sprite | WRB |
-|Setar polígono | Struct polígono | DP |
+|      Função          |          Argumento         | Instrução relacionada |
+|     -----------      |        -----------         |           ----        |
+|   Setar pixel        |         Struct pixel       |           WSM         |
+|  Setar cor de fundo  |         Struct cor         |           WRB         |
+| Setar bloco de fundo | Struct bloco de background |           WSM         |
+|    Setar sprite      |       Struct sprite        |           WRB         |
+|    Setar polígono    |      Struct polígono       |           DP          |
 	
 </details>
 
@@ -304,7 +334,7 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 | Função | Descrição | Argumento |
 |  -----------  | ----------- |----------- |
 | Desenhar linha vertical | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada y | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
-| Desenhar linha horizontal | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
+| Desenhar linha horizontal | Desenha uma linha horizontal utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
 | Desenhar bloco de background | Seta um bloco de background. Dispensa a instância da struct| Coordenadas iniciais x e y, e cor (struct)|
 | Clear | Reseta a tela| - |
 
@@ -317,8 +347,7 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 ### Funções internas auxiliares
 
 - função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
-- b
-- c
+- função que converte 2 wchar_t para uma string de 8 char
 
 </details>
 
