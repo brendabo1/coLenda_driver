@@ -95,12 +95,6 @@ O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a v
 </details>
 
 ## Kit de desenvolvimento DE1-SoC
-
-<details>
-<summary><b>Visão geral da DE1-SoC</b></summary>
-
-### Visão geral da DE1-SoC
-
 Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no mesmo Cyclone® V da Intel®, sistema em chip (SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso ao sistema operacional Linux embarcado na placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e computador *host*.
 
 <div align="center">
@@ -112,9 +106,6 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
     </figcaption>
   </figure>
 </div>
-
-</details>
-
 <details>
 <summary><b>Sistema computacional DE1-SoC</b></summary>
 
@@ -141,43 +132,56 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 ## Solução geral
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o harware é esquematizado na figura 3.
-<div align="center">
-  <figure>  
-    <img src="docs/images/solucao_geral.png"">
-    <figcaption>
-      <p align="center"><b>Figura 3</b> - Esquema em blocos da solução geral </p>
-      <p align="center">Fonte:Elaboração própria</p>
-    </figcaption>
-  </figure>
-</div>
-
-A aplicação do usuário instancia as estruturas disponibilizadas pela biblioteca CoLenda, assim como realiza a chamada das funções disponíveis. Por sua vez, a biblioteca gerencia as chamadas de sistema necessárias durante a comunicação com o driver e converte as solicitações do usuário em um formato compreensivel pelo driver. Por fim, o driver comunica-se diretamente com barramento de dados do hardware.
 ## Driver CoLenda
 ## Biblioteca CoLenda
-A biblioteca desenvolvida facilita a interação do usuário com o driver do dispositivo gráfico, dispondo de estruturas e funções que provem uma abstração para o uso da GPU.
+<p>
+A biblioteca foi desenvolvida com a intenção de facilitar a interação do usuário com o driver do dispositivo gráfico, assim a biblioteca dispõem de estruturas e funções para facilitar o uso da GPU.
+A biblioteca possuí algumas estruturas: </p>
 
-<details>
-<summary><b>Structs</b></summary>
+<ul>
+	<li>cores</li>
+	<li>sprites</li>
+	<li>blocos do background</li>
+	<li>pixel na memória de sprites</li>
+	<li>polígonos</li>
+</ul>
+Cada uma dessas estruturas servem para organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na gpu
 
-### Structs
+<h3 id="structCores">Struct Cores</h3>
+<p>
+A estrutura cores serve para definir os campos que uma cor deve possuir, que sao os valores referente a vermelho, verde e azul.
+Essa estrutura foi utilizada nas demais estruturas que tinham a necessidade de um campo de cor, como bloco de background.
 
-A biblioteca disponibiliza diversas estruturas a fim de organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na GPU. A tabela abaixo lista estas structs, bem como suas finalidades específicas e atributos
+(imagem da struct)
+</p>
 
-| Struct      | Descrição | Atributos |
-| ---- | ----------- | ----------- |
-| Cor      | Define os campos que uma cor deve possuir. Utilizada nas demais estruturas que necessitam de um campo de cor| Vermelho, verde e azul |
-| Sprite   | Define as informações de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
-| Bloco de background   | Agrupa as informações de um bloco de blockground | Cor (struct) e coordenadas x e y  |
-| Pixel   | Define as informações necessarias para a criação de um pixel de um sprite. Localizados na memória de sprites      | Endereço de memória e cor (struct) |
-| Polígono   | Organiza as informações de um polígono   | Coordenadas x e y, camada, tamanho, forma (triângulo ou quadrado e cr (struct) |
+<h3 id="structSprites">Struct Sprites</h3>
+
+<p>
+    A estrutura sprites serve para definir os campos que um sprite deve possuir, que são as coordenadas x e y, o offset que é o campo referente ao sprite que será exibido, o endereço do registrador que é referente a qual espaço na memoria o sprite irá ocupar e assim, quando for necessario alterar algum aspecto deste sprite, basta alterar o sprite armazenado nesta determinada posição de memoria e por ultimo sua visibilidade sendo 1 pra informa que o sprite será exibido e 0 para informa que o sprite não sera exibido.
+
+    (imagem da struct)
+</p>
+
+<h3 id="structBgBlock">Struct Blocos de Background</h3>
+
+<p>
+    A estrutura de blocos de background reune as 2 informações principais necessarias do programador, a cor do bloco e qual a coordena x e y do bloco. A cor foi implementada utilizando a struct e as coordenadas x e y levam em conta a disposição dos blocos (80x60)e não dos pixels em si (640x480).
+
+    (imagem da struct)
+</p>
 
 
-> COORDENADAS DE SPRITES vs COORDENADAS DE BLOCOS DE BACKGROUND
-> As coordenadas de sprites são relativs a disposição dos pixels na tela (640x480).
-> Já as coordenadas dos blocos de blackground são relativas à disposião dos blocos de tamanho 8x8 (totalizand 80x60 blocos).
+<h3 id="structPixel">Struct de um pixel na memoria</h3>
+<p>Essa estrutura contem os campos necessarios para a criação de um pixel de um sprite, assim, a struct possui os campos de endereço de memoria que é referente a um endereço de memoria informado pelo usuario e um campo refenrete a cor desse pixel
 
-</details>
+(imagem da struct)
+
+</p>
+
+<h3 id="structPolygon">Struct Polígono</h3>
+<p>
+Essa Struct é utilizada para organizar os campos de um polígono sendo eles, coordenada x e y, endereço do polígono que é o campo referente a camada onde o polígono será exibido, tamanho, forma sendo 1 para triangulo e zero para quadrado e por ultimo cor
 </p>
 Utilizando da função write do char drive da GPU foi possível implementar as seguintes funções:
 <ul>
