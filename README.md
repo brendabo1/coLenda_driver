@@ -2,8 +2,8 @@
 
 <h3 align="center">Comunicação com o dispositivo gráfico CoLenda</h3>
 
-<p align="center">O Driver CoLenda é um simples driver de caractere que realiza a comunicação entre o processador de propósito geral e o hardware. A biblioteca inclusa abstrai a
-comunicação entre aplicações de usuário e o driver</p>
+<p align="center">O Driver CoLenda é um driver de caractere simples e eficiente que realiza a comunicação entre o processador de
+	propósito geral e o hardware. A biblioteca inclusa abstrai a comunicação entre aplicações de usuário e o driver</p>
 
 <h4 align="center">
 <a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
@@ -79,18 +79,21 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 </details>
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 Abra o terminal do seu dispositivo e execute o seguinte comando:
 ```
 git clone https://github.com/camilaqPereira/coLenda_driver.git
 ```
-### 2.Acessar a pasta */source/driver* e compilar o driver
+#### 2.Acessar a pasta */source/driver* e compilar o driver
 Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
 ```
 cd /source/driver
+```
+
+```
 make all
 ```
-### 3. Executar o script de carregamento do driver
+#### 3. Executar o script de carregamento do driver
 Execute o comando:
 ```
 sudo ...
@@ -172,19 +175,18 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 
-Foi utilizada a GPU CoLenda que esta localizada na parte da FPGA disponivel na placa DE1-SoC. Esta placa de video foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte do seu projeto de TCC.  A GPU conta com um conjunto de Instruções que permitem alterar a cor do fundo, alterar blocos de background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios.
+<details>
+	<summary><b>Instruções</b></summary>
 
-(tabela de instruções)
+ ### Instruções
+|       Sigla         |            Instrução                      |
+|        ---          |              -----------                  |
+|        WBR          |        Escrita no banco de registradores  |
+|        WSM          |        Escrita na memória de sprites      |
+|        WBM          |        Escrita na memória de backgroung   | 
+|        DP           |        Definição de um polígono           |
 
-a comunicação com a gpu é feita através dos dois barramentos de dados que a mesma possui, sendo o data A para acesso à memória, códigos de operações e registradores e o barramento data B para os demais dados.
-
-Alem disso a GPU retorna quando a fila de instruções está cheia e quando uma tela foi, por fim, renderizada.
-
-Abaixo segue o diagrama da GPU utilizada
-
-<img src="docs/images/diagrama_gpu.png" height=400 width=400>
-<p><b>Figura 3</b> - Diagrama interno da GPU</p>
-<p>Fonte: TCC Gabriel Barreto</p>
+</details>
 
 ## Solução geral
 
@@ -197,22 +199,23 @@ Abaixo segue o diagrama da GPU utilizada
     </figcaption>
   </figure>
 </div>
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware
-é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e
-funções, gerencia os dados doselementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações
-recebidas para o stream de bit compreensível pelo driver.
+O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a
+aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do
+usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e funções, gerencia os dados
+dos elementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
-Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as instruções recebidas da biblioteca.
+Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema
+necessárias e a conversão das solicitações recebidas para o stream de bit compreensível pelo driver.
+Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as
+instruções recebidas da biblioteca.
+
+
 ## Driver CoLenda
 
-A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais como a arquitetura do sistema operacional linux, que serão explicitado a seguir
-
-### Arquitetura do Sistema Operacional Linux
-
 Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo ou modo kernel e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
-A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
+A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações.
+
 <div align="center">
   <figure>  
     <img src="docs/images/arquitetura-so.jpg">
@@ -223,14 +226,9 @@ A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o es
   </figure>
 </div>
 
-### Mapeamento de Memória
-
-### Driver do Dispositivo
-Os <i>drivers</i> são
-
 <div align="center">
   <figure>  
-    <img src="docs/images/driver-abstraction.png">
+    <img src="docs/images/kernel-file-abstraction.png">
     <figcaption>
       <p align="center"><b>Figura 5</b> - Esquema em blocos d (adaptado)</p>
       <p align="center">Fonte:</p>
@@ -239,8 +237,10 @@ Os <i>drivers</i> são
 </div>
 
 ## Biblioteca CoLenda
-A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o módulo kernel do hardware.
-Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
+
+A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o 
+módulo kernel do hardware. Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a
+serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
 > [!NOTE]
 > Os sprites disponíveis para seleção estão salvos em hardware no processador gráfico.
 > Nenhum deles foi criado pela biblioteca
@@ -265,7 +265,7 @@ As constantes de sprite implementadas visam facilitar a escolha do sprite, pois 
 | SHIP_RIGTH 	| 6 	| nave virada para direita
 | SHIP_DOWN		| 7		| nave virada para baixo
 | SHIP_LEFT		| 8 	| nave virada para esquerda
-| COIN			| 9		| meoda
+| COIN			| 9		| moeda
 | DIAMOND		| 10	| diamante
 | LASER_VERTICAL| 11 	| laser na vertical
 | LASER_DIAGONAL1| 12 	| laser na diagonal principal
@@ -338,7 +338,6 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 | Desenhar bloco de background | Seta um bloco de background. Dispensa a instância da struct| Coordenadas iniciais x e y, e cor (struct)|
 | Clear | Reseta a tela| - |
 
-
 </details>
 
 <details >
@@ -347,18 +346,17 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 ### Funções internas auxiliares
 
 - função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
-- função que converte 2 wchar_t para uma string de 8 char
+- função para transformar 2 wchar_t em uma string de 8 char
 
 </details>
 
 <details >
 <summary ><b>Validação de valores</b></summary>
 
-###  Validação de valores
+###  Validação de valores e tratamento de erros
 
-A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  
+A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  e exibe no terminal o erro uma mensagem referente ao erro ocorrido
 
-(mostrar os trechos de validação das informações)
 </details>	
 
 ## Exemplos
@@ -384,16 +382,110 @@ As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento d
 >[!TIP]
 > Loops e alteração da posição dos elementos podem ser usadas para criar imagens dinâmicas!
 
+> [!TIP]
+> Como a GPU aceita cores no formato RGB de 9 bits, utilize a tabela de cores disponível
+> [aqui](arquivos_complementares/9-bit-rgb-palette.html) para falicitar a seleção das cores a serem usadas na sua imagem.
+
 ## Testes
 
+Testar a exibição dos recursos da GPU no monitor é verificar que a biblioteca CoLenda realiza a montagem correta das instruções a serem
+passadas para o driver, bem como o gerenciamento correto das chamadas de sistema. É verificar também que o módulo kernel CoLenda realiza
+o mapeamento adequado do barramento de dados do harware, assim como o gerenciamento preciso dos sinais de controle do processador para a
+exibição dos elementos na tela.
 
-<details >
-<summary><b>Testes isolados</b></summary>
+Este processo consiste na instanciação das structs dos elementos, chamada das respectivas funções de exibição e conferência dos dados
+obtidos na tela.  
 
+<details>
+	<summary><b>Teste background e polígono</b></summary>
+
+## Teste de background e polígono
+Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo seja definida para branco e um
+triângulo preto de tamanho 20x20 seja exibido na posição (511, 240). Como observa-se na figura 5, os devidos elementos foram setados com as configurações corretas. 
+
+```C
+// inicia a comunicação com o driver
+GPU_open();
+
+//Instanciação de structs
+color_t white = {7,7,7};
+color_t black = {0, 0, 0};
+
+polygon_t black_triangle = {511,240, 0, 1, 1, black};
+
+//seta a cor de fundo do background
+set_background_color(white);
+
+//seta o polígono
+set_polygon(black_triangle);
+
+//encerra a comunicação com o driver
+GPU_close();
+```
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/poligono_limite.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 5</b> - Resultado do teste no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+
+<blockquote>
+
+**WARNING**
+
+O tamanho do campo coordenada x da instrução DP (9 bits) restringe as posições que os polígonos
+podem ocupar. O triânguloda figura 5 ilustra a posição limite, no eixo x, que os polígonos podem 
+ocupar. 
+
+</blockquote>
  
 </details>
 
+<details>
+<summary><b>Teste posição limite inferior ds polígonos</b></summary>
+Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
+(10, 10). Como observa-se na figura 6, o 
+triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
+Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/triangulo_bug.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 6</b> - Resultado do teste com triângulo no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/quadrado_bug.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 7</b> - Resultado do teste com quadrado no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+	
+</details>
+
+
+<details>
+<summary><b>Teste com blocos de background</b></summary>
+
+*** Teste com blocos de background
+Neste caso, o trecho de código abaixo foi utilizado para testas os limites de representação dos blocos de background. Como resultado, esperava-se que um erro oco. Como observa-se na figura 6, o 
+triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
+
+
+</details>
 ## Conclusão
+
+
 ## Referências
 TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 2 maio. 2024.
-
