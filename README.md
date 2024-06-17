@@ -12,7 +12,7 @@
 
 <div align="center">
 	
-[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) • [Lib](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
+[Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) • [Biblioteca](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
 	
 
 </div>
@@ -35,14 +35,13 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
 <a href="https://github.com/DestinyWolf"><img src="https://avatars.githubusercontent.com/u/64764136?v=4" title="DestinyWolf" width="50" height="50"></a>
 
-
 ## Instalação
 <details>
-<summary><h3 style="fot-weight:bold">Requisitos</h3></summary>
+<summary><h3 style="font-weight: bold">Requisitos</h3></summary>
 
 - Possuir conexão com internet;
-- Possuir o compilador gcc;
-- Possuir o git instalado;
+- Possuir instalado o compilador gcc;
+- Possuir instalado o Git ;
 - Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
 - Possuir o processador gráfico CoLenda na FPGA
 - Possuir um monitor conectado à placa por meio da saída VGA
@@ -142,10 +141,10 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 ## Solução geral
-O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o harware é esquematizado na figura 3.
+O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 3.
 <div align="center">
   <figure>  
-    <img src="docs/images/solucao_geral.png"">
+    <img src="docs/images/solucao_geral.png">
     <figcaption>
       <p align="center"><b>Figura 3</b> - Esquema em blocos da solução geral </p>
       <p align="center">Fonte:Elaboração própria</p>
@@ -153,22 +152,29 @@ O produto desenvolvido implementa a intercomunicação entre o software e o disp
   </figure>
 </div>
 
-A aplicação do usuário instancia as estruturas disponibilizadas pela biblioteca CoLenda, assim como realiza a chamada das funções disponíveis. Por sua vez, a biblioteca gerencia as chamadas de sistema necessárias durante a comunicação com o driver e converte as solicitações do usuário em um formato compreensivel pelo driver. Por fim, o driver comunica-se diretamente com barramento de dados do hardware.
+O fluxo de comunicação inicia-se com a aplicação do usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e funções, gerencia os dados dos elementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
+
+Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema necessárias e a conversão das solicitações recebidas para o stream de bit compreensível pelo driver.
+
+Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as instruções recebidas da biblioteca.
 ## Driver CoLenda
 ## Biblioteca CoLenda
-A biblioteca desenvolvida facilita a interação do usuário com o driver do dispositivo gráfico, dispondo de estruturas e funções que provem uma abstração para o uso da GPU.
+A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o módulo kernel do hardware.
+Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
+> [!NOTE]
+> Os sprites disponíveis para seleção estão salvos em hardware no processador gráfico.
+> Nenhum deles foi criado pela biblioteca
+
 
 <details>
 <summary><b>Structs</b></summary>
 
 ### Structs
 
-A biblioteca disponibiliza diversas estruturas a fim de organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na GPU. A tabela abaixo lista estas structs, bem como suas finalidades específicas e atributos
-
 | Struct      | Descrição | Atributos |
 | ---- | ----------- | ----------- |
 | Cor      | Define os campos que uma cor deve possuir. Utilizada nas demais estruturas que necessitam de um campo de cor| Vermelho, verde e azul |
-| Sprite   | Define as informações de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
+| Sprite   | Define os dados necessários para a exibição de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
 | Bloco de background   | Agrupa as informações de um bloco de blockground | Cor (struct) e coordenadas x e y  |
 | Pixel   | Define as informações necessarias para a criação de um pixel de um sprite. Localizados na memória de sprites      | Endereço de memória e cor (struct) |
 | Polígono   | Organiza as informações de um polígono   | Coordenadas x e y, camada, tamanho, forma (triângulo ou quadrado e cr (struct) |
