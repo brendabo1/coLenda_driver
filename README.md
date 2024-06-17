@@ -6,16 +6,16 @@
 <details open>
 <summary><h2>Sumário</h2></summary>
 
-  - [Sobre o projeto](README.md/sobre-o-projeto)
-  - [Softwares utilizados](README.md/softwares-utilizados)
-  - [Kit de desenvolvimento DE1-SoC](README.md/kit-de-desenvolvimento-de1-soc)
-  - [O processador gráfico](README.md/processador-gráfico)
-  - [Solução geral](README.md/solução-geral)
-  - [Driver CoLenda](README.md/driver-colenda-1)
-  - [Biblioteca CoLenda](README.md/biblioteca-colenda)
-  - [Produto e testes realizados](README.md/produto-e-testes-realizados)
-  - [Conclusão](README.md/conclusão)
-  - [Referências](README.md/referências)
+  - [Sobre o projeto](README.md#sobre-o-projeto)
+  - [Softwares utilizados](README.md#softwares-utilizados)
+  - [Kit de desenvolvimento DE1-SoC](README.md#kit-de-desenvolvimento-de1-soc)
+  - [O processador gráfico](README.md#processador-gráfico)
+  - [Solução geral](README.md#solução-geral)
+  - [Driver CoLenda](README.md#driver-colenda-1)
+  - [Biblioteca CoLenda](README.md#biblioteca-colenda)
+  - [Produto e testes realizados](README.md#produto-e-testes-realizados)
+  - [Conclusão](README.md#conclusão)
+  - [Referências](README.md#referências)
 
 </details>
 
