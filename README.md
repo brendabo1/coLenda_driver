@@ -88,6 +88,9 @@ git clone https://github.com/camilaqPereira/coLenda_driver.git
 Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
 ```
 cd /source/driver
+```
+
+```
 make all
 ```
 #### 3. Executar o script de carregamento do driver
@@ -377,6 +380,8 @@ da figura 5 ilustra a posição limite, no eixo x, que os polígonos podem ocupa
 
 
 ## Conclusão
+
+
 ## Referências
 
 
