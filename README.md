@@ -196,7 +196,32 @@ necessárias e a conversão das solicitações recebidas para o stream de bit co
 Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as
 instruções recebidas da biblioteca.
 
+
 ## Driver CoLenda
+
+Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo ou modo kernel e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
+A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/arquitetura-so.jpg">
+    <figcaption>
+      <p align="center"><b>Figura 4</b> - Esquema em blocos da arquitetura típica de sistemas operacionais (adaptado)</p>
+      <p align="center">Fonte:</p>
+    </figcaption>
+  </figure>
+</div>
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/kernel-file-abstraction.png">
+    <figcaption>
+      <p align="center"><b>Figura 5</b> - Esquema em blocos d (adaptado)</p>
+      <p align="center">Fonte:</p>
+    </figcaption>
+  </figure>
+</div>
+
 ## Biblioteca CoLenda
 
 A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o 
@@ -411,5 +436,4 @@ da figura 5 ilustra a posição limite, no eixo x, que os polígonos podem ocupa
 
 
 ## Referências
-
-
+TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 2 maio. 2024.
