@@ -35,6 +35,95 @@
 <h2 id="solution">Solução geral</h2>
 <h2 id="driver">Driver</h2>
 <h2 id="lib">Biblioteca</h2>
+
+<p>
+A biblioteca foi desenvolvida com a intenção de facilitar a interação do usuário com o driver do dispositivo gráfico, assim a biblioteca dispõem de estruturas e funções para facilitar o uso da GPU.
+A biblioteca possuí algumas estruturas:
+	1 → cores
+	2 → sprites
+	3 → blocos do background
+	4 → pixel na memória de sprites
+	5 → polígonos
+Cada uma dessas estruturas servem para organizar os dados de maneira a facilitar o uso das funções pelo usuário, assim como facilitar a implementação das funções que enviam esses dados para a escrita na gpu
+
+(explicar os campos das estruturas e colocar uma imagem delas)
+
+Utilizando da função write do char drive da GPU foi possível implementar as seguintes funções:	
+	1→ escrita ou alteração de um pixel na memória de sprite
+	2 → alteração da cor do fundo da tela
+	3 → alteração de um bloco do fundo
+	4 → inserção de um sprite na tela
+	5 → inserção de um poligno na tela
+
+Escrita ou alteração de um pixel na memória de sprites: 
+Essa função foi implementada através da função assembly WSM que esta inserida na gpu, a mesma possibilita alterar os pixeis dentro da memória de sprite, onde cada instrução possui os seguintes campos
+(imagem dos campos da função WSM)
+
+Na biblioteca foi implementada uma função que recebe uma struct pixel, que contem um endereço e um struct cor referente ao endereço do e nova cor do pixel respectivamente assim dispensando a necessidade do programador entender os campos da instrução e enviar apenas o que ele deseja que seja feito, respeitando claro os limites da gpu situados a cima
+
+Alteração da cor de fundo:
+Essa função foi implementada utilizando a instrução WRB onde em uma das suas variantes é possível ser utilizada para alterar a cor do fundo
+
+(imagem da função WRB com os campos para alterar a cor de fundo)
+
+Na biblioteca a função exige que o usuário informe apenas a cor que deseja colocar e o codigo se encarrega de enviar para a gpu o registrador responsável por guarda a cor do fundo.
+
+Alteração de um bloco do fundo:
+Essa função se utiliza da instrução WSM responsável por alterar ou desabilitar um bloco do fundo do background
+O background é dividido em blocos de 8 por 8 pixeis, assim gerando uma tela de 80x60 blocos, onde cada bloco possui um endereço na memória de background.
+A instrução WSM possui os seguintes campos
+(criar uma imagem pra instrução wsm e por aqui)
+
+Usando a biblioteca é necessário apenas informa a coordenada x e y do bloco, além da cor que o bloco tera e a própria função se encarrega de calcular o endereço do bloco e fazer a chamada do método write para o driver, dispensando a necessidade do programador realizar o calculo manual de qual o endereço do bloco e ter que entender quais os campos da instrução.
+
+Inserção de um sprite na tela:
+A gpu CoLenda possui alguns sprites pré-renderizados em sua memória de sprites, assim possibilitando o uso mais eficaz dos recursos, desse modo é possível imprimir um sprite que está na memória na tela.
+A instrução WRB também é utilizada para desenhar sprites na tela, nessa variação ela possui os seguintes campos
+
+(campos da instrução WRB no formato de settar sprites);
+
+A função desenvolvida na biblioteca solicita do usuário apenas uma struct do sprite que o mesmo deseja renderizar, facilitando a manipulação desse sprite além de facilitar e simplificar o código do programador, a biblioteca se encarrega de ler as informações, separar os campos e realizar o envio para o driver.
+
+
+Inserção de um polígono na tela:
+Para desenhar um polígono na tela a gpu conta com uma instrução chamada DP, que tem como único objetivo desenhar quadrados e triângulos na tela e os armazenar na memória de polígonos. Os campos da instrução DP estão informados abaixo
+
+(imagem da instrução DP)
+
+Na biblioteca a função de inserir polígonos recebe como parâmetro apenas uma strutura polígono e faz a identificação dos campos e os devidos deslocamentos para possibilitar seu envio e bom funcionamento no driver
+
+Além dessas funções foram inseridas algumas pseudo instruções que facilitam o desenvolvimento de aplicações para a gpu
+
+	1 → desenhar uma linha na vertical usando blocos do background
+	2 → desenhar uma linha horizontal usando blocos do background
+	3 → desenhar um bloco sem a necessidade de instanciar uma estrutura;
+
+A função de desenhar uma linha na vertical implementa por baixo dos panos a função de alterar um bloco do fundo porém faz várias chamadas a mesma função alterando apenas a coordenada do eixo y.
+Para utilizar essa função o programador deve passar a coordenada inicial x e y, a cor da linha e o tamanho dela. O fluxograma abaixo descreve o fluxo da instrução
+
+(fluxograma da instrução de criar uma linha usando blocos de fundo)
+
+A função de criar uma linha horizontal funciona semelhante a pseudo instrução de criar uma linha vertical com a diferença que dessa vez o eixo que sera incrementado é o eixo x. Os parâmetros são o tamanho da linha, a cor e a coordenada inicial x e y;
+
+(fluxograma da instrução de criar uma linha usando blocos de fundo)
+
+A pseudo instrução de criar um bloco do background surge para dispensar a criação e armazenamento de uma struct para alterar blocos do fundo, basta realizar a chamada da função 
+	
+Como o drive só aceita chat foram utilizadas variáveis do tipo achar_t que, em resumo, é tipo especial de chat que possui 32 bits nas distribuições Linux, além disso, foi implementada uma função chamada de wchar2char que converte os 2 achar em uma string de 8 char para possibilitar seu envio ao driver, cada char possui 8 bits totalizando os 64 necessários para o envio de cada instrução
+
+Além disso a biblioteca ainda possui uma função que tem como única responsabilidade escrever no buffer do driver as instruções, abstraindo assim essa funcionalidade;
+
+
+
+A biblioteca também implementou recursos para validação dos valores inseridos pelo usuário, pois como as instruções trabalhavam com tamanhos e valor distintos foi imprescindível a existência de recursos para validar essas informações. No momento que é detectado um valor que esta a cima do que é possível representar ou que é negativo, é realizada uma interrupção no algoritmo e um erro é retornado ao usuário, para o que o mesmo trate.
+
+(mostrar os trechos de validação das informações)
+
+Além disso, a biblioteca implementou algumas definições que visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço que determinado sprite esta localizado.
+
+(colocar os defines)
+
+</p>
 <h2 id="tests">Produto e testes realizados</h2>
 <h2 id="conclusion">Conclusão</h2>
 <h2 id="refs">Referências</h2>
