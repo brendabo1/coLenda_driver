@@ -500,8 +500,9 @@ triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o
 
 
 </details>
-## Conclusão
 
+## Conclusão
+Apos diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória ao que foi proposto. Durante os testes foi notado um possível problema com relação a fila de instrução ficar lotada, para isso foi implementado um delay a cada 12 instruções na biblioteca, como melhoria futura, pode-se implementar alguma alternativa no drive para que não fique tão dependente da biblioteca e consiga por si só, lidar com problemas de mesmo cunho.
 
 ## Referências
 TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 2 maio. 2024.
