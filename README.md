@@ -445,7 +445,45 @@ ocupar.
  
 </details>
 
+<details>
+<summary><b>Teste posição limite inferior ds polígonos</b></summary>
+Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
+(10, 10). Como observa-se na figura 6, o 
+triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
+Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos.
 
+<div align="center">
+  <figure>  
+    <img src="docs/images/triangulo_bug.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 6</b> - Resultado do teste com triângulo no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/quadrado_bug.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 7</b> - Resultado do teste com quadrado no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
+	
+</details>
+
+
+<details>
+<summary><b>Teste com blocos de background</b></summary>
+
+*** Teste com blocos de background
+Neste caso, o trecho de código abaixo foi utilizado para testas os limites de representação dos blocos de background. Como resultado, esperava-se que um erro oco. Como observa-se na figura 6, o 
+triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
+
+
+</details>
 ## Conclusão
 
 
