@@ -174,6 +174,20 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 </details>
 
 ## Processador gráfico
+
+<details>
+	<summary><b>Instruções</b></summary>
+
+ ### Instruções
+|       Sigla         |            Instrução                      |
+|        ---          |              -----------                  |
+|        WBR          |        Escrita no banco de registradores  |
+|        WSM          |        Escrita na memória de sprites      |
+|        WBM          |        Escrita na memória de backgroung   | 
+|        DP           |        Definição de um polígono           |
+
+</details>
+
 ## Solução geral
 
 <div align="center">
@@ -251,7 +265,7 @@ As constantes de sprite implementadas visam facilitar a escolha do sprite, pois 
 | SHIP_RIGTH 	| 6 	| nave virada para direita
 | SHIP_DOWN		| 7		| nave virada para baixo
 | SHIP_LEFT		| 8 	| nave virada para esquerda
-| COIN			| 9		| meoda
+| COIN			| 9		| moeda
 | DIAMOND		| 10	| diamante
 | LASER_VERTICAL| 11 	| laser na vertical
 | LASER_DIAGONAL1| 12 	| laser na diagonal principal
@@ -411,7 +425,7 @@ GPU_close();
 
 <div align="center">
   <figure>  
-    <img src="docs/images/poligono_limite.jpg">
+    <img src="docs/images/poligono_limite.jpg" height="500px">
     <figcaption>
       <p align="center"><b>Figura 5</b> - Resultado do teste no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
@@ -423,13 +437,13 @@ GPU_close();
 
 **WARNING**
 
-O tamanho do campo coordenada x da instrução DP (9 bits) restringe as posições que os polígonos podem ocupar. O triângulo
-da figura 5 ilustra a posição limite, no eixo x, que os polígonos podem ocupar. 
+O tamanho do campo coordenada x da instrução DP (9 bits) restringe as posições que os polígonos
+podem ocupar. O triânguloda figura 5 ilustra a posição limite, no eixo x, que os polígonos podem 
+ocupar. 
 
 </blockquote>
  
 </details>
-
 
 
 ## Conclusão
