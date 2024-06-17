@@ -188,7 +188,7 @@ Foi utilizada a GPU CoLenda que esta localizada na parte da FPGA disponivel na p
 |        WSM          |        Escrita na memória de sprites      |
 |        WBM          |        Escrita na memória de backgroung   | 
 |        DP           |        Definição de um polígono           |
-
+</details>
 a comunicação com a gpu é feita através dos dois barramentos de dados que a mesma possui, sendo o data A para acesso à memória, códigos de operações e registradores e o barramento data B para os demais dados.
 
 Alem disso a GPU retorna quando a fila de instruções está cheia e quando uma tela foi, por fim, renderizada.
@@ -200,7 +200,7 @@ Abaixo segue o diagrama da GPU utilizada
 <p>Fonte: TCC Gabriel Barreto</p>
 
 
-</details>
+
 
 ## Solução geral
 
@@ -299,6 +299,8 @@ As constantes de sprite implementadas visam facilitar a escolha do sprite, pois 
 a baixo segue as imagens dos sprites que estão na memporia
 
 <img src="docs/images/sprites.png" style="">
+<p><b>Figura x</b> - tabela com os sprites pre-renderizados na gpu</p>
+<p>Fonte: Arquivo auxiliar disponibilizado pelos professores</p>
 
 </details>
 
