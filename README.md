@@ -56,23 +56,23 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
  	- [VS Code](#vs-code)
 - [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
 	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
-  	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
+  - [Sistema computacional da placa](#sistema-computacional-de1-soc)
 - [Processador gráfico](#processador-gráfico)
-		- [Instruções](#instruções)
+	- [Instruções](#instruções)
 - [Solução geral](#solução-geral)
 - [Driver CoLenda](#driver-colenda)
 - [Biblioteca CoLenda](#biblioteca-colenda)
 	- [Constantes de sprites](#constantes-de-sprite)
- 	- [Structs](#structs)
-  	- [Funções](#funções)
-  	- [Pseudo-instruções](#pseudo-instruções)
-  	- [Funções internas auxiliares](#funções-internas-auxiliares)
-  	- [Validação de valores](#validação-de-valores)
+	- [Structs](#structs)
+  - [Funções](#funções)
+  - [Pseudo-instruções](#pseudo-instruções)
+  - [Funções internas auxiliares](#funções-internas-auxiliares)
+  - [Validação de valores](#validação-de-valores)
 - [Exemplos](#exemplos)
 - [Testes](#testes)
-		- [Teste de background e limite máximo de posição de polígonos](#teste-de-background-e-limite-máximo-de-posição-de-polígonos)
-		- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
-		- [Teste com blocos de background](#teste-com-blocos-de-background)
+	- [Teste de background e limite máximo de posição de polígonos](#teste-de-background-e-limite-máximo-de-posição-de-polígonos)
+	- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
+	- [Teste com blocos de background](#teste-com-blocos-de-background)
 - [Conclusão](#conclusão)
 - [Referências](#referências)
  
@@ -105,12 +105,28 @@ cd /source/driver
 ```
 make all
 ```
-#### 3. Executar o script de carregamento do driver
+#### 3. Carregar o módulo kernel
 Execute o comando:
 ```
-sudo ...
+sudo su
+insmod colenda_driver.ko
 ```
-
+### 4. Buscar o valor major alocado dinamicamente
+Execute o comando abaixo e identifique o major associado ao driver colenda
+```
+cat /proc/devices
+```
+### 5. Criar o device file
+Execute o seguinte comando
+```
+sudo su
+mknod /dev/colenda c [MAJOR] 0
+```
+### 6. Inclua a biblioteca CoLenda no seu código
+Adicione o seguinte include no seu código:
+```C
+#include "/.../coLenda_driver/source/Lib/colenda.h"
+```
 ## Softwares utilizados
 
 <details>
