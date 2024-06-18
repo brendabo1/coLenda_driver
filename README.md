@@ -212,7 +212,7 @@ Abaixo segue o diagrama da GPU utilizada
   <figure>  
     <img src="docs/images/solucao_geral.png">
     <figcaption>
-      <p align="center"><b>Figura 3</b> - Esquema em blocos da solução geral </p>
+      <p align="center"><b>Figura 4</b> - Esquema em blocos da solução geral </p>
       <p align="center">Fonte:Elaboração própria</p>
     </figcaption>
   </figure>
@@ -241,8 +241,8 @@ A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o es
   <figure>  
     <img src="docs/images/arquitetura-so.jpg">
     <figcaption>
-      <p align="center"><b>Figura 4</b> - Esquema em blocos da arquitetura típica de sistemas operacionais (adaptado)</p>
-      <p align="center">Fonte:</p>
+      <p align="center"><b>Figura 5</b> - Esquema em blocos da arquitetura típica de sistemas operacionais</p>
+      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
     </figcaption>
   </figure>
 </div>
@@ -254,7 +254,7 @@ Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a vi
   <figure>  
     <img src="docs/images/mmu-process.gif" width="800">
     <figcaption>
-      <p align="center"><b>Figura 5</b>Mapeamento de memória via MMU</p>
+      <p align="center"><b>Figura 6</b>Mapeamento de memória via MMU</p>
       <p align="center">Fonte: Elaboração Própria.</p>
     </figcaption>
   </figure>
@@ -267,24 +267,28 @@ Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram 
 ### Driver do Dispositivo
 O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
 
-Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 6. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como <code>open</code>, <code>read</code>, <code>write</code> etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico (kernel labs).
+Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 6. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como <code>open</code>, <code>read</code>, <code>write</code> etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico (Introduction — The Linux Kernel documentation, [s.d.]).
 
 <div align="center">
   <figure>  
     <img src="docs/images/driver-abstraction.png">
     <figcaption>
-      <p align="center"><b>Figura 6</b> - Esquema em blocos d (adaptado)</p>
-      <p align="center">Fonte:</p>
+      <p align="center"><b>Figura 7</b> - Esquema em alto nível da associação entre arquivo especial, driver e dispositivo.</p>
+      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
     </figcaption>
   </figure>
 </div>
+Nas distribuições UNIX, os drivers de dispositivos e seus arquivos podem ser do tipo <i>caractere</i> ou <i>bloco</i>. A principal diferença entre eles se dá pelo fato dos drivers de caracteres manipularem uma pequena quantidade de dados, geralmente strings de bytes, para dispositivos como mouse, teclado, portas seriais. Já o segundo tipo, acessa e transfere um grande volume de dados organizados em blocos a exemplo de drivers para disco rígido, memória ram, etc (Character device drivers — The Linux Kernel documentation, [s.d.]). Desse modo, o driver CoLenda para comunicação com o processador gráfico é do tipo caractere.
 
+Além disso, os dispositivos tem uma identificação característica composta pelo <i>major e minor number</i>. O <i>major number</i> identifica o tipo do dispositivo e o <i>minor</i> cada dispositivo físico associado ao driver. Ou seja, caso existam vários dispositivos do mesmo tipo eles terão o mesmo <i>major number</i>, porém <i>minors</i> diferentes para cada um deles (Character device drivers — The Linux Kernel documentation, [s.d.]).
+
+Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sistema é realizada e o driver associado realiza a operação de leitura ou escrita de dados no equipamento físico, como é representado na figura.
 <div align="center">
   <figure>  
     <img src="docs/images/infraestrutura-driver.png">
     <figcaption>
-      <p align="center"><b>Figura 7</b> - Esquema em blocos d (adaptado)</p>
-      <p align="center">Fonte:</p>
+      <p align="center"><b>Figura 8</b> - Esquema em blocos das chamadas de sistema ao dispositivo.</p>
+      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
     </figcaption>
   </figure>
 </div>
@@ -338,7 +342,7 @@ As constantes de sprite implementadas visam facilitar a escolha do sprite, pois 
 a baixo segue as imagens dos sprites que estão na memporia
 
 <img src="docs/images/sprites.png" style="">
-<p><b>Figura x</b> - tabela com os sprites pre-renderizados na gpu</p>
+<p><b>Figura 9</b> - tabela com os sprites pre-renderizados na gpu</p>
 <p>Fonte: Arquivo auxiliar disponibilizado pelos professores</p>
 
 </details>
@@ -428,7 +432,7 @@ As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento d
   <figure>  
     <img src="docs/images/gameboy.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 4</b> - Imagem exibida no monitor</p>
+      <p align="center"><b>Figura 10</b> - Imagem exibida no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -482,7 +486,7 @@ GPU_close();
   <figure>  
     <img src="docs/images/poligono_limite.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 5</b> - Resultado do teste no monitor</p>
+      <p align="center"><b>Figura 11</b> - Resultado do teste no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -513,7 +517,7 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
   <figure>  
     <img src="docs/images/triangulo_bug.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 6</b> - Resultado do teste com triângulo no monitor</p>
+      <p align="center"><b>Figura 12</b> - Resultado do teste com triângulo no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -523,7 +527,7 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
   <figure>  
     <img src="docs/images/quadrado_bug.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 7</b> - Resultado do teste com quadrado no monitor</p>
+      <p align="center"><b>Figura 13</b> - Resultado do teste com quadrado no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -556,7 +560,7 @@ GPU_close();
   <figure>  
     <img src="docs/images/12bits.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 7</b> - Resultado do teste dos limites de representação dos blocos de background no monitor</p>
+      <p align="center"><b>Figura 14</b> - Resultado do teste dos limites de representação dos blocos de background no monitor</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -567,4 +571,12 @@ GPU_close();
 Apos diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória ao que foi proposto. Durante os testes foi notado um possível problema com relação a fila de instrução ficar lotada, para isso foi implementado um delay a cada 12 instruções na biblioteca, como melhoria futura, pode-se implementar alguma alternativa no drive para que não fique tão dependente da biblioteca e consiga por si só, lidar com problemas de mesmo cunho.
 
 ## Referências
-TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 2 maio. 2024.
+
+Character device drivers — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/labs/device_drivers.html>. Acesso em: 16 maio. 2024.
+
+Introduction — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html>. Acesso em: 16 maio. 2024.
+
+‌
+
+‌
+TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 30 maio. 2024.
