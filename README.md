@@ -612,10 +612,15 @@ Durante os testes foi notado um possível problema com a situação da fila de i
 Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
 
 ## Referências
-ALVES, Gabriel - Desenvolvimento de uma Arquitetura Baseada em Sprites para criacão de Jogos 2D em Ambientes reconfiguraveis utilizando dispositivos FPGA. Orientador: DIAS, Afranserai, SARINHO, Vitor. 2024. Trabalho de Conclusão de Curso - Engenharia da Computação, UEFS, Feira de Santana. Acessado em: 14 maio. 2024. 
+ALVES, Gabriel - [Desenvolvimento de uma Arquitetura Baseada em Sprites para criacão de Jogos 2D em Ambientes reconfiguraveis utilizando dispositivos FPGA.](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view) Orientador: DIAS, Afranserai, SARINHO, Vitor. 2024. Trabalho de Conclusão de Curso - Engenharia da Computação, UEFS, Feira de Santana. Acessado em: 14 maio. 2024. 
 
-Character device drivers — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/labs/device_drivers.html>. Acesso em: 16 maio. 2024.
+[Character device drivers — The Linux Kernel documentation.](https://linux-kernel-labs.github.io/refs/heads/master/labs/device_drivers.html) 
 
-Introduction — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html>. Acesso em: 16 maio. 2024.
+[Introduction — The Linux Kernel documentation](https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html)
 
 TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 30 maio. 2024.
+
+[History and Evolution of GPU Architecture](https://www.igi-global.com/chapter/history-and-evolution-of-gpu-architecture/139841)
+
+[GPU computing](https://escholarship.org/content/qt0cv1p1nc/qt0cv1p1nc_noSplash_e93469c5acbe804c7c045217eee807bb.pdf)
+
