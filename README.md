@@ -223,11 +223,15 @@ Alem disso a GPU retorna quando a fila de instruções está cheia e quando uma 
 
 Abaixo segue o diagrama da GPU utilizada
 
-<img src="docs/images/diagrama_gpu.png" height=400 width=400>
-<p><b>Figura 3</b> - Diagrama interno da GPU</p>
-<p>Fonte: TCC Gabriel Barreto</p>
-
-
+<div align="center">
+  <figure>  
+	<img src="docs/images/diagrama_gpu.png" height=400 width=400>
+	<figcaption>
+	<p align="center"><b>Figura 3</b> - Diagrama interno da GPU</p>
+	<p align="center">Fonte: BARRETO, Gabriel (2024)</p>
+	</figcaption>
+  </figure>
+</div>
 
 
 ## Solução geral
@@ -601,7 +605,4 @@ Character device drivers — The Linux Kernel documentation. Disponível em: <ht
 
 Introduction — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html>. Acesso em: 16 maio. 2024.
 
-‌
-
-‌
 TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paulo: Pearson Education do Brasil, 2016. Acesso em: 30 maio. 2024.
