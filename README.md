@@ -413,9 +413,9 @@ Este processo consiste na instanciação das structs dos elementos, chamada das 
 obtidos na tela.  
 
 <details>
-	<summary><b>Teste background e polígono</b></summary>
+	<summary><b>Teste background e limite máximo de posição polígono</b></summary>
 
-## Teste de background e polígono
+## Teste de background e limite máximo de posição polígono
 Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo seja definida para branco e um
 triângulo preto de tamanho 20x20 seja exibido na posição (511, 240). Como observa-se na figura 5, os devidos elementos foram setados com as configurações corretas. 
 
@@ -462,7 +462,9 @@ ocupar.
 </details>
 
 <details>
-<summary><b>Teste posição limite inferior ds polígonos</b></summary>
+<summary><b>Teste de limite mínimo de posição polígono</b></summary>
+
+### Teste de limite máximo de posição polígono
 Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
 (10, 10). Como observa-se na figura 6, o 
 triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
@@ -494,7 +496,7 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
 <details>
 <summary><b>Teste com blocos de background</b></summary>
 
-*** Teste com blocos de background
+### Teste com blocos de background
 Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse o que não aconteceu.
 Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contem 13 bits, ao invés dos 12 especificados na documentação. Na figura 8, estão destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits. 
 
