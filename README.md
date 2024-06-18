@@ -297,7 +297,7 @@ Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a vi
 </div>
 
 A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução) (Tanenbaum, 2016). 
-Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções <code>mmap()</code> e <code>unmap()</code>. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
+Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções <code>ioremap()</code> e <code>iounmap()</code>. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
 
 
 ### Driver do Dispositivo
