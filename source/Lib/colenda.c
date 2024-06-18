@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (c) 2024 Brenda Babosa, Camila queiroz, Maike Nascimento
+ * Copyright (c) 2024 Brenda Barbosa, Camila Queiroz, Maike Nascimento
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,7 +28,7 @@
  *
  * This file is part of Colenda.
  *
- * Authors:          Brenda Barbosa, Camila Queiroz, Maike e Oliveira
+ * Authors:          Brenda Barbosa, Camila Queiroz, Maike de Oliveira
  */
 
 #include "colenda.h"
