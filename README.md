@@ -495,10 +495,31 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
 <summary><b>Teste com blocos de background</b></summary>
 
 *** Teste com blocos de background
-Neste caso, o trecho de código abaixo foi utilizado para testas os limites de representação dos blocos de background. Como resultado, esperava-se que um erro oco. Como observa-se na figura 6, o 
-triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
+Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse o que não aconteceu.
+Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contem 13 bits, ao invés dos 12 especificados na documentação. Na figura 8, estão destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits. 
 
+```C
+// inicia a comunicação com o driver
+GPU_open();
 
+//Instanciação de structs
+color_t blue = {0, 0, 3};
+
+//Seta bloco de background
+draw_background_block(70,57, blue);
+//encerra a comunicação com o driver
+GPU_close();
+```
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/12bits.jpg" height="500px">
+    <figcaption>
+      <p align="center"><b>Figura 7</b> - Resultado do teste dos limites de representação dos blocos de background no monitor</p>
+      <p align="center">Fonte: Elaboração própria</p>
+    </figcaption>
+  </figure>
+</div>
 </details>
 
 ## Conclusão
