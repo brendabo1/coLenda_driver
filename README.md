@@ -605,7 +605,11 @@ GPU_close();
 </details>
 
 ## Conclusão
-Apos diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória ao que foi proposto. Durante os testes foi notado um possível problema com relação a fila de instrução ficar lotada, para isso foi implementado um delay a cada 12 instruções na biblioteca, como melhoria futura, pode-se implementar alguma alternativa no drive para que não fique tão dependente da biblioteca e consiga por si só, lidar com problemas de mesmo cunho.
+Após diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória a intercomunicação usuário-driver- dispositivo. 
+
+Durante os testes foi notado um possível problema com a situação da fila de instrução cheia e para isso foi implementado um delay a cada 12 instruções na biblioteca. Como melhoria futura, pode-se implementar tratamentos alternativos no driver para que este consiga lidar  sozinho com problemas de mesmo cunho.
+
+Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
 
 ## Referências
 ALVES, Gabriel - Desenvolvimento de uma Arquitetura Baseada em Sprites para criacão de Jogos 2D em Ambientes reconfiguraveis utilizando dispositivos FPGA. Orientador: DIAS, Afranserai, SARINHO, Vitor. 2024. Trabalho de Conclusão de Curso - Engenharia da Computação, UEFS, Feira de Santana. Acessado em: 14 maio. 2024. 
