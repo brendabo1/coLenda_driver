@@ -96,7 +96,7 @@ Abra o terminal do seu dispositivo e execute o seguinte comando:
 ```
 git clone https://github.com/camilaqPereira/coLenda_driver.git
 ```
-#### 2.Acessar a pasta */source/driver* e compilar o driver
+#### 2. Acessar a pasta */source/driver* e compilar o driver
 Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
 ```
 cd /source/driver
@@ -111,18 +111,18 @@ Execute o comando:
 sudo su
 insmod colenda_driver.ko
 ```
-### 4. Buscar o valor major alocado dinamicamente
+#### 4. Buscar o valor major alocado dinamicamente
 Execute o comando abaixo e identifique o major associado ao driver colenda
 ```
 cat /proc/devices
 ```
-### 5. Criar o device file
+#### 5. Criar o device file
 Execute o seguinte comando
 ```
 sudo su
 mknod /dev/colenda c [MAJOR] 0
 ```
-### 6. Inclua a biblioteca CoLenda no seu código
+#### 6. Inclua a biblioteca CoLenda no seu código
 Adicione o seguinte include no seu código:
 ```C
 #include "/.../coLenda_driver/source/Lib/colenda.h"
@@ -203,8 +203,12 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 
 ## Processador gráfico
 
+O processador gráfico CoLenda foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte 
+do seu trabalho de conclusão de curso na Universidade Estadual de Feira de Santana (UEFS). 
+Durante o desenvolvimento do presente projeto, o processador estava acoplado à FPGA da placa placa DE1-SoC.
 
-Foi utilizada a GPU CoLenda que esta localizada na parte da FPGA disponivel na placa DE1-SoC. Esta placa de video foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte do seu projeto de TCC.  A GPU conta com um conjunto de Instruções que permitem alterar a cor do fundo, alterar blocos de background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios.
+A GPU conta com um conjunto de instruções que permitem alterar a cor do fundo, alterar blocos de 
+background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios.
 
 <details>
 	<summary><b>Instruções</b></summary>
@@ -216,13 +220,18 @@ Foi utilizada a GPU CoLenda que esta localizada na parte da FPGA disponivel na p
 |        WSM          |        Escrita na memória de sprites      |
 |        WBM          |        Escrita na memória de backgroung   | 
 |        DP           |        Definição de um polígono           |
+
 </details>
-a comunicação com a gpu é feita através dos dois barramentos de dados que a mesma possui, sendo o data A para acesso à memória, códigos de operações e registradores e o barramento data B para os demais dados.
 
-Alem disso a GPU retorna quando a fila de instruções está cheia e quando uma tela foi, por fim, renderizada.
+A comunicação com o processador gráfico dá-se por meio dos barramentos de dados data A, para acesso à memória, códigos de operações e registradores, e data B para os demais dados customizáveis. Além disso, o dispositivo apresenta os sinais de controle:
+- sinal de escrita na fila de instruções
+- reinicialização de contador externo
+- sinal que indica que a fila de instruções está cheia
+- sinal que indica quando uma tela finalizou a renderização
 
-Abaixo segue o diagrama da GPU utilizada
+Abaixo, segue o diagrama da GPU utilizada
 
+<<<<<<< Updated upstream
 <div align="center">
   <figure>  
 	<img src="docs/images/diagrama_gpu.png" height=400 width=400>
@@ -232,6 +241,11 @@ Abaixo segue o diagrama da GPU utilizada
 	</figcaption>
   </figure>
 </div>
+=======
+<img src="docs/images/diagrama_gpu.png" height=400 width=400>
+<p><b>Figura 3</b> - Diagrama interno da GPU</p>
+<p>Fonte: TCC Gabriel Barreto</p>
+>>>>>>> Stashed changes
 
 
 ## Solução geral
