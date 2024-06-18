@@ -25,6 +25,10 @@
 
 ## Sobre o projeto
 
+A Unidade de Processamento Gráfico (GPU) é um microprocessador especializado e paralelo dedicado à aceleração de computações gráficas. Este processador foi desenvolvido especificamente para a realização de diversas operações com valores de ponto flutuante, essenciais para o processamento de gráficos 2D/3D. Atualmente, as GPUs, além de serem potentes dispositivos gráficos, são processadores paralelos altamente programáveis que apresentam alta precisão e poderosos recursos.
+
+Neste contexto de grande evolução das unidades de processamento gráfico e de crescente popularidade destas mesmas, o presente projeto objetiva o desenvolvimento de um módulo kernel para o processador gráfico CoLenda, além de uma biblioteca que facilitea utilização do driver, em uma plataforma de desenvolvimento de hardware. O Kit de desenvolvimento DE1-SoC foi selecionado para o desenvolvimento e teste do produto.
+
 <details>
 <summary> <h3 style="font-weight: bold">Requisitos</h3></summary>
 	
