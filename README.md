@@ -8,8 +8,8 @@
 <h4 align="center">
 <a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
 										  src="https://img.shields.io/github/last-commit/camilaqPereira/coLenda_driver/main"></a>
-<a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_Driver commits" 
-										  src="https://img.shields.io/github/commit-activity/t/camilaqPereira/coLenda_driver">
+<a href="https://github.com/camilaqPereira/coLenda_driver/pulls"> <img alt="coLenda_driver Pull Requests" 
+										  src="https://img.shields.io/github/issues-pr/camilaqPereira/coLenda_driver">
 </a>
 <a href="https://github.com/camilaqPereira/coLenda_driver"><img alt="coLenda_driver repo" 
 								   src="https://img.shields.io/github/created-at/camilaqPereira/coLenda_driver">
