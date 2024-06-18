@@ -288,9 +288,9 @@ Como apresentado na figura 3, o processador gráfico recebe os sinais dataA, dat
 Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a virtualização destes endereços físicos.
 <div align="center">
   <figure>  
-    <img src="docs/images/mmu-process.gif" width="800">
+    <img src="docs/images/memory-mapping.png" width="800">
     <figcaption>
-      <p align="center"><b>Figura 6</b>Mapeamento de memória via MMU</p>
+      <p align="center"><b>Figura 6 - </b>Mapeamento de memória via MMU</p>
       <p align="center">Fonte: Elaboração Própria.</p>
     </figcaption>
   </figure>
