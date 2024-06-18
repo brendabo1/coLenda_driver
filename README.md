@@ -3,7 +3,7 @@
 <h3 align="center">Comunicação com o dispositivo gráfico CoLenda</h3>
 
 <p align="center">O Driver CoLenda é um driver de caractere simples e eficiente que realiza a comunicação entre o processador de
-	propósito geral e o hardware. A biblioteca inclusa abstrai a comunicação entre aplicações de usuário e o driver</p>
+	propósito geral e o hardware. A biblioteca inclusa abstrai a comunicação entre aplicações de usuário e o driver.</p>
 
 <h4 align="center">
 <a href="https://github.com/camilaqPereira/coLenda_driver/commits/main/"> <img alt="coLenda_driver commits" 
@@ -27,7 +27,7 @@
 
 A Unidade de Processamento Gráfico (GPU) é um microprocessador especializado e paralelo dedicado à aceleração de computações gráficas. Este processador foi desenvolvido especificamente para a realização de diversas operações com valores de ponto flutuante, essenciais para o processamento de gráficos 2D/3D. Atualmente, as GPUs, além de serem potentes dispositivos gráficos, são processadores paralelos altamente programáveis que apresentam alta precisão e poderosos recursos.
 
-Neste contexto de grande evolução das unidades de processamento gráfico e de crescente popularidade destas mesmas, o presente projeto objetiva o desenvolvimento de um módulo kernel para o processador gráfico CoLenda, além de uma biblioteca que facilitea utilização do driver, em uma plataforma de desenvolvimento de hardware. O Kit de desenvolvimento DE1-SoC foi selecionado para o desenvolvimento e teste do produto.
+Neste contexto de grande evolução das unidades de processamento gráfico e de crescente popularidade dessas, o presente projeto objetiva o desenvolvimento de um módulo kernel para o processador gráfico CoLenda, além de uma biblioteca para facilitar a utilização do driver, em uma plataforma de desenvolvimento de hardware. O Kit de desenvolvimento DE1-SoC foi selecionado para o desenvolvimento e testes do produto.
 
 <details>
 <summary> <h3 style="font-weight: bold">Requisitos</h3></summary>
@@ -58,6 +58,7 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
   	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
 - [Processador gráfico](#processador-gráfico)
+		- [Instruções](#instruções)
 - [Solução geral](#solução-geral)
 - [Driver CoLenda](#driver-colenda)
 - [Biblioteca CoLenda](#biblioteca-colenda)
@@ -67,6 +68,13 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
   	- [Pseudo-instruções](#pseudo-instruções)
   	- [Funções internas auxiliares](#funções-internas-auxiliares)
   	- [Validação de valores](#validação-de-valores)
+- [Exemplos](#exemplos)
+- [Testes](#testes)
+		- [Teste de background e limite máximo de posição de polígonos](#teste-de-background-e-limite-máximo-de-posição-de-polígonos)
+		- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
+		- [Teste com blocos de background](#teste-com-blocos-de-background)
+- [Conclusão](#conclusão)
+- [Referências](#referências)
  
 </details>
 
@@ -451,10 +459,11 @@ exibição dos elementos na tela.
 Este processo consiste na instanciação das structs dos elementos, chamada das respectivas funções de exibição e conferência dos dados
 obtidos na tela.  
 
-<details>
-	<summary><b>Teste background e limite máximo de posição polígono</b></summary>
 
-## Teste de background e limite máximo de posição polígono
+<details>
+	<summary><b>Teste de background e limite máximo de posição de polígonos</b></summary>
+
+## Teste de background e limite máximo de posição de polígonos
 Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo seja definida para branco e um
 triângulo preto de tamanho 20x20 seja exibido na posição (511, 240). Como observa-se na figura 5, os devidos elementos foram setados com as configurações corretas. 
 
@@ -501,9 +510,9 @@ ocupar.
 </details>
 
 <details>
-<summary><b>Teste de limite mínimo de posição polígono</b></summary>
+<summary><b>Teste de limite máximo de posição de polígonos</b></summary>
 
-### Teste de limite máximo de posição polígono
+### Teste de limite máximo de posição de polígonos
 Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
 (10, 10). Como observa-se na figura 6, o 
 triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
