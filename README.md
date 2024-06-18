@@ -228,7 +228,7 @@ Abaixo segue o diagrama da GPU utilizada
 	<img src="docs/images/diagrama_gpu.png" height=400 width=400>
 	<figcaption>
 	<p align="center"><b>Figura 3</b> - Diagrama interno da GPU</p>
-	<p align="center">Fonte: BARRETO, Gabriel (2024)</p>
+	<p align="center">Fonte: Alves, Gabriel (2024)</p>
 	</figcaption>
   </figure>
 </div>
