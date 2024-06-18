@@ -231,7 +231,6 @@ A comunicação com o processador gráfico dá-se por meio dos barramentos de da
 
 Abaixo, segue o diagrama da GPU utilizada
 
-<<<<<<< Updated upstream
 <div align="center">
   <figure>  
 	<img src="docs/images/diagrama_gpu.png" height=400 width=400>
@@ -241,11 +240,6 @@ Abaixo, segue o diagrama da GPU utilizada
 	</figcaption>
   </figure>
 </div>
-=======
-<img src="docs/images/diagrama_gpu.png" height=400 width=400>
-<p><b>Figura 3</b> - Diagrama interno da GPU</p>
-<p>Fonte: TCC Gabriel Barreto</p>
->>>>>>> Stashed changes
 
 
 ## Solução geral
