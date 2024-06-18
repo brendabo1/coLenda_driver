@@ -278,7 +278,7 @@ A implementação e compreensão do driver CoLenda como um módulo carregável m
 ### Arquitetura do Sistema Operacional Linux
 
 Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo ou modo kernel e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
-A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
+A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel (Tanenbaum, 20016)(The Linux Kernel documentation, [s.d.]). 
 <div align="center">
   <figure>  
     <img src="docs/images/arquitetura-so.jpg">
@@ -302,7 +302,7 @@ Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a vi
   </figure>
 </div>
 
-A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução) (TANENBAUM, 2016). 
+A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução) (Tanenbaum, 2016). 
 Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções <code>mmap()</code> e <code>unmap()</code>. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
 
 
@@ -614,6 +614,7 @@ GPU_close();
 Apos diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória ao que foi proposto. Durante os testes foi notado um possível problema com relação a fila de instrução ficar lotada, para isso foi implementado um delay a cada 12 instruções na biblioteca, como melhoria futura, pode-se implementar alguma alternativa no drive para que não fique tão dependente da biblioteca e consiga por si só, lidar com problemas de mesmo cunho.
 
 ## Referências
+ALVES, Gabriel - Desenvolvimento de uma Arquitetura Baseada em Sprites para criacão de Jogos 2D em Ambientes reconfiguraveis utilizando dispositivos FPGA. Orientador: DIAS, Afranserai, SARINHO, Vitor. 2024. Trabalho de Conclusão de Curso - Engenharia da Computação, UEFS, Feira de Santana. Acessado em: 14 maio. 2024. 
 
 Character device drivers — The Linux Kernel documentation. Disponível em: <https://linux-kernel-labs.github.io/refs/heads/master/labs/device_drivers.html>. Acesso em: 16 maio. 2024.
 
