@@ -318,26 +318,6 @@ draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color) {
     return 1;
 }
 
-int 
-create_sprite(size_t offset, color_t *pixeis) {
-    if (sizeof(pixeis)/sizeof(color_t) != 400) {
-        printf("por favor fornecer 400 cores para os sprites");
-        return 0;
-    }
-
-    pixel_t pixel;
-
-    for (size_t i = 0; i < 20; i++) {
-        for (size_t j = 0; j < 20; j++) {
-            pixel.color = pixeis[(i * 20) + j];
-            pixel.mem_address = ((400 * offset) + (i*20) + j);
-            set_pixel(pixel);
-        }
-
-    }
-    return 1;
-}
-
 void 
 wchar_to_string(wchar_t data_a, wchar_t data_b, char* retorno) {
     for (int i = 0; i < 4; i++) {

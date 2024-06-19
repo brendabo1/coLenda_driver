@@ -220,17 +220,6 @@ draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, colo
 int 
 draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color);
 
-
-/**
- * \brief           cria um sprite completo na memoria de sprites
- * \param[in]       offset: localização na memoria do sprite a ser armazenado
- * \param[in]       pixeis: vetor com 400 cores referente ao sprite
- * \return          retorna se a operação ocorreu com sucesso ou não
- */
-
-int 
-create_sprite(size_t offset, color_t* pixeis);
-
 /**
  * \brief           converte 2 wchar_t em um vetor de 8 char
  * \param[in]       data_a: dados que vão para o barrramento A
