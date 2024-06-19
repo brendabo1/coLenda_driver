@@ -41,18 +41,17 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <wchar.h>
+#include <stdint.h>
 
 int dev, inst_count;
 
 int 
 GPU_open() {
-
     inst_count = 0;
 
     /* abrir o arquivo com permissão de escrita e caso exista, sobreescreve o arquivo */
     dev = open("/dev/colenda", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-    if (dev == -1)
-    {
+    if (dev == -1) {
         printf("Fail to open file");
         return 0;
     }
@@ -62,7 +61,7 @@ GPU_open() {
 int 
 set_background_color(color_t color) {
     char instruction_to_driver[8] = {0};            /* string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU */
-    wchar_t data_a = {0}, data_b = {0};
+    wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
     if ((color.red > 7 || color.green > 7 || color.blue > 7) || (color.red < 0 || color.green < 0 || color.blue < 0)) {
@@ -94,7 +93,7 @@ set_background_block(background_block_t bg_block) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 | bg_block.color.red > 7 || bg_block.coord_x > 80 || bg_block.coord_y > 60)) {
+    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 80 || bg_block.coord_y > 60)) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -148,7 +147,7 @@ set_polygon(polygon_t polygon) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 | polygon.coord_y > 480 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
+    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 || polygon.coord_y > 480 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
         printf("valor fora do alcance de representação\n");
         return 0;
     }
@@ -212,31 +211,29 @@ clear() {
     };
     /* Cria um polígono desabilitado*/
     polygon_t disable_polygon = {
-        .coord_x = 320,
-        .coord_y = 240,
-        .shape = 0,
-        .size = 0,
-        .color = { 
-            .blue = 0,
-            .green = 0,
-            .red = 0
-        },
-
+    .coord_x = 320,
+    .coord_y = 240,
+    .shape = 0,
+    .size = 0,
+    .color = { 
+        .blue = 0,
+        .green = 0,
+        .red = 0
+        }
     };
 
     /* Cria um bloco com a cor invisivel */
-    background_block_t bg_disble_block = {
-        .color = {
-            .blue = 7,
-            .green = 7,
-            .red = 6,
-        }
-    };
+    background_block_t bg_disble_block;
+    bg_disble_block.color.blue = 7;
+    bg_disble_block.color.green = 7;
+    bg_disble_block.color.red = 6;
+
+
     /* Cor preta para o background */
     color_t bg_black_color = {
         .blue = 0,
         .green = 0,
-        .red = 0,
+        .red = 0
     };
 
     /* Passa por todos os registradores de sprite */
@@ -321,16 +318,36 @@ draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color) {
     return 1;
 }
 
+int 
+create_sprite(size_t offset, color_t *pixeis) {
+    if (sizeof(pixeis)/sizeof(color_t) != 400) {
+        printf("por favor fornecer 400 cores para os sprites");
+        return 0;
+    }
+
+    pixel_t pixel;
+
+    for (size_t i = 0; i < 20; i++) {
+        for (size_t j = 0; j < 20; j++) {
+            pixel.color = pixeis[(i * 20) + j];
+            pixel.mem_address = ((400 * offset) + (i*20) + j);
+            set_pixel(pixel);
+        }
+
+    }
+    return 1;
+}
+
 void 
-wchar_to_string(wchar_t data_a, wchar_t data_b, const char* retorno) {
-    for (size_t i = 0; i < 4; i++) {
-        retorno[i] = (data_a >> (8 * (3 - i))) & 0xFF;
-        retorno[i + 4] = (data_b >> (8 * (3 - i))) & 0xFF;
+wchar_to_string(wchar_t data_a, wchar_t data_b, char* retorno) {
+    for (int i = 0; i < 4; i++) {
+        retorno[i] = (data_b >> (8 * (3 - i))) & 0xFF;
+        retorno[i + 4] = (data_a >> (8 * (3 - i))) & 0xFF;
     }
 }
 
 void 
-write_in_gpu(const char* instruction_binary_string) {
+write_in_gpu(char* instruction_binary_string) {
     ssize_t bytes_written;
 
     if (inst_count == 12) {

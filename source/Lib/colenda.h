@@ -31,8 +31,8 @@
  * Authors:          Brenda Barbosa, Camila Queiroz, Maike e Oliveira
  */
 
-#if !defined(COLENDA_LIBRARY) 
-#define COLENDA_LIBRARY
+#ifndef COLENDA
+#define COLENDA
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,8 +90,7 @@ typedef struct {
 
 /**
  * \brief           Estrutura de um sprite
- * \note            Essa struct é utilizada para separar os campos que um sprite 
- *                  deve conter
+ * \note            Essa struct é utilizada para separar os campos que um sprite deve conter
 */
 typedef struct {
     uint64_t coord_x;               /*!< Coordenada do eixo x do centro do sprite: 0 a 639*/
@@ -103,8 +102,7 @@ typedef struct {
 
 /**
  * \brief           Estrutura de um polígono
- * \note            Essa estrutura é utilizada para definir os campos de um 
- *                  polígono
+ * \note            Essa estrutura é utilizada para definir os campos de um polígono
  */
 typedef struct {
     uint64_t coord_x;               /*!< Eixo X:                    0 a 511 */ 
@@ -115,10 +113,9 @@ typedef struct {
     color_t color;                  /*!< Campo de cor do polígono */
 } polygon_t;
 
-/** 
+/**
  * \brief           Estrutura de Bloco de BackGround 
- * \note            Estrutura utilizada para definir os campos de um bloco do 
- *                  background 
+ * \note            Estrutura utilizada para definir os campos de um bloco do background 
  */
 typedef struct {
     uint64_t coord_x;           /*!< Endereço do bloco: 0 a 79 */ 
@@ -128,8 +125,7 @@ typedef struct {
 
 /**
  * \brief           Estrutura de um pixel 
- * \note            Essa Struct é utilizada para definir os campos que 
- *                  um pixel deve conter
+ * \note            Essa Struct é utilizada para definir os campos que um pixel deve conter
  */
 typedef struct {
     uint64_t mem_address;           /*!< Endereço do pixel: 0 a 16383 */ 
@@ -138,53 +134,58 @@ typedef struct {
 
 /**
  * \brief           Inicializa a comunicação com a GPU
- * \note            É necessario estar no começo do codigo antes da utilzação 
- *                  que qualquer outra função da GPU
+ * \note            É necessario estar no começo do codigo antes da utilzação que qualquer outra função da GPU
  * \return          se a operação ocorreu ou não           
  */
-int GPU_open();
+int 
+GPU_open();
 
 /**
  * \brief           Alterar a cor do fundo da tela
  * \param[in]       color: cor que será aplicada
  * \return          se a operação ocorreu ou não
 */
-int set_background_color(color_t color);
+int 
+set_background_color(color_t color);
 
 /**
  * \brief           Altera a cor ou desativa um bloco do fundo
  * \param[in]       bg_block: bloco que sera alterado
  * \return          se a operação ocorreu ou não
 */
-int set_background_block(background_block_t bg_block);
+int 
+set_background_block(background_block_t bg_block);
 
 /**
  * \brief           Insere ou desabilita um sprite da tela
  * \param[in]       sprite: Sprite que será inserio/alterado
  * \return          se a operação foi bem sucedida ou não
 */
-int set_sprite(sprite_t sprite);
+int 
+set_sprite(sprite_t sprite);
 
 /**
  * \brief           Insere ou altera um polígono da tela
  * \param[in]       polygon: polígono a ser inserido/alterado
  * \return          se a operação foi bem sucedida ou não
 */
-int set_polygon(polygon_t polygon);
+int 
+set_polygon(polygon_t polygon);
 
 /**
  * \brief           Insere ou altera um pixel da memoria de sprites
  * \param[in]       pixel: pixel a ser alterado/inserido
  * \return          Se a operação foi bem sucedida ou não
 */
-int set_pixel(pixel_t pixel);
+int 
+set_pixel(pixel_t pixel);
 
 /**
- *\brief            Remove/Desabilita os elementos que estão na tela e troca a 
-                    cor do fundo para preto
- *\return           Se a operação foi bem sucedida ou não
+ * \brief            Remove/Desabilita os elementos que estão na tela e troca a cor do fundo para preto
+ * \return           Se a operação foi bem sucedida ou não
 */
-int clear();
+int 
+clear();
 
 /**
  * \brief           desenha uma linha horizontal usando blocos de background
@@ -194,7 +195,8 @@ int clear();
  * \param[in]       color: Cor da linha
  * \return          se a operação ocorreu com sucesso ou não
  */
-int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
+int 
+draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
 
 /**
  * \brief           desenha uma linha vertical usando blocos de background
@@ -204,7 +206,8 @@ int draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y
  * \param[in]       color: Cor da linha
  * \return          se a operação ocorreu com sucesso ou não
  */
-int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
+int 
+draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, color_t color);
 
 
 /**
@@ -214,7 +217,19 @@ int draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, 
  * \param[in]       color: Cor da linha  
  * \return          se a operação ocorreu com sucesso ou não    
 */
-int draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color);
+int 
+draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color);
+
+
+/**
+ * \brief           cria um sprite completo na memoria de sprites
+ * \param[in]       offset: localização na memoria do sprite a ser armazenado
+ * \param[in]       pixeis: vetor com 400 cores referente ao sprite
+ * \return          retorna se a operação ocorreu com sucesso ou não
+ */
+
+int 
+create_sprite(size_t offset, color_t* pixeis);
 
 /**
  * \brief           converte 2 wchar_t em um vetor de 8 char
@@ -222,20 +237,22 @@ int draw_background_block(uint64_t coord_x, uint64_t coord_y, color_t color);
  * \param[in]       data_b: dados que vão para o barramento B
  * \param[out]      retorno: vetor de 8 char
 */
-void wchar_to_string(wchar_t data_a, wchar_t data_b, const char* retorno);
+void 
+wchar_to_string(wchar_t data_a, wchar_t data_b, char* retorno);
 
 
 /**
  * \brief           escreve no arquivo de comunicação entre a a biblioteca e a gpu
  * \param[in]       instruction_binary_string: bits a ser escritos no barramento
 */
-void write_in_gpu(const char* instruction_binary_string);
+void 
+write_in_gpu(char* instruction_binary_string);
 
 /**
- * \brief encessa a comunicação entre a biblioteca e a gpu
- * \return retorna erro ou sucesso
+ * \brief           encessa a comunicação entre a biblioteca e a gpu
+ * \return          retorna erro ou sucesso
 */
-int GPU_close();
-
+int 
+GPU_close();
 
 #endif
