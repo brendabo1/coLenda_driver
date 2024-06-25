@@ -25,17 +25,22 @@
 
 ## Sobre o projeto
 
-A Unidade de Processamento Gráfico (GPU) é um microprocessador especializado e paralelo dedicado à aceleração de computações gráficas. Este processador foi desenvolvido especificamente para a realização de diversas operações com valores de ponto flutuante, essenciais para o processamento de gráficos 2D/3D. Atualmente, as GPUs, além de serem potentes dispositivos gráficos, são processadores paralelos altamente programáveis que apresentam alta precisão e poderosos recursos.
+A Unidade de Processamento Gráfico (GPU) é um microprocessador especializado e paralelo dedicado à aceleração de computações gráficas. Este processador foi desenvolvido especificamente 
+para a realização de diversas operações com valores de ponto flutuante, essenciais para o processamento de gráficos 2D/3D. Atualmente, as GPUs, além de serem potentes dispositivos 
+gráficos, são processadores paralelos altamente programáveis que apresentam alta precisão e poderosos recursos.
 
-Neste contexto de grande evolução das unidades de processamento gráfico e de crescente popularidade dessas, o presente projeto objetiva o desenvolvimento de um módulo kernel para o processador gráfico CoLenda, além de uma biblioteca para facilitar a utilização do driver, em uma plataforma de desenvolvimento de hardware. O Kit de desenvolvimento DE1-SoC foi selecionado para o desenvolvimento e testes do produto.
+Neste contexto de grande evolução das unidades de processamento gráfico e de crescente popularidade dessas, o presente projeto implementa um de um módulo kernel para o processador 
+gráfico CoLenda na HPS do kit de desenvolvimento DE1-SoC. Além disso, implementa também uma biblioteca para facilitar a utilização do driver.
 
 <details>
-<summary> <h3 style="font-weight: bold">Requisitos</h3></summary>
+<summary> <h3>Requisitos</h3></summary>
 	
-A solução deve atender às condições e aos requisitos predeterminados, de modo que:
-- o código deve ser escrito na linguagem C
-- a biblioteca deve conter, no mínimo, uma função para cada instrução do processador gráfico
-- a biblioteca deve seguir as recomendações descritas em [C coding style por Tilen Majerle](https://github.com/MaJerle/c-code-style)
+A presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
+- a placa De1-SoC seja utilizada para o desenvolvimento do projeto
+- todos os códigos deve ser escritos na linguagem C e devem ser detalhadamente comentados;
+- sejam desenvolvidos módulos de kernel Linux para o processador gráfico CoLenda;
+- seja desenvolvida uma biblioteca para facilitar a utilização do processador;
+- a biblioteca deve conter, no mínimo, uma função para cada instrução do processador gráfico e deve seguir as recomendações descritas em [C coding style por Tilen Majerle](https://github.com/MaJerle/c-code-style);
 
 </details>
 
@@ -56,7 +61,7 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
  	- [VS Code](#vs-code)
 - [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
 	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
-  - [Sistema computacional da placa](#sistema-computacional-de1-soc)
+  	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
 - [Processador gráfico](#processador-gráfico)
 	- [Instruções](#instruções)
 - [Solução geral](#solução-geral)
@@ -84,9 +89,9 @@ A solução deve atender às condições e aos requisitos predeterminados, de mo
 
 - Possuir conexão com internet;
 - Possuir instalado o compilador gcc;
-- Possuir instalado o Git ;
+- Possuir instalado o Git;
 - Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
-- Possuir o processador gráfico CoLenda na FPGA
+- Possuir o processador gráfico CoLenda na FPGA;
 - Possuir um monitor conectado à placa por meio da saída VGA
 
 </details>
@@ -100,13 +105,10 @@ git clone https://github.com/camilaqPereira/coLenda_driver.git
 Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
 ```
 cd /source/driver
-```
-
-```
 make all
 ```
 #### 3. Carregar o módulo kernel
-Execute o comando:
+Execute os comandos:
 ```
 sudo su
 insmod colenda_driver.ko
@@ -117,7 +119,7 @@ Execute o comando abaixo e identifique o major associado ao driver colenda
 cat /proc/devices
 ```
 #### 5. Criar o device file
-Execute o seguinte comando
+Execute os seguintes comandos:
 ```
 sudo su
 mknod /dev/colenda c [MAJOR] 0
