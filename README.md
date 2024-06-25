@@ -41,7 +41,11 @@ A presente projeto deve atender às condições e aos requisitos predeterminados
 - sejam desenvolvidos módulos de kernel Linux para o processador gráfico CoLenda;
 - seja desenvolvida uma biblioteca para facilitar a utilização do processador;
 - a biblioteca deve conter, no mínimo, uma função para cada instrução do processador gráfico e deve seguir as recomendações descritas em [C coding style por Tilen Majerle](https://github.com/MaJerle/c-code-style);
+- seja desenvolvido um código que ilustre a utilização de todos os elementos disponibilizados pela pelo processador gráfico e um script do tipo *Makefile* para a geração do executável;
+- a descrição técnica do projeto seja realizada no README do proketo;
+- seja realizada a descrição dos testes de funcionamento, bem como dos resultados alcançados.
 
+A descrição do projeto está disponível [aqui](/docs/Descricao-do-problema.pdf)
 </details>
 
 ## Contribuidores
