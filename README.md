@@ -105,25 +105,27 @@ Abra o terminal do seu dispositivo e execute o seguinte comando:
 ```
 git clone https://github.com/camilaqPereira/coLenda_driver.git
 ```
+**Transfira os arquivos do projeto para a placa DE1-SoC.**
+
 #### 2. Acessar a pasta */source/driver* e compilar o driver
-Para acessar a pasta */source/driver* e compilar o módulo kernel, basta executar os seguintes comandos:
+Para acessar a pasta */source/driver* e compilar o módulo kernel na placa, basta executar os seguintes comandos:
 ```
 cd /source/driver
 make all
 ```
 #### 3. Carregar o módulo kernel
-Execute os comandos:
+Na placa, execute os comandos:
 ```
 sudo su
 insmod colenda_driver.ko
 ```
 #### 4. Buscar o valor major alocado dinamicamente
-Execute o comando abaixo e identifique o major associado ao driver colenda
+Execute o comando abaixo na placa e identifique o major associado ao driver colenda.
 ```
 cat /proc/devices
 ```
 #### 5. Criar o device file
-Execute os seguintes comandos:
+Execute os seguintes comandos na placa:
 ```
 sudo su
 mknod /dev/colenda c [MAJOR] 0
