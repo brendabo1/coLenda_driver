@@ -586,7 +586,7 @@ A biblioteca apresenta recursos para validação dos valores atribuídos pelo us
 
 ## Exemplos
 Apesar do número limitado de elementos disponibilizados pelo processador gráfico, uma vasta gama de imagens podem ser renderizadas. Um exemplo de imagem que pode ser criada
-é mostrada na figura 4 na qual foram utilizados todos os recursos do hardware:
+é mostrada na figura 13 na qual foram utilizados todos os recursos do hardware:
 - polígonos: usados para desenhar os botões direitos do gameboy
 - cor de background: definido para branco
 - blocos de background: usados para desenhar o corpo, a tela e os botões esquerdos do gameboy
@@ -598,7 +598,7 @@ As pseudo instruções foram todas utilizadas para facilitar o desenvolvimento d
   <figure>  
     <img src="docs/images/gameboy.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 10</b> - Imagem exibida no monitor</p>
+      <p align="center"><b>Figura 13</b> - Imagem do gameboy exibida no monitor VGA</p>
       <p align="center">Fonte: Elaboração própria</p>
     </figcaption>
   </figure>
@@ -621,13 +621,79 @@ exibição dos elementos na tela.
 Este processo consiste na instanciação das structs dos elementos, chamada das respectivas funções de exibição e conferência dos dados
 obtidos na tela.  
 
+<details>
+<summary><b>Setando background</b></summary>
+
+### Setando background
+Neste primeiro caso, buscou-se testar a definição da cor de fundo do monitor. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t*  com os valores RGB 0, 7 e 0, respectivamente, e realizar a chamada das funções *GPU_open*, *set_background_color* e *GPU_close*, nesta ordem,da biblioteca CoLenda. Como resultado, esperava-se que a cor de fundo do monitor VGA fosse alterada para verde.
+
+Como pode-se observar na figura 14, a cor de fundo exibida no monitor após a execução do programa condiz com o resultado esperado.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/background-test.jpg" height=500>
+    <figcaption>
+      <p align="center"><b>Figura 13</b> - Resultado do teste de background</p>
+    </figcaption>
+  </figure>
+</div>
+
+</details>
 
 <details>
-	<summary><b>Teste de background e limite máximo de posição de polígonos</b></summary>
+<summary><b>Setando polígonos</b></summary>
 
-## Teste de background e limite máximo de posição de polígonos
-Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo seja definida para branco e um
-triângulo preto de tamanho 20x20 seja exibido na posição (511, 240). Como observa-se na figura 5, os devidos elementos foram setados com as configurações corretas. 
+### Setando polígonos
+Neste caso de teste, buscou-se testar a exibição de polígonos. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t* com os valores RGB 7, 0 e 0, respectivamente, e a struct *polygon_t* `red_square = {512,240,0,0,1,red}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* e *GPU_close*, nesta ordem, da biblioteca CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA.
+
+Como pode-se observar na figura 15, o polígono exibido no monitor após a execução do programa condiz com o resultado esperado.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/quadrado-teste.jpg" height=500>
+    <figcaption>
+      <p align="center"><b>Figura 15</b> - Resultado do teste de polígono (quadrado)</p>
+    </figcaption>
+  </figure>
+</div>
+
+O teste foi repetido com a struct `black_triangle = {512,240,0,1,1,black}`, onde *black* é uma struct *color_t* com os valores RGB iguais a 7,7 e 7, respectivamente. Esperava-se que um triângulo preto 20x20 fosse exibido no centro do monitor VGA. Como pode-se observar na figura 16, o polígono exibido no monitor após a execução do programa condiz com o resultado esperado.  
+<div align="center">
+  <figure>  
+    <img src="docs/images/triangulo-teste.jpg" height=500>
+    <figcaption>
+      <p align="center"><b>Figura 16</b> - Resultado do teste de polígono (triangulo)</p>
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+<details>
+<summary><b>Teste de sobreposição de polígonos</b></summary>
+
+### Teste de sobreposição de polígonos
+Neste caso de teste, buscou-se testar a sobreposição de polígonos. Para isso, utilizou-se um aplicação de usuário as structs do tipo *polygon_t* `red_square = {512,240,0,0,1,red}` e `black_triangle = {512,240,1,1,1,black}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* (uma para cada polígono) e *GPU_close*, nesta ordem, da biblioteca CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA e um triângulo preto 20x20 fosse exibido no centro também no centro da tela e sobre o quadrado.
+
+Como pode-se observar na figura 17, a ordem de exibição dos polígonos no monitor após a execução do programa condiz com o resultado esperado.  
+<div align="center">
+  <figure>  
+    <img src="docs/images/sobreposicao-teste.jpg" height=500>
+    <figcaption>
+      <p align="center"><b>Figura 16</b> - Resultado do teste de sobreposição de polígonos</p>
+    </figcaption>
+  </figure>
+</div>
+</details>
+
+<details>
+	<summary><b>Teste de limite máximo de posição de polígonos</b></summary>
+
+### Teste limite máximo de posição de polígonos
+Neste caso, o trecho de código abaixo foi utilizado e, como resultado, espera-se que a cor de fundo fosse definida para branco e um
+triângulo preto de tamanho 20x20 fosse exibido na posição (511, 240). Como observa-se na figura 17, os devidos elementos foram setados com as configurações corretas. 
+
+Este triângulo ocupa a posição limite no eixo x que os polígonos podem ocupar devido ao tamanho do campo coordenada x da instrução DP (9 bits). Caso um valor maior que 511 seja passado para a GPU, o polígono não é exibido. Por isso, a biblioteca realiza a verificação deste argumento e retorna um erro para os valores fora do range.  
 
 ```C
 // inicia a comunicação com o driver
@@ -653,39 +719,27 @@ GPU_close();
   <figure>  
     <img src="docs/images/poligono_limite.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 11</b> - Resultado do teste no monitor</p>
-      <p align="center">Fonte: Elaboração própria</p>
+      <p align="center"><b>Figura 19</b> - Teste de posição limite de polígonos no eixo x</p>
     </figcaption>
   </figure>
 </div>
-
-<blockquote>
-
-**WARNING**
-
-O tamanho do campo coordenada x da instrução DP (9 bits) restringe as posições que os polígonos
-podem ocupar. O triânguloda figura 5 ilustra a posição limite, no eixo x, que os polígonos podem 
-ocupar. 
-
-</blockquote>
- 
 </details>
 
 <details>
-<summary><b>Teste de limite máximo de posição de polígonos</b></summary>
+<summary><b>Teste de limite mínimo de posição de polígonos</b></summary>
 
-### Teste de limite máximo de posição de polígonos
+### Teste de limite mínimo de posição de polígonos
 Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
-(10, 10). Como observa-se na figura 6, o 
-triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 7). 
-Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos.
+(10, 10). Como observa-se na figura 20, o 
+triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 21). 
+
+Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos. Devido a isso, a biblioteca realiza a verificação destes campos e retorna um erro para os valores fora do range.
 
 <div align="center">
   <figure>  
     <img src="docs/images/triangulo_bug.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 12</b> - Resultado do teste com triângulo no monitor</p>
-      <p align="center">Fonte: Elaboração própria</p>
+      <p align="center"><b>Figura 20</b> - Resultado do teste com triângulo no monitor</p>
     </figcaption>
   </figure>
 </div>
@@ -694,8 +748,7 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
   <figure>  
     <img src="docs/images/quadrado_bug.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 13</b> - Resultado do teste com quadrado no monitor</p>
-      <p align="center">Fonte: Elaboração própria</p>
+      <p align="center"><b>Figura 21</b> - Resultado do teste com quadrado no monitor</p>
     </figcaption>
   </figure>
 </div>
@@ -707,8 +760,11 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
 <summary><b>Teste com blocos de background</b></summary>
 
 ### Teste com blocos de background
-Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse o que não aconteceu.
-Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contem 13 bits, ao invés dos 12 especificados na documentação. Na figura 8, estão destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits. 
+Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse,  o que não aconteceu.
+Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contém 13 bits, ao invés dos 12 especificados no TCC. Na figura 22, estão destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits.
+
+> [!NOTE]
+> Devido a esta descoberta, a bibloteca CoLenda foi alterada para aceitar valores de endereçamento de blocos de background referente aos 13 bits.
 
 ```C
 // inicia a comunicação com o driver
@@ -727,17 +783,36 @@ GPU_close();
   <figure>  
     <img src="docs/images/12bits.jpg" height="500px">
     <figcaption>
-      <p align="center"><b>Figura 14</b> - Resultado do teste dos limites de representação dos blocos de background no monitor</p>
-      <p align="center">Fonte: Elaboração própria</p>
+      <p align="center"><b>Figura 22</b> - Resultado do teste dos limites de representação dos blocos de background no monitor</p>
     </figcaption>
   </figure>
 </div>
 </details>
 
-## Conclusão
-Após diversos testes foi concluído que tanto o drive quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória a intercomunicação usuário-driver- dispositivo. 
+<details>
+<summary><b>Teste com a função <i>clear</i></b></summary>
 
-Durante os testes foi notado um possível problema com a situação da fila de instrução cheia e para isso foi implementado um delay a cada 12 instruções na biblioteca. Como melhoria futura, pode-se implementar tratamentos alternativos no driver para que este consiga lidar  sozinho com problemas de mesmo cunho.
+### Teste com *clear*
+Neste caso, buscou-se testar a função *clear* responsável pela limpeza da tela. Para isto, setou-se o background do monitor VGA para a cor branca e exibiu-se um sprite no centro da tela. Em seguida, realizou-se a chamada da função *clear*. Como resultado, esperava-se que todos os elementos exibidos na tela fosse "apagados" e a cor de fundo fosse setada para preto. 
+
+Como observa-se na figura 23, todos os elementos foram removidos da tela e a cor de background foi definida para preto.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/clear.gif">
+    <figcaption>
+      <p align="center"><b>Figura 23</b> - Teste com <i>clear</i></p>
+    </figcaption>
+  </figure>
+</div>
+</details>
+
+</details>
+
+
+## Conclusão
+Após diversos testes, concluiu-se que tanto o driver quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória a intercomunicação usuário-driver-harware. 
+Durante os testes, notou-se um possível problema com a situação da fila de instrução cheia e para isso foi implementado um delay a cada 12 instruções na biblioteca. Como melhoria futura, pode-se implementar tratamentos alternativos no driver para que este consiga lidar sozinho com problemas de mesmo cunho.
 
 Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
 
