@@ -35,7 +35,7 @@ gráfico CoLenda na HPS do kit de desenvolvimento DE1-SoC. Além disso, implemen
 <details>
 <summary> <h3>Requisitos</h3></summary>
 	
-A presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
+O presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
 - a placa De1-SoC seja utilizada para o desenvolvimento do projeto
 - todos os códigos deve ser escritos na linguagem C e devem ser detalhadamente comentados;
 - sejam desenvolvidos módulos de kernel Linux para o processador gráfico CoLenda;
