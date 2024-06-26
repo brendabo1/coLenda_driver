@@ -846,3 +846,4 @@ TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paul
 
 [Let's code a Linux Driver por 4GNU_Linux](https://youtube.com/playlist?list=PLCGpd0Do5-I3b5TtyqeF1UdyD4C-S-dMa&si=HYJ-_VlVx9gj2VPw)
 
+[Chapter 3 Char devices - O'Reilly](https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch03.html)
