@@ -362,7 +362,7 @@ Por fim, o driver gerencia os sinais de controle e o barramento de dados do hard
 
 ## Driver CoLenda
 
-A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, que serão explicitados a seguir
+A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, que serão explicitados a seguir.
 
 ### 📖 Background
 <details>
@@ -393,8 +393,7 @@ A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o es
 
 #### Mapeamento de Memória
 
-Como apresentado na figura 6, o processador gráfico recebe os sinais dataA, dataB, wrreg, reset_pulse_counter bem como envia os sinais screen e wfull, cujos endereços base dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. Para a criação e utilização do mapeamento de memória são manipuladas a ponte <code>ALT_LWFPGASLVS_OFST</code> (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da placa, juntamente com a <code>HW_REGS_BASE</code> (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a <code>HW_REGS_SPAN</code> (0x04000000), encarregada do armazenamento em bytes da região de memória a ser mapeada. 
-Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a virtualização destes endereços físicos.
+Para acessar endereços físicos de memória nos modos de usuárioe kernel, faz-se necessária a virtualização destes endereços.
 <div align="center">
   <figure>  
     <img src="docs/images/memory-mapping.png" width="800">
@@ -404,8 +403,8 @@ Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a vi
   </figure>
 </div>
 
-A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução). 
-Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções `ioremap()` e `iounmap()`. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
+A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (figura 9). 
+Nos módulos kernel, as funções [`ioremap()` e `iounmap()`](https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch08s04.html) são utilizadas. Já nas aplicações de usuários, as funções [`mmap` e `unmap`](https://www.man7.org/linux/man-pages/man2/mmap.2.html) A partir do endereço virtual gerado, pode-se realizar as devidas manipulações.
 
 </details>
 
@@ -448,6 +447,16 @@ Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sist
   </figure>
 </div>
 </details>
+
+### Driver desenvolvido
+O módulo kernel CoLenda é um driver de caractere que realiza a comunicação com o processador gráfico. Este módulo implementa as funções *open*, *release*, *write*, além das funções *init* e *exit*.
+
+As funções *open* e *close* apenas indicam no log do sistema que o driver foi aberto e liberado, respectivamente. Por sua vez, a função *write* recebe a instrução da GPU da aplicação de usuário, realiza a separação deste stream de bits entre os barramentos *dataA* e *dataB* e envia o sinal de escrita na a fila de instruções do peocessador gráfico. 
+
+Devido aos tempos de sincronização do padrão VGA e do tamanho fixo da fila de instruções da GPU, os sinais de finalização da renderização de uma tela (*screen*) e de fila cheia são checados (*wrfull*), a instrução passada ao driver só é escrita caso a renderização tenha terminado e a fila não esteja cheia. Caso contrário, um erro é retornado.
+
+Para o gerenciamento dos sinais de controle (reset_pulsecounter, screen, wr_reg e wr_full) e dos barramentos de dados (dataA e dataB) do processador gráfico, o driver implementa a virtualização destes endereços físicos. 
+Como apresentado na figura 6, o processador gráfico recebe os sinais *dataA*, *dataB*, *wrreg*, *reset_pulsecounter* bem como envia os sinais *screen* e *wrfull*, cujos endereços base dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. O gerenciamento destes sinais é realizado por meio da virtualização destes endereços físicos. Para a criação e utilização do mapeamento de memória são manipuladas a ponte `ALT_LWFPGASLVS_OFST` (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da placa, juntamente com a `HW_REGS_BASE` (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a `HW_REGS_SPAN` (0x04000000), encarregada do armazenamento em bytes da região de memória a ser mapeada. 
 
 ## Biblioteca CoLenda
 
