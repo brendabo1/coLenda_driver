@@ -359,65 +359,90 @@ Por fim, o driver gerencia os sinais de controle e o barramento de dados do hard
 
 ## Driver CoLenda
 
-A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais como a arquitetura do sistema operacional linux, que serão explicitados a seguir
+A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, que serão explicitados a seguir
+
+### Background
+<details>
+<summary><b>Arquitetura do Sistema Operacional Linux</b></summary>
+
+#### Arquitetura do Sistema Operacional Linux
+
+Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo (ou modo kernel) e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
+
+</details>
 
 ### Arquitetura do Sistema Operacional Linux
 
-Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo ou modo kernel e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
-A figura 4 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre multiplas aplicações (ref kernel labs). A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel (Tanenbaum, 20016)(The Linux Kernel documentation, [s.d.]). 
+A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre múltiplas aplicações. A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
 <div align="center">
   <figure>  
-    <img src="docs/images/arquitetura-so.jpg">
-    <figcaption>
-      <p align="center"><b>Figura 5</b> - Esquema em blocos da arquitetura típica de sistemas operacionais</p>
-      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
-    </figcaption>
+  <img src="docs/images/arquitetura-so.jpg">
+  <figcaption>
+  <p align="center">
+  
+  [**Figura 8** - Esquema em blocos da arquitetura típica de sistemas operacionais(adaptado)](https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html)
+
+  <p>
+  </figcaption>
   </figure>
 </div>
 
-### Mapeamento de Memória
-Como apresentado na figura 3, o processador gráfico recebe os sinais dataA, dataB, wrreg, reset_pulse_counter bem como envia os sinais screen e wfull, cujos endereços base dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. Para a criação e utilização do mapeamento de memória são manipuladas a ponte <code>ALT_LWFPGASLVS_OFST</code> (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da placa, juntamente com a <code>HW_REGS_BASE</code> (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a <code>HW_REGS_SPAN</code> (0x04000000), encarregada do armazenamento em bytes da região de memória a ser mapeada. 
+<details>
+<summary>Mapeamento de Memória</summary>
+
+#### Mapeamento de Memória
+
+Como apresentado na figura 6, o processador gráfico recebe os sinais dataA, dataB, wrreg, reset_pulse_counter bem como envia os sinais screen e wfull, cujos endereços base dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. Para a criação e utilização do mapeamento de memória são manipuladas a ponte <code>ALT_LWFPGASLVS_OFST</code> (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da placa, juntamente com a <code>HW_REGS_BASE</code> (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a <code>HW_REGS_SPAN</code> (0x04000000), encarregada do armazenamento em bytes da região de memória a ser mapeada. 
 Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a virtualização destes endereços físicos.
 <div align="center">
   <figure>  
     <img src="docs/images/memory-mapping.png" width="800">
     <figcaption>
-      <p align="center"><b>Figura 6 - </b>Mapeamento de memória via MMU</p>
-      <p align="center">Fonte: Elaboração Própria.</p>
+      <p align="center"><b>Figura 9 - </b>Mapeamento de memória via MMU</p>
     </figcaption>
   </figure>
 </div>
 
-A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução) (Tanenbaum, 2016). 
-Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções <code>ioremap()</code> e <code>iounmap()</code>. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
+A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução). 
+Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções `ioremap()` e `iounmap()`. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
+</details>
 
-
-### Driver do Dispositivo
+<details>
+<summary>Driver do Dispositivo</summary>
+#### Driver do Dispositivo
+</details>
 O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
 
-Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 6. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como <code>open</code>, <code>read</code>, <code>write</code> etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico (Introduction — The Linux Kernel documentation, [s.d.]).
+Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 10. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como `open`, `read`, `write` etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico.
 
 <div align="center">
   <figure>  
-    <img src="docs/images/driver-abstraction.png">
-    <figcaption>
-      <p align="center"><b>Figura 7</b> - Esquema em alto nível da associação entre arquivo especial, driver e dispositivo.</p>
-      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
-    </figcaption>
+  <img src="docs/images/driver-abstraction.png">
+  <figcaption>
+  <p align="center">
+  
+  [**Figura 10** - Esquema em alto nível da associação entre arquivo especial, driver e dispositivo (adaptado)](https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html)
+  
+  </p>
+  </figcaption>
   </figure>
 </div>
-Nas distribuições UNIX, os drivers de dispositivos e seus arquivos podem ser do tipo <i>caractere</i> ou <i>bloco</i>. A principal diferença entre eles se dá pelo fato dos drivers de caracteres manipularem uma pequena quantidade de dados, geralmente strings de bytes, para dispositivos como mouse, teclado, portas seriais. Já o segundo tipo, acessa e transfere um grande volume de dados organizados em blocos a exemplo de drivers para disco rígido, memória ram, etc (Character device drivers — The Linux Kernel documentation, [s.d.]). Desse modo, o driver CoLenda para comunicação com o processador gráfico é do tipo caractere.
 
-Além disso, os dispositivos tem uma identificação característica composta pelo <i>major e minor number</i>. O <i>major number</i> identifica o tipo do dispositivo e o <i>minor</i> cada dispositivo físico associado ao driver. Ou seja, caso existam vários dispositivos do mesmo tipo eles terão o mesmo <i>major number</i>, porém <i>minors</i> diferentes para cada um deles (Character device drivers — The Linux Kernel documentation, [s.d.]).
+Nas distribuições UNIX, os drivers de dispositivos e seus arquivos podem ser do tipo *caractere* ou *bloco*. A principal diferença entre eles se dá pelo fato dos drivers de caracteres manipularem uma pequena quantidade de dados, geralmente strings de bytes, para dispositivos como mouse, teclado e portas seriais. Já o segundo tipo, acessa e transfere um grande volume de dados organizados em blocos, além de necessitarem de buffering. A exemplo tem-se drivers para disco rígido, memória RAM, etc. Desse modo, o driver CoLenda para comunicação com o processador gráfico é do tipo caractere.
 
-Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sistema é realizada e o driver associado realiza a operação de leitura ou escrita de dados no equipamento físico, como é representado na figura.
+Além disso, os dispositivos tem uma identificação característica composta pelo *major* e *minor number*. O *major number* identifica o tipo do dispositivo e o *minor* cada dispositivo físico associado ao driver. Ou seja, caso existam vários dispositivos do mesmo tipo eles terão o mesmo *major number*, porém *minors* diferentes para cada um deles.
+
+Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sistema é realizada e o driver associado realiza a operação de leitura ou escrita de dados no equipamento físico, como é representado na figura 11.
 <div align="center">
   <figure>  
-    <img src="docs/images/infraestrutura-driver.png">
-    <figcaption>
-      <p align="center"><b>Figura 8</b> - Esquema em blocos das chamadas de sistema ao dispositivo.</p>
-      <p align="center">Fonte: The Linux Kernel documentation (adaptado)</p>
-    </figcaption>
+  <img src="docs/images/infraestrutura-driver.png">
+  <figcaption>
+  <p align="center">
+  
+  [**Figura 11** - Esquema em blocos das chamadas de sistema ao dispositivo (adaptado)](https://linux-kernel-labs.github.io/refs/heads/master/lectures/intro.html)
+  
+  </p>
+  </figcaption>
   </figure>
 </div>
 
