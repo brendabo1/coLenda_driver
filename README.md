@@ -216,7 +216,7 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 </details>
 
 ## Periféricos utilizados
-O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste projeto, utilizou-se apenas a saída VGA conectada a um monitor de tubo CRT - *Cathode Ray Tube*-  com resolução de 640×480 pixels (figura 3).
+O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste projeto, utilizou-se apenas a saída VGA conectada a um monitor de tubo CRT - *Cathode Ray Tube* -  com resolução de 640×480 pixels (figura 3) e uma taxa de atualização de 60Hz.
 
 <div align="center">
     <img src="docs/images/vga-placa.jpg" height="400px">
@@ -229,9 +229,10 @@ O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste 
 <details>
 <summary><h3>Padrão VGA</h3></summary>
 
-O padrão VGA é composto pela transmissão de sinais de geração de vídeo e sinais de cores (RGB- red, green, blue). Segue abaixo a especificação dos dois sinais de geração de vídeo:
+O padrão VGA é um modelo bastante utilizado, estando presente principalmente nos monitores do tipo CRT.
+Este padrão é composto pela transmissão de sinais de geração de vídeo e sinais de cores (RGB - red, green, blue). Segue abaixo a especificação dos dois sinais de geração de vídeo:
 - sinal de sincronismo horizontal (*hsync*): indica o tempo necessário para percorrer uma linha do monitor;
-- sinal de sincronismo vertical (*vsync*): indica o tempo necessário para percorrer toda a tela;
+- sinal de sincronismo vertical (*vsync*): indica o tempo necessário para percorrer toda a tela (finalização de um frame);
 
 Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
 - área ativa: espaço de exibição dos pixels na tela;
@@ -239,7 +240,7 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
 
 <div align="center">
   <figure>  
-    <img src="docs/images/frame.PNG">
+    <img src="docs/images/frame.png">
     <figcaption>
       <p align="center">
 
@@ -250,18 +251,20 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
   </figure>
 </div>
 
-> Os cálculos realizados para a definição dos parâmetros podem ser visualizados [na seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações dos tempos para diferentes resoluções podem ser encontrados no [manual da placa](https://fpgacademy.org/index.html)
+Estes parâmetros são calculados utilizando a resolução e taxa de atualização dos monitores. Os cálculos para a definição dos valores utilizados no projeto estão disponíveis na [seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações de parâmetros para diferentes resoluções podem ser encontrados no [manual da placa](https://fpgacademy.org/index.html)
 
 </details>
 
 <details>
 <summary><h3>Saída VGA na Placa</h3></summary>
 
-Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a representação das 3 cores RGB. Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processados CoLenda.
+Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a representação das 3 cores RGB. 
+Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* são representados por 1 bit cada.
+ 
 
 <div align="center">
   <figure>  
-    <img src="docs/images/vga_placa.PNG">
+    <img src="docs/images/vga_placa.png">
     <figcaption>
       <p align="center">
 
@@ -272,6 +275,8 @@ Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyc
   </figure>
 </div>
 </details>
+
+> Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processador CoLenda.
 
 ## Processador gráfico
 
