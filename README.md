@@ -282,10 +282,11 @@ Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* s
 
 O processador gráfico CoLenda foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte 
 do seu trabalho de conclusão de curso na Universidade Estadual de Feira de Santana (UEFS). 
-Durante o desenvolvimento do presente projeto, o processador estava acoplado à FPGA da placa placa DE1-SoC.
+Durante o desenvolvimento do presente projeto, o processador nios 2 estava acoplado à FPGA DE1-SoC.
 
 A GPU conta com um conjunto de instruções que permitem alterar a cor do fundo, alterar blocos de 
-background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios.
+background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios, para facilitar o entendimento do trabalho desenvolvido,
+a tabela abaixo possui as siglas referentes a cada instrução e qual é sua função na GPU, a partir desse ponto serão usadas as siglas listadas para se referir as instruções.
 
 <details>
 	<summary><b>Instruções</b></summary>
@@ -306,7 +307,7 @@ A comunicação com o processador gráfico dá-se por meio dos barramentos de da
 - sinal que indica que a fila de instruções está cheia
 - sinal que indica quando uma tela finalizou a renderização
 
-Abaixo, segue o diagrama da GPU utilizada
+Para facilitar a compreenção e visualização dos barramentos o diagrama a baixo exemplifica a ligação dos barramentos com as partes da GPU
 
 <div align="center">
   <figure>  
