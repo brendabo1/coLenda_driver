@@ -244,7 +244,7 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
 
 <div align="center">
   <figure>  
-    <img src="docs/images/frame.png">
+    <img src="docs/images/frame.PNG">
     <figcaption>
       <p align="center">
 
@@ -269,7 +269,7 @@ Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* s
 
 <div align="center">
   <figure>  
-    <img src="docs/images/vga_placa.png">
+    <img src="docs/images/vga_placa.PNG">
     <figcaption>
       <p align="center">
 
@@ -325,7 +325,6 @@ Para realizar as atividades especificadas anteriormente, a GPU disponibiliza um 
   [**Figura 6** - Representação da arquitetura da GPU CoLenda](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
   
   </p>
-	
 	</figcaption>
   </figure>
 </div>
