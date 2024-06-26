@@ -179,7 +179,7 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
     <figcaption>
       <p align="center"> 
 
-[Figura 1 - Kit de Desenvolvimento DE1-SoC](https://fpgacademy.org/index.html)
+[**Figura 1** - Kit de Desenvolvimento DE1-SoC](https://fpgacademy.org/index.html)
 
 </p>
     </figcaption>
@@ -199,7 +199,7 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
     <figcaption>
       <p align="center">
 
-[Figura 2 - Diagrama de Blocos da DE1-SoC](https://fpgacademy.org/index.html)
+[**Figura 2** - Diagrama de Blocos da DE1-SoC](https://fpgacademy.org/index.html)
 
 </p>
     </figcaption>
@@ -223,11 +223,15 @@ O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste 
     <img src="docs/images/monitor.jpg" height="400px">
 </div>
 <div align="center">
-  Figura 3 - Monitor utilizado (esquerda) e a conexão VGA com a placa (direita)
+
+  **Figura 3** - Monitor utilizado (esquerda) e a conexão VGA com a placa (direita)
+
 </div>
 
 <details>
-<summary><h3>Padrão VGA</h3></summary>
+<summary><b>Padrão VGA</b></summary>
+
+### Padrão VGA
 
 O padrão VGA é um modelo bastante utilizado, estando presente principalmente nos monitores do tipo CRT.
 Este padrão é composto pela transmissão de sinais de geração de vídeo e sinais de cores (RGB - red, green, blue). Segue abaixo a especificação dos dois sinais de geração de vídeo:
@@ -244,7 +248,7 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
     <figcaption>
       <p align="center">
 
-[Figura 4 - Representação de um frame por meio do padrão VGA](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
+[**Figura 4** - Representação de um frame por meio do padrão VGA](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
 
 </p>
     </figcaption>
@@ -256,8 +260,9 @@ Estes parâmetros são calculados utilizando a resolução e taxa de atualizaç�
 </details>
 
 <details>
-<summary><h3>Saída VGA na Placa</h3></summary>
+<summary><b>Saída VGA na Placa</b></summary>
 
+### Saída VGA na Placa
 Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a representação das 3 cores RGB. 
 Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* são representados por 1 bit cada.
  
@@ -268,7 +273,7 @@ Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* s
     <figcaption>
       <p align="center">
 
-[Figura 5 - Conexões entre FPGA e VGA](https://fpgacademy.org/index.html)
+[**Figura 5** - Conexões entre FPGA e VGA](https://fpgacademy.org/index.html)
 
 </p>
     </figcaption>
@@ -276,49 +281,62 @@ Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* s
 </div>
 </details>
 
+
 > Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processador CoLenda.
 
 ## Processador gráfico
 
-O processador gráfico CoLenda foi desenvolvida pelo discente Gabriel Sá Barreto Alves Como parte 
-do seu trabalho de conclusão de curso na Universidade Estadual de Feira de Santana (UEFS). 
-Durante o desenvolvimento do presente projeto, o processador nios 2 estava acoplado à FPGA DE1-SoC.
+O processador gráfico CoLenda foi desenvolvida pelo discente Gabriel Sá Barreto Alves como parte 
+do seu trabalho de conclusão de curso (TCC) na Universidade Estadual de Feira de Santana (UEFS). O dispositivo gráfico permite o controle de polígonos convexos (triângulos e quadrados) e sprites em um monitor VGA com resolução de 640x480 pixels. No projeto desenvolvido para o TCC, o NIOS II foi utilizado como unidade de processamento principal.
 
-A GPU conta com um conjunto de instruções que permitem alterar a cor do fundo, alterar blocos de 
-background, desenhar sprites e polígonos, além de permitir a criação de sprites próprios, para facilitar o entendimento do trabalho desenvolvido,
-a tabela abaixo possui as siglas referentes a cada instrução e qual é sua função na GPU, a partir desse ponto serão usadas as siglas listadas para se referir as instruções.
+> [!NOTE]
+> No presente projeto, o NIOS II foi substituído pelo HPS da placa DE1-SoC.
+
+Além do controle de polígonos e sprites, a GPU CoLenda permite alterar a cor de fundo do monitor, alterar blocos de fundo de dimensão 8x8 e criar sprites próprios.
 
 <details>
 	<summary><b>Instruções</b></summary>
 
- ### Instruções
-|       Sigla         |            Instrução                      |
-|        ---          |              -----------                  |
-|        WBR          |        Escrita no banco de registradores  |
-|        WSM          |        Escrita na memória de sprites      |
-|        WBM          |        Escrita na memória de backgroung   | 
-|        DP           |        Definição de um polígono           |
+### Instruções
+Para realizar as atividades especificadas anteriormente, a GPU disponibiliza um conjunto de instruções, cada uma com tamanho e campos diferentes. A tabela abaixo lista as instruções disponíveis, assim como suas funções.  
+<div align="center">
 
+|Sigla|                    Instrução                    |                Função                  |
+|:---:|                  :-----------:                  |           :----------------:           |  
+| WBR |          Escrita no banco de registradores      |Configuração dos registradores que armazenam os sprites e a cor de background |
+| WSM |          Escrita na memória de sprites          |Armazemento ou modificação na memória de sprites|
+| WBM |          Escrita na memória de backgroung       |Configuração dos valores RGB para as áreas do background| 
+|  DP |Escrita na memória de instrução do co-processador|Definição dos dados de um polígono a ser renderizado|
+
+</div>
 </details>
 
-A comunicação com o processador gráfico dá-se por meio dos barramentos de dados data A, para acesso à memória, códigos de operações e registradores, e data B para os demais dados customizáveis. Além disso, o dispositivo apresenta os sinais de controle:
-- sinal de escrita na fila de instruções
-- reinicialização de contador externo
-- sinal que indica que a fila de instruções está cheia
-- sinal que indica quando uma tela finalizou a renderização
+<details>
+<summary><b>Comunicação com o processador gráfico</b></summary>
 
-Para facilitar a compreenção e visualização dos barramentos o diagrama a baixo exemplifica a ligação dos barramentos com as partes da GPU
+### Comunicação com o processador gráfico
 
 <div align="center">
   <figure>  
-	<img src="docs/images/diagrama_gpu.png" height=400 width=400>
+	<img src="docs/images/diagrama_gpu.png" width="500px">
 	<figcaption>
-	<p align="center"><b>Figura 3</b> - Diagrama interno da GPU</p>
-	<p align="center">Fonte: Alves, Gabriel (2024)</p>
+	<p align="center">
+  
+  [**Figura 6** - Representação da arquitetura da GPU CoLenda](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
+  
+  </p>
+	
 	</figcaption>
   </figure>
 </div>
 
+A comunicação com o processador gráfico dá-se por meio dos barramentos de dados data A e data B (figura 6). O barramento data A é utilizado para transmissão dos dados de acesso à memória e registradores e dos códigos de operações. Já o data B é utilizado para transmissão dos demais dados customizáveis tais como cores e posição. Além disso, o dispositivo apresenta os seguintes sinais de controle:
+- sinal de escrita na fila de instruções (input);
+- reinicialização de contador externo (input);
+- sinal que indica que a fila de instruções está cheia (output);
+- sinal que indica quando uma tela finalizou a renderização (output).
+
+</details>
 
 ## Solução geral
 
