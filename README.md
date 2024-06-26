@@ -19,7 +19,7 @@
 <div align="center">
 	
 [Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) •
-[Biblioteca](README.md#biblioteca-colenda) • [Testes](README.md#produto-e-testes-realizados)
+[Biblioteca](README.md#biblioteca-colenda) • [Exemplo de utilização](#exemplos) • [Testes](README.md#produto-e-testes-realizados)
 
 </div>
 
@@ -77,7 +77,7 @@ A descrição do projeto está disponível [aqui](/docs/Descricao-do-problema.pd
   - [Pseudo-instruções](#pseudo-instruções)
   - [Funções internas auxiliares](#funções-internas-auxiliares)
   - [Validação de valores](#validação-de-valores)
-- [Exemplos](#exemplos)
+- [Exemplo de utilização](#exemplos)
 - [Testes](#testes)
 	- [Teste de background e limite máximo de posição de polígonos](#teste-de-background-e-limite-máximo-de-posição-de-polígonos)
 	- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
@@ -279,10 +279,13 @@ Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* s
     </figcaption>
   </figure>
 </div>
-</details>
 
+<blockquote>
 
-> Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processador CoLenda.
+**NOTE**
+Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processador CoLenda.
+</blockquote>
+</details>	
 
 ## Processador gráfico
 
@@ -349,9 +352,9 @@ A comunicação com o processador gráfico dá-se por meio dos barramentos de da
 </div>
 
 O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a
-aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 7. O fluxo de comunicação inicia-se com a aplicação do
-usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como structs e funções, gerencia os dados
-dos elementos a serem exibidos no monitor VGA e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
+aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 7. O fluxo inicia-se com a aplicação do
+usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda, gerencia os dados
+dos elementos a serem exibidos no monitor VGA e as chamadas das respectivas funções da *lib* para as exibições na tela.
 
 Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema
 necessárias, assim como as conversões das solicitações recebidas para o stream de caracteres a ser passado ao driver.
@@ -361,7 +364,7 @@ Por fim, o driver gerencia os sinais de controle e o barramento de dados do hard
 
 A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, que serão explicitados a seguir
 
-### Background
+### 📖 Background
 <details>
 <summary><b>Arquitetura do Sistema Operacional Linux</b></summary>
 
