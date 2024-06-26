@@ -372,7 +372,7 @@ A implementação e compreensão do driver CoLenda como um módulo carregável m
 
 Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo (ou modo kernel) e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
 
-A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre múltiplas aplicações. A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
+A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre múltiplas aplicações. A janela de interação entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
 <div align="center">
   <figure>  
   <img src="docs/images/arquitetura-so.jpg">
@@ -393,7 +393,7 @@ A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o es
 
 #### Mapeamento de Memória
 
-Para acessar endereços físicos de memória nos modos de usuárioe kernel, faz-se necessária a virtualização destes endereços.
+Para acessar endereços físicos de memória nos modos de usuário e kernel, faz-se necessária a virtualização destes endereços.
 <div align="center">
   <figure>  
     <img src="docs/images/memory-mapping.png" width="800">
@@ -565,7 +565,7 @@ Estas funções, por representarem indiretamente as instruções do processador,
 <summary ><b>Funções de pseudo-instruções</b></summary>
 	
 ### Funções de pseudo-instruções 
-Como dito anteriormente, as funções de pseudo-instruções realizam uma determinada atividade a partir da execução de um bloco de instruções da GPU. Estas facilitam o desenvolvimento de imagens por meio da GPU. As pseudo-instruções implemetadas são: desenhar linha vertical, desenhar linha horizontal, desenhar bloco de background e limpar tela. A tabela abaixo lista as pseud instruções juntamente com suas descrições e seus argumentos.
+Como dito anteriormente, as funções de pseudo-instruções realizam uma determinada atividade a partir da execução de um bloco de instruções da GPU. Estas facilitam o desenvolvimento de imagens por meio da GPU. As pseudo-instruções implemetadas são: desenhar uma linha vertical, desenhar uma linha horizontal, desenhar um bloco de background e limpar tela. A tabela abaixo lista as pseud instruções juntamente com suas descrições e seus argumentos.
 
 | Função | Descrição | Argumento |
 |  :-----------:  | :-----------: | :-----------: |
