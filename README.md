@@ -239,7 +239,7 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
 
 <div align="center">
   <figure>  
-    <img src="docs/images/frame.png">
+    <img src="docs/images/frame.PNG">
     <figcaption>
       <p align="center">
 
@@ -261,7 +261,7 @@ Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyc
 
 <div align="center">
   <figure>  
-    <img src="docs/images/vga_placa.png">
+    <img src="docs/images/vga_placa.PNG">
     <figcaption>
       <p align="center">
 
