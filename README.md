@@ -343,22 +343,19 @@ A comunicação com o processador gráfico dá-se por meio dos barramentos de da
   <figure>  
     <img src="docs/images/solucao_geral.png">
     <figcaption>
-      <p align="center"><b>Figura 4</b> - Esquema em blocos da solução geral </p>
-      <p align="center">Fonte:Elaboração própria</p>
+      <p align="center"><b>Figura 7</b> - Esquema em blocos da solução geral </p>
     </figcaption>
   </figure>
 </div>
 
 O produto desenvolvido implementa a intercomunicação entre o software e o dispositivo gráfico CoLenda. O fluxo de comunicação entre a
-aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 3. O fluxo de comunicação inicia-se com a aplicação do
-usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como estruturas e funções, gerencia os dados
-dos elementos a serem exibidos no monitor e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
+aplicação de usuário, o módulo kernel e o hardware é esquematizado na figura 7. O fluxo de comunicação inicia-se com a aplicação do
+usuário que, por meio dos recursos disponibilizados pela biblioteca CoLenda tais como structs e funções, gerencia os dados
+dos elementos a serem exibidos no monitor VGA e as chamadas das respectivas funções da *lib* para realizar as exibições na tela.
 
 Por sua vez, a biblioteca atua como uma mediadora entre a aplicação de usuário e o driver CoLenda, gerenciando as chamadas de sistema
-necessárias e a conversão das solicitações recebidas para o stream de bit compreensível pelo driver.
-Por fim, o driver gerencia os sinais de entrada e saída do hardware diretamente pelo seu barramento de dados a fim de enviar as
-instruções recebidas da biblioteca.
-
+necessárias, assim como as conversões das solicitações recebidas para o stream de caracteres a ser passado ao driver.
+Por fim, o driver gerencia os sinais de controle e o barramento de dados do hardware, a fim de enviar as instruções recebidas da biblioteca.
 
 ## Driver CoLenda
 
