@@ -369,10 +369,6 @@ A implementação e compreensão do driver CoLenda como um módulo carregável m
 
 Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo (ou modo kernel) e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
 
-</details>
-
-### Arquitetura do Sistema Operacional Linux
-
 A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre múltiplas aplicações. A janela de intereção entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
 <div align="center">
   <figure>  
@@ -386,9 +382,11 @@ A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o es
   </figcaption>
   </figure>
 </div>
+</details>
+
 
 <details>
-<summary>Mapeamento de Memória</summary>
+<summary><b>Mapeamento de Memória</b></summary>
 
 #### Mapeamento de Memória
 
@@ -405,12 +403,13 @@ Entretanto, para acessar os valores das portas mapeadas, faz-se necessária a vi
 
 A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (tradução). 
 Para realizar o mapeamento do endereço físico dos barramentos e sinais, foram utilizadas as funções `ioremap()` e `iounmap()`. A partir do endereço virtual gerado, pode-se receber e enviar dados para o processador gráfico.
+
 </details>
 
 <details>
-<summary>Driver do Dispositivo</summary>
+<summary><b>Driver do Dispositivo</b></summary>
+
 #### Driver do Dispositivo
-</details>
 O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
 
 Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 10. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como `open`, `read`, `write` etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico.
@@ -445,58 +444,66 @@ Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sist
   </figcaption>
   </figure>
 </div>
+</details>
 
 ## Biblioteca CoLenda
 
 A biblioteca desenvolvida provê uma abstração da comunicação com o driver de dispositivo, facilitando a interação do usuário com o 
 módulo kernel do hardware. Esta *lib* disponibiliza constantes para a seleção de sprites, estruturas para a organização dos elementos a
-serem exibidos, funções respectivas às instruções do processador gráfico e pseudo-instruções, tal como *clear*, que executam conjuntos de instruções.
+serem exibidos, funções respectivas às instruções do processador gráfico, funções de pseudo-instruções, que executam conjuntos de instruções, e funções internas auxiliares.
 > [!NOTE]
 > Os sprites disponíveis para seleção estão salvos em hardware no processador gráfico.
 > Nenhum deles foi criado pela biblioteca
-
-> [!NOTE]
-> As pseudo-instruções são funções da biblioteca que podem ser chamadas
 
 <details >
 <summary><b>Constantes de sprite</b></summary>
 
 ### Constantes de sprite
-As constantes de sprite implementadas visam facilitar a escolha do sprite, pois abstraem o número relacionado ao endereço em que um sprite específico está localizado.
+As constantes de sprite implementadas visam facilitar seleção, pois nomeiam os sprites disponíveis e abstraem o número relacionado ao endereço de localização dos mesmos (*offset*). A figura 12 ilustra os sprites diponibilizados na GPU e a tabela abaixo lista a relação entre os sprites e os valores associados.
 
-| Define    | Valor    | sprite associado
-|-----------|----------|-------------------
-| ORANGE_BLOCK  | 0     | bloco laranja
-| BLUE_BLOCK  	| 1     | bloco azul
-| MEDAL			| 2		| medalha
-| BOMB 			| 3		| bomba
-| TREE			| 4 	| arvore
-| SHIP_UP 		| 5 	| nave virada para cima
-| SHIP_RIGTH 	| 6 	| nave virada para direita
-| SHIP_DOWN		| 7		| nave virada para baixo
-| SHIP_LEFT		| 8 	| nave virada para esquerda
-| COIN			| 9		| moeda
-| DIAMOND		| 10	| diamante
-| LASER_VERTICAL| 11 	| laser na vertical
-| LASER_DIAGONAL1| 12 	| laser na diagonal principal
-| LASER_HORIZONTAL| 13 	| laser na horizontal
-| LASER_DIAGONAL2| 14 	| laser na diagonal secundária
-| HEART			| 15	| coração azul
-| LOG			| 16	| tronco de arvore
-| BLUE_CAR		| 17	| carro de corrida azul
-| GREEN_CAR		| 18	| carro de corrida verde
-| PURPLE_CAR	| 19	| carro de corrida roxo
-| YELLOW_CAR	| 20	| carro de corrida amarelo
-| ALIEN1		| 21	| alien do space invaders
-| ALIEN2		| 22	| alien do space invaders
-| DRAGON		| 23	| pedra
-| CUP			| 24	| troféu
+<div align="center">
 
-a baixo segue as imagens dos sprites que estão na memporia
+|   Define    | Valor| Sprite associado
+|:-----------:|:----:|:-------------------:|
+| ORANGE_BLOCK| 0    | Bloco laranja
+|  BLUE_BLOCK | 1    | Bloco azul
+|  MEDAL			| 2		 | Medalha
+|  BOMB 			| 3	   | Bomba
+|  TREE	  		| 4    | Árvore
+| SHIP_UP 		| 5    | Nave virada para cima
+| SHIP_RIGTH 	| 6    | Nave virada para direita
+| SHIP_DOWN		| 7	   | Nave virada para baixo
+| SHIP_LEFT		| 8    | Nave virada para esquerda
+| COIN	   		| 9		 | Moeda
+| DIAMOND		  | 10	 | Diamante
+| LASER_VERTICAL| 11 | Laser na vertical
+| LASER_DIAGONAL1| 12| Laser na diagonal principal
+| LASER_HORIZONTAL|13| Laser na horizontal
+| LASER_DIAGONAL2| 14| Laser na diagonal secundária
+| HEART		  	| 15   | Coração azul
+| LOG			    | 16   | Tronco de arvore
+| BLUE_CAR		| 17   | Carro de corrida azul
+| GREEN_CAR		| 18   | Carro de corrida verde
+| PURPLE_CAR	| 19   | Carro de corrida roxo
+| YELLOW_CAR	| 20   | Carro de corrida amarelo
+| ALIEN1		  | 21   | Alien do space invaders
+| ALIEN2  		| 22	 | Alien do space invaders
+| DRAGON		  | 23	 | Pedra
+| CUP		    	| 24   | Troféu
 
-<img src="docs/images/sprites.png" style="">
-<p><b>Figura 9</b> - tabela com os sprites pre-renderizados na gpu</p>
-<p>Fonte: Arquivo auxiliar disponibilizado pelos professores</p>
+</div>
+<div align="center">
+  <figure>  
+  <img src="docs/images/sprites.png">
+  <figcaption>
+  <p align="center">
+  
+  [**Figura 12** - Sprites disponíveis na GPU CoLenda](https://drive.google.com/file/d/1rCixSRIddlwt_PSXwhSkDDXlJrNQqvs_/view)
+  
+  </p>
+  </figcaption>
+  </figure>
+</div>
 
 </details>
 
@@ -504,11 +511,12 @@ a baixo segue as imagens dos sprites que estão na memporia
 <summary><b>Structs</b></summary>
 
 ### Structs
+As structs implementadas visam facilitar a organização das informações dos elementos a serem (ou sendo) exibidos no monitor VGA. A tabela abaixo lista as structs implementadas, assim como sua breve descrição e seus atributos.
 
-| Struct      | Descrição | Atributos |
-| ---- | ----------- | ----------- |
-| Cor      | Define os campos que uma cor deve possuir. Utilizada nas demais estruturas que necessitam de um campo de cor| Vermelho, verde e azul |
-| Sprite   | Define os dados necessários para a exibição de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
+| Struct      | Descrição     |  Atributos    |
+|    :----:   | :-----------: | :-----------: |
+|  Cor        | Define os campos que uma cor deve possuir. Utilizada nas demais estruturas que necessitam de um campo de cor| Vermelho, verde e azul |
+|  Sprite     | Define os dados necessários para a exibição de um sprite        | Coordenadas x e y, offset (para a escolha do sprite), registrador (espaço de memória que será ocupado) e visibilidade |
 | Bloco de background   | Agrupa as informações necessárias para a edição de um bloco de blockground | Cor (struct) e coordenadas x e y  |
 | Pixel   | Define as informações necessárias para a criação de um pixel de um sprite. Localizado na memória de sprites      | Endereço de memória e cor (struct) |
 | Polígono   | Agrupa as informações necessárias para a exibição de um polígono   | Coordenadas x e y, camada, tamanho, forma (triângulo ou quadrado e cor (struct) |
@@ -516,17 +524,19 @@ a baixo segue as imagens dos sprites que estão na memporia
 
 <blockquote>
 
-**NOTE**
+**WARNING**
 
-As coordenadas de sprites são relativas a disposição dos pixels na tela (640x480). Já as coordenadas dos blocos de blackground são relativas à disposição dos blocos de tamanho 8x8 pixels (totalizando 80x60 blocos). Cada bloco possui um endereço na memória 
+As coordenadas de sprites são relativas à disposição dos pixels na tela (640x480). Já as coordenadas dos blocos de blackground são relativas à disposição dos blocos de tamanho 8x8 pixels (totalizando 80x60 blocos). Cada bloco possui um endereço na memória.
 </blockquote>
 
 </details>
 
 <details >
-<summary ><b>Funções</b></summary>
+<summary ><b>Funções correspondentes às instruções</b></summary>
 
-### Funções 
+### Funções correspondentes às instruções
+Estas funções, por representarem indiretamente as instruções do processador, são utilizadas pela aplicação de usuário para controlar a exibição dos elementos no monitor VGA. Dessa forma, cada função encarrega-se de um elemento. A tabela lista as funções deste tipo, bem como os arqumentos recebidos e a instrução da GPU relacionada com as mesmas.
+<div align="center">
 	
 |      Função          |          Argumento         | Instrução relacionada |
 |     -----------      |        -----------         |           ----        |
@@ -535,16 +545,18 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 | Setar bloco de fundo | Struct bloco de background |           WSM         |
 |    Setar sprite      |       Struct sprite        |           WRB         |
 |    Setar polígono    |      Struct polígono       |           DP          |
-	
+
+</div>
 </details>
 
 <details>
-<summary ><b>Pseudo-instruções</b></summary>
+<summary ><b>Funções de pseudo-instruções</b></summary>
 	
-### Pseudo-instruções 
-	
+### Funções de pseudo-instruções 
+Como dito anteriormente, as funções de pseudo-instruções realizam uma determinada atividade a partir da execução de um bloco de instruções da GPU. Estas facilitam o desenvolvimento de imagens por meio da GPU. As pseudo-instruções implemetadas são: desenhar linha vertical, desenhar linha horizontal, desenhar bloco de background e limpar tela. A tabela abaixo lista as pseud instruções juntamente com suas descrições e seus argumentos.
+
 | Função | Descrição | Argumento |
-|  -----------  | ----------- |----------- |
+|  :-----------:  | :-----------: | :-----------: |
 | Desenhar linha vertical | Desenha uma linha vertical utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada y | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
 | Desenhar linha horizontal | Desenha uma linha horizontal utilizando blocos de background. Chama a função setar bloco de background n vezes alterando apenas a coordenada x | Coordenadas iniciais x e y, tamanho (n) e  cor (struct)|
 | Desenhar bloco de background | Seta um bloco de background. Dispensa a instância da struct| Coordenadas iniciais x e y, e cor (struct)|
@@ -556,18 +568,19 @@ As coordenadas de sprites são relativas a disposição dos pixels na tela (640x
 <summary><b>Funções internas  auxiliares</b></summary>
 
 ### Funções internas auxiliares
+Estas funções são utilizadas pela biblioteca na geração dos streams de caracteres e nas chamadas de write. São elas:
 
-- função para escrever no buffer do driver as instruções (gerencia a chamada de sistema write)
-- função para transformar 2 wchar_t em uma string de 8 char
+- função para escrever no buffer do driver as instruções: gerencia a chamada de sistema write
+- função para transformar 2 wchar_t em uma string de 8 *char*
 
 </details>
 
 <details >
-<summary ><b>Validação de valores</b></summary>
+<summary ><b>Validação de valores e tratamento de erros</b></summary>
 
 ###  Validação de valores e tratamento de erros
 
-A biblioteca apresenta recursos para validação dos valores inseridos pelo usuário, pois como as instruções possuem tamanhos e campos distintos, foi imprescindível a existência de recursos para validar essas informações. A detecção de um erro retorna um valor de erro à aplicação do usuário  e exibe no terminal o erro uma mensagem referente ao erro ocorrido
+A biblioteca apresenta recursos para validação dos valores atribuídos pelo usuário aos argumentos das structs, tais como tamanho dos canais de cores, valor das coordenadas x e y dos blocos de background e dos polígonos. Estas checagens foram implementadas devido a limitação de exibição no monitor VGA devido ao tamanho fixo dos compos das intruções do processador gráfico. A detecção de um erro retorna um valor de erro à aplicação do usuário  e exibe no terminal o erro uma mensagem referente ao erro ocorrido
 
 </details>	
 
