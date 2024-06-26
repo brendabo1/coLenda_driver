@@ -829,6 +829,7 @@ Durante os testes, notou-se um possível problema com a situação da fila de in
 Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
 
 ## Referências
+
 ALVES, Gabriel - [Desenvolvimento de uma Arquitetura Baseada em Sprites para criacão de Jogos 2D em Ambientes reconfiguraveis utilizando dispositivos FPGA.](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view) Orientador: DIAS, Afranserai, SARINHO, Vitor. 2024. Trabalho de Conclusão de Curso - Engenharia da Computação, UEFS, Feira de Santana. Acessado em: 14 maio. 2024. 
 
 [Character device drivers — The Linux Kernel documentation.](https://linux-kernel-labs.github.io/refs/heads/master/labs/device_drivers.html) 
@@ -840,4 +841,8 @@ TANENBAUM, A. S.; BOS, Herbert. Sistemas operacionais modernos. 4. ed. São Paul
 [History and Evolution of GPU Architecture](https://www.igi-global.com/chapter/history-and-evolution-of-gpu-architecture/139841)
 
 [GPU computing](https://escholarship.org/content/qt0cv1p1nc/qt0cv1p1nc_noSplash_e93469c5acbe804c7c045217eee807bb.pdf)
+
+[Understanding the structure of a Linux Kernel Device Driver por Seegio Prado](https://youtu.be/XoYkHUnmpQo?si=oNfgFA-yZhhQlsQd)
+
+[Let's code a Linux Driver por 4GNU_Linux](https://youtube.com/playlist?list=PLCGpd0Do5-I3b5TtyqeF1UdyD4C-S-dMa&si=HYJ-_VlVx9gj2VPw)
 
