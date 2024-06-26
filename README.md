@@ -177,8 +177,11 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
   <figure>  
     <img src="docs/images/kit_desenvolvimento_DE1-SoC.jpg" width="600px">
     <figcaption>
-      <p align="center"><b>Figura 1</b> - Kit de Desenvolvimento DE1-SoC</p>
-      <p align="center">Fonte: Terasic Technologies</p>
+      <p align="center"> 
+
+[Figura 1 - Kit de Desenvolvimento DE1-SoC](https://fpgacademy.org/index.html)
+
+</p>
     </figcaption>
   </figure>
 </div>
@@ -194,8 +197,11 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
   <figure>  
     <img src="docs/images/diagramaDE1SoC_FPGAcademy.png" width="500px">
     <figcaption>
-      <p align="center"><b>Figura 2</b> - Diagrama de Blocos da DE1-SoC</p>
-      <p align="center">Fonte: FPGAcademy.org</p>
+      <p align="center">
+
+[Figura 2 - Diagrama de Blocos da DE1-SoC](https://fpgacademy.org/index.html)
+
+</p>
     </figcaption>
   </figure>
 </div>
@@ -207,6 +213,64 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 > No sentido HPS-FPGA, todos os dispositivos de entrada e saída (E/S) conectados à FPGA são acessíveis ao processador através do mapeamento de memória.
 > As informações sobre o endereçamento dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
 
+</details>
+
+## Periféricos utilizados
+O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste projeto, utilizou-se apenas a saída VGA conectada a um monitor de tubo CRT - *Cathode Ray Tube*-  com resolução de 640×480 pixels (figura 3).
+
+<div align="center">
+    <img src="docs/images/vga-placa.jpg" height="400px">
+    <img src="docs/images/monitor.jpg" height="400px">
+</div>
+<div align="center">
+  Figura 3 - Monitor utilizado (esquerda) e a conexão VGA com a placa (direita)
+</div>
+
+<details>
+<summary><h3>Padrão VGA</h3></summary>
+
+O padrão VGA é composto pela transmissão de sinais de geração de vídeo e sinais de cores (RGB- red, green, blue). Segue abaixo a especificação dos dois sinais de geração de vídeo:
+- sinal de sincronismo horizontal (*hsync*): indica o tempo necessário para percorrer uma linha do monitor;
+- sinal de sincronismo vertical (*vsync*): indica o tempo necessário para percorrer toda a tela;
+
+Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
+- área ativa: espaço de exibição dos pixels na tela;
+- front e back porches: tempos de espera a serem implementados para delimitar a região ativa
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/frame.png">
+    <figcaption>
+      <p align="center">
+
+[Figura 4 - Representação de um frame por meio do padrão VGA](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+> Os cálculos realizados para a definição dos parâmetros podem ser visualizados [na seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações dos tempos para diferentes resoluções podem ser encontrados no [manual da placa](https://fpgacademy.org/index.html)
+
+</details>
+
+<details>
+<summary><h3>Saída VGA na Placa</h3></summary>
+
+Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a representação das 3 cores RGB. Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processados CoLenda.
+
+<div align="center">
+  <figure>  
+    <img src="docs/images/vga_placa.png">
+    <figcaption>
+      <p align="center">
+
+[Figura 5 - Conexões entre FPGA e VGA](https://fpgacademy.org/index.html)
+
+</p>
+    </figcaption>
+  </figure>
+</div>
 </details>
 
 ## Processador gráfico
