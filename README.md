@@ -821,12 +821,16 @@ Como observa-se na figura 23, todos os elementos foram removidos da tela e a cor
 
 </details>
 
-
-## Conclusão
-Após diversos testes, concluiu-se que tanto o driver quanto a biblioteca atenderam aos objetivos esperados, e desempenharam de maneira satisfatória a intercomunicação usuário-driver-harware. 
-Durante os testes, notou-se um possível problema com a situação da fila de instrução cheia e para isso foi implementado um delay a cada 12 instruções na biblioteca. Como melhoria futura, pode-se implementar tratamentos alternativos no driver para que este consiga lidar sozinho com problemas de mesmo cunho.
+Durante os testes, o possível problema da fila de instruções cheia foi tratado por meio de um delay a cada 12 instruções na biblioteca, garantindo que os comanandos sejam acessados pela GPU na janela de tempo após a renderização da tela.
 
 Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
+
+Assim sendo, o driver e a biblioteca atenderam aos objetivos nas variadas situações verificadas. Portanto, o produto desempenha de maneira satisfatória a intercomunicação usuário-driver-harware.
+
+## Contribuindo
+Todas as contribuições são bem-vindas, sejam elas código ou documentação. Para isso, utilize a formatação adotada no projeto, realize os testes necessários, bem como adote pull requests a cada modificação realizada.
+
+
 
 ## Referências
 
