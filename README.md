@@ -828,7 +828,7 @@ Além de compreender as políticas de gerenciamento de sistema operacional Linux
 Assim sendo, o driver e a biblioteca atenderam aos objetivos nas variadas situações verificadas. Portanto, o produto desempenha de maneira satisfatória a intercomunicação usuário-driver-harware.
 
 ## Contribuindo
-Todas as contribuições são bem-vindas, sejam elas código ou documentação. Para isso, utilize a formatação adotada no projeto, realize os testes necessários, bem como adote pull requests a cada modificação realizada.
+Todas as contribuições são bem-vindas, sejam elas código ou documentação. Para isso, utilize a formatação e as versões adotada no projeto, realize os testes necessários para manter a integração, bem como adote pull requests para cada modificação.
 
 
 
