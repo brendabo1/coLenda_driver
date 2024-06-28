@@ -19,7 +19,7 @@
 <div align="center">
 	
 [Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) •
-[Biblioteca](README.md#biblioteca-colenda) • [Exemplo de utilização](#exemplo-de-utilização) • [Testes](README.md#produto-e-testes-realizados)
+[Biblioteca](README.md#biblioteca-colenda) • [Exemplo de utilização](#exemplo-de-utilização) • [Testes](README.md#testes)
 
 </div>
 
@@ -154,7 +154,9 @@ Adicione o seguinte include no seu código:
 
 ### Linguagem C
 
-É uma linguagem de programação de propósito geral que combina abstrações e controles de baixo nível sobre o hardware resultando em ganho de eficiência. O software criado em 1970 por Dennis Ritchie é estreitamente associada ao sistema operacional UNIX, uma vez que as versões desse sistema foram escritas em linguagem C. Além disso, a sintaxe simples e a alta portabilidade desta linguagem entre dispositivos contribui para seu amplo uso em sistemas embarcados de recursos limitados.
+É uma linguagem de programação de propósito geral que combina abstrações e controles de baixo nível sobre o hardware resultando em ganho de eficiência. O software criado em 1970 por 
+Dennis Ritchie é estreitamente associada ao sistema operacional UNIX, uma vez que as versões desse sistema foram escritas em linguagem C. Além disso, a sintaxe simples e a alta 
+portabilidade desta linguagem entre dispositivos contribui para seu amplo uso em sistemas embarcados de recursos limitados.
 
 </details>
 
@@ -163,7 +165,9 @@ Adicione o seguinte include no seu código:
 
 ### Compilador GNU
 
-O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um conjunto de compiladores de código aberto desenvolvido pelo Projeto GNU que oferecem suporte a uma gama de linguagens de programação, incluindo C, C++, Fortran, Ada e Go. Esta ferramenta otimiza a compilação, ou seja a produção de código de máquina, nas várias linguagens e arquiteturas de processadores suportadas.
+O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um conjunto de compiladores de código aberto desenvolvido pelo Projeto GNU que oferecem suporte a uma gama de 
+linguagens de programação, incluindo C, C++, Fortran, Ada e Go. Esta ferramenta otimiza a compilação, ou seja a produção de código de máquina, nas várias linguagens e arquiteturas de 
+processadores suportadas.
 
 </details>
 <details>
@@ -172,7 +176,8 @@ O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um con
 
 ### VS Code
 
-O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a várias linguagens de programação, incluindo Python, Java, C, C++ e JavaScript. A ferramenta desenvolvida pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque de erros, sugestões, personalização dentre outros para auxiliar a codificação.
+O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a várias linguagens de programação, incluindo Python, Java, C, C++ e JavaScript. A ferramenta desenvolvida 
+pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque de erros, sugestões, personalização dentre outros para auxiliar a codificação.
 
 </details>
 
@@ -183,7 +188,10 @@ O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a v
 
 ### Visão geral da DE1-SoC
 
-Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no mesmo Cyclone® V da Intel®, sistema em chip (SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso ao sistema operacional Linux embarcado na placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e computador *host*.
+Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no mesmo Cyclone® V da Intel®, sistema em chip 
+(SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso 
+ao sistema operacional Linux embarcado na placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e 
+computador *host*.
 
 <div align="center">
   <figure>  
@@ -218,7 +226,9 @@ Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periférico
   </figure>
 </div>
 
-O diagrama de blocos do sistema computacional, apresentado na figura 2,  explicita os componentes do Cyclone® V da Intel®, bem como suas conexões. O HPS inclui um processador ARM® Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos. Já a FPGA possibilita uma variedade de implementações através da programação dos blocos lógicos.
+O diagrama de blocos do sistema computacional, apresentado na figura 2,  explicita os componentes do Cyclone® V da Intel®, bem como suas conexões. O HPS inclui um processador ARM® 
+Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos. Já a FPGA 
+possibilita uma variedade de implementações através da programação dos blocos lógicos.
 
 
 > A comunicação bidirecional entre a o HPS e a FPGA se dá por meio das *FPGA bridges*. 
@@ -228,7 +238,8 @@ O diagrama de blocos do sistema computacional, apresentado na figura 2,  explici
 </details>
 
 ## Periféricos utilizados
-O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste projeto, utilizou-se apenas a saída VGA conectada a um monitor de tubo CRT - *Cathode Ray Tube* -  com resolução de 640×480 pixels (figura 3) e uma taxa de atualização de 60Hz.
+O kit de desenvolvimento DE1-SoC possui diversos periféricos integrados. Neste projeto, utilizou-se apenas a saída VGA conectada a um monitor de tubo CRT - *Cathode Ray Tube* -  com 
+resolução de 640×480 pixels (figura 3) e uma taxa de atualização de 60Hz.
 
 <div align="center">
     <img src="docs/images/vga-placa.jpg" height="400px">
@@ -267,7 +278,9 @@ Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
   </figure>
 </div>
 
-Estes parâmetros são calculados utilizando a resolução e taxa de atualização dos monitores. Os cálculos para a definição dos valores utilizados no projeto estão disponíveis na [seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações de parâmetros para diferentes resoluções podem ser encontrados no [manual da placa](https://fpgacademy.org/index.html)
+Estes parâmetros são calculados utilizando a resolução e taxa de atualização dos monitores. Os cálculos para a definição dos valores utilizados no projeto estão disponíveis na
+[seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações de parâmetros para diferentes resoluções podem ser encontrados no 
+[manual da placa](https://fpgacademy.org/index.html)
 
 </details>
 
@@ -275,8 +288,8 @@ Estes parâmetros são calculados utilizando a resolução e taxa de atualizaç�
 <summary><b>Saída VGA na Placa</b></summary>
 
 ### Saída VGA na Placa
-Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a representação das 3 cores RGB. 
-Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* são representados por 1 bit cada.
+Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a 
+representação das 3 cores RGB. Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* são representados por 1 bit cada.
  
 
 <div align="center">
@@ -302,7 +315,8 @@ Os sinais de geração de vídeo e de cores são controlados pelo *Controlador V
 ## Processador gráfico
 
 O processador gráfico CoLenda foi desenvolvida pelo discente Gabriel Sá Barreto Alves como parte 
-do seu trabalho de conclusão de curso (TCC) na Universidade Estadual de Feira de Santana (UEFS). O dispositivo gráfico permite o controle de polígonos convexos (triângulos e quadrados) e sprites em um monitor VGA com resolução de 640x480 pixels. No projeto desenvolvido para o TCC, o NIOS II foi utilizado como unidade de processamento principal.
+do seu trabalho de conclusão de curso (TCC) na Universidade Estadual de Feira de Santana (UEFS). O dispositivo gráfico permite o controle de polígonos convexos (triângulos e quadrados) 
+e sprites em um monitor VGA com resolução de 640x480 pixels. No projeto desenvolvido para o TCC, o NIOS II foi utilizado como unidade de processamento principal.
 
 > [!NOTE]
 > No presente projeto, o NIOS II foi substituído pelo HPS da placa DE1-SoC.
@@ -313,7 +327,8 @@ Além do controle de polígonos e sprites, a GPU CoLenda permite alterar a cor d
 	<summary><b>Instruções</b></summary>
 
 ### Instruções
-Para realizar as atividades especificadas anteriormente, a GPU disponibiliza um conjunto de instruções, cada uma com tamanho e campos diferentes. A tabela abaixo lista as instruções disponíveis, assim como suas funções.  
+Para realizar as atividades especificadas anteriormente, a GPU disponibiliza um conjunto de instruções, cada uma com tamanho e campos diferentes. A tabela abaixo lista as instruções 
+disponíveis, assim como suas funções.  
 <div align="center">
 
 |Sigla|                    Instrução                    |                Função                  |
@@ -344,7 +359,9 @@ Para realizar as atividades especificadas anteriormente, a GPU disponibiliza um 
   </figure>
 </div>
 
-A comunicação com o processador gráfico dá-se por meio dos barramentos de dados data A e data B (figura 6). O barramento data A é utilizado para transmissão dos dados de acesso à memória e registradores e dos códigos de operações. Já o data B é utilizado para transmissão dos demais dados customizáveis tais como cores e posição. Além disso, o dispositivo apresenta os seguintes sinais de controle:
+A comunicação com o processador gráfico dá-se por meio dos barramentos de dados data A e data B (figura 6). O barramento data A é utilizado para transmissão dos dados de acesso à 
+memória e registradores e dos códigos de operações. Já o data B é utilizado para transmissão dos demais dados customizáveis tais como cores e posição. Além disso, o dispositivo 
+apresenta os seguintes sinais de controle:
 - sinal de escrita na fila de instruções (input);
 - reinicialização de contador externo (input);
 - sinal que indica que a fila de instruções está cheia (output);
@@ -374,7 +391,8 @@ Por fim, o driver gerencia os sinais de controle e o barramento de dados do hard
 
 ## Driver CoLenda
 
-A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, que serão explicitados a seguir.
+A implementação e compreensão do driver CoLenda como um módulo carregável mediante a demanda perpassa por alguns conceitos fundamentais, como a arquitetura do sistema operacional Linux, 
+que serão explicitados a seguir.
 
 ### 📖 Background
 <details>
@@ -382,9 +400,14 @@ A implementação e compreensão do driver CoLenda como um módulo carregável m
 
 #### Arquitetura do Sistema Operacional Linux
 
-Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo (ou modo kernel) e modo usuário. O kernel é parte do sistema operacional que tem acesso completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o modo usuário possui  limitações e menos privilégios. 
+Existem dois modos de operação referentes ao modo de execução do processador: modo núcleo (ou modo kernel) e modo usuário. O kernel é parte do sistema operacional que tem acesso 
+completo a todo o hardware e recursos, podendo executar qualquer instrução disponível na máquina. Portanto, o modo kernel possui privilégios de acesso e execução de subsistemas. Já o 
+modo usuário possui  limitações e menos privilégios. 
 
-A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, entre múltiplas aplicações. A janela de interação entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove "serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de dispositivos também compõem o espaço do kernel. 
+A figura 8 exibe uma típica arquitetura do sistema operacional linux, onde o espaço kernel intermedia o acesso e o compartilhamento dos recursos de hardware, de maneira segura e justa, 
+entre múltiplas aplicações. A janela de interação entre o espaço de usuário e do kernel se dá através de uma interface de chamadas de sistema em que, em mais alto nível, o kernel prove 
+"serviços" às aplicações. Além do kernel, responsável pelo gerenciamento de processos, segurança, gerenciamento de memória e demais atribuições do sistema operacional, os drivers de 
+dispositivos também compõem o espaço do kernel. 
 <div align="center">
   <figure>  
   <img src="docs/images/arquitetura-so.jpg">
@@ -415,8 +438,10 @@ Para acessar endereços físicos de memória nos modos de usuário e kernel, faz
   </figure>
 </div>
 
-A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (figura 9). 
-Nos módulos kernel, as funções [`ioremap()` e `iounmap()`](https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch08s04.html) são utilizadas. Já nas aplicações de usuários, as funções [`mmap` e `unmap`](https://www.man7.org/linux/man-pages/man2/mmap.2.html) A partir do endereço virtual gerado, pode-se realizar as devidas manipulações.
+A memória virtual é uma técnica utilizada para gerenciamento de memória nos computadores. Nela, cada programa possui seu próprio espaço de endereçamento o qual é mapeado na memória 
+física. Quando o programa referencia uma parte do espaço de endereçamento que está na memória física, o hardware encarrega-se de realizar rapidamente o mapeamento (figura 9). 
+Nos módulos kernel, as funções [`ioremap()` e `iounmap()`](https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch08s04.html) são utilizadas. Já nas aplicações de 
+usuários, as funções [`mmap` e `unmap`](https://www.man7.org/linux/man-pages/man2/mmap.2.html) A partir do endereço virtual gerado, pode-se realizar as devidas manipulações.
 
 </details>
 
@@ -424,9 +449,12 @@ Nos módulos kernel, as funções [`ioremap()` e `iounmap()`](https://www.oreill
 <summary><b>Driver do Dispositivo</b></summary>
 
 #### Driver de dispositivo
-O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
+O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo 
+executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
 
-Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 10. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como `open`, `read`, `write` etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico.
+Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como 
+representa na figura 10. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como `open`, `read`, `write` etc. é redirecionada pelo 
+sistema operacional para driver que faz o gerenciamento do dispositivo físico.
 
 <div align="center">
   <figure>  
@@ -441,11 +469,17 @@ Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através
   </figure>
 </div>
 
-Nas distribuições UNIX, os drivers de dispositivos e seus arquivos podem ser do tipo *caractere* ou *bloco*. A principal diferença entre eles se dá pelo fato dos drivers de caracteres manipularem uma pequena quantidade de dados, geralmente strings de bytes, para dispositivos como mouse, teclado e portas seriais. Já o segundo tipo, acessa e transfere um grande volume de dados organizados em blocos, além de necessitarem de buffering. A exemplo tem-se drivers para disco rígido, memória RAM, etc. Desse modo, o driver CoLenda para comunicação com o processador gráfico é do tipo caractere.
+Nas distribuições UNIX, os drivers de dispositivos e seus arquivos podem ser do tipo *caractere* ou *bloco*. A principal diferença entre eles se dá pelo fato dos drivers de caracteres 
+manipularem uma pequena quantidade de dados, geralmente strings de bytes, para dispositivos como mouse, teclado e portas seriais. Já o segundo tipo, acessa e transfere um grande volume 
+de dados organizados em blocos, além de necessitarem de buffering. A exemplo tem-se drivers para disco rígido, memória RAM, etc. Desse modo, o driver CoLenda para comunicação com o 
+processador gráfico é do tipo caractere.
 
-Além disso, os dispositivos tem uma identificação característica composta pelo *major* e *minor number*. O *major number* identifica o tipo do dispositivo e o *minor* cada dispositivo físico associado ao driver. Ou seja, caso existam vários dispositivos do mesmo tipo eles terão o mesmo *major number*, porém *minors* diferentes para cada um deles.
+Além disso, os dispositivos tem uma identificação característica composta pelo *major* e *minor number*. O *major number* identifica o tipo do dispositivo e o *minor* cada dispositivo 
+físico associado ao driver. Ou seja, caso existam vários dispositivos do mesmo tipo eles terão o mesmo *major number*, porém *minors* diferentes para cada um deles.
 
-Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sistema é realizada e o driver associado realiza a operação de leitura ou escrita de dados no equipamento físico, como é representado na figura 11.
+Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sistema é realizada e o driver associado realiza a operação de leitura ou escrita de dados no equipamento 
+físico, como é representado na figura 11.
+
 <div align="center">
   <figure>  
   <img src="docs/images/infraestrutura-driver.png">
@@ -461,14 +495,21 @@ Dessa maneira, ao acessar o arquivo especial do dispositivo, uma chamada de sist
 </details>
 
 ### Driver desenvolvido
-O módulo kernel CoLenda é um driver de caractere que realiza a comunicação com o processador gráfico. Este módulo implementa as funções *open*, *release*, *write*, além das funções *init* e *exit*.
+O módulo kernel CoLenda é um driver de caractere que realiza a comunicação com o processador gráfico. Este módulo implementa as funções *open*, *release*, *write*, além das funções 
+*init* e *exit*.
 
-As funções *open* e *close* apenas indicam no log do sistema que o driver foi aberto e liberado, respectivamente. Por sua vez, a função *write* recebe a instrução da GPU da aplicação de usuário, realiza a separação deste stream de bits entre os barramentos *dataA* e *dataB* e envia o sinal de escrita na a fila de instruções do peocessador gráfico. 
+As funções *open* e *close* apenas indicam no log do sistema que o driver foi aberto e liberado, respectivamente. Por sua vez, a função *write* recebe a instrução da GPU da aplicação de 
+usuário, realiza a separação deste stream de bits entre os barramentos *dataA* e *dataB* e envia o sinal de escrita na a fila de instruções do peocessador gráfico. 
+Devido aos tempos de sincronização do padrão VGA e do tamanho fixo da fila de instruções da GPU, os sinais de finalização da renderização de uma tela (*screen*) e de fila cheia são 
+checados (*wrfull*), a instrução passada ao driver só é escrita caso a renderização tenha terminado e a fila não esteja cheia. Caso contrário, um erro é retornado.
 
-Devido aos tempos de sincronização do padrão VGA e do tamanho fixo da fila de instruções da GPU, os sinais de finalização da renderização de uma tela (*screen*) e de fila cheia são checados (*wrfull*), a instrução passada ao driver só é escrita caso a renderização tenha terminado e a fila não esteja cheia. Caso contrário, um erro é retornado.
-
-Para o gerenciamento dos sinais de controle (reset_pulsecounter, screen, wr_reg e wr_full) e dos barramentos de dados (dataA e dataB) do processador gráfico, o driver implementa a virtualização destes endereços físicos. 
-Como apresentado na figura 6, o processador gráfico recebe os sinais *dataA*, *dataB*, *wrreg*, *reset_pulsecounter* bem como envia os sinais *screen* e *wrfull*, cujos endereços base dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. O gerenciamento destes sinais é realizado por meio da virtualização destes endereços físicos. Para a criação e utilização do mapeamento de memória são manipuladas a ponte `ALT_LWFPGASLVS_OFST` (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da placa, juntamente com a `HW_REGS_BASE` (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a `HW_REGS_SPAN` (0x04000000), encarregada do armazenamento em bytes da região de memória a ser mapeada. 
+Para o gerenciamento dos sinais de controle (reset_pulsecounter, screen, wr_reg e wr_full) e dos barramentos de dados (dataA e dataB) do processador gráfico, o driver implementa a 
+virtualização destes endereços físicos. 
+Como apresentado na figura 6, o processador gráfico recebe os sinais *dataA*, *dataB*, *wrreg*, *reset_pulsecounter* bem como envia os sinais *screen* e *wrfull*, cujos endereços base 
+dos barramentos da GPU são respectivamente 0x80, 0x70, 0xc0, 0x90, 0xa0 e 0xb0. O gerenciamento destes sinais é realizado por meio da virtualização destes endereços físicos. Para a 
+criação e utilização do mapeamento de memória são manipuladas a ponte `ALT_LWFPGASLVS_OFST` (0xFF200000)(Lightweight HPS-to-FPGA Bridge), encarregada da conexão entre o FPGA e o HPS da 
+placa, juntamente com a `HW_REGS_BASE` (0xFC000000), que armazena o endereço base para os registradores de acesso aos periféricos do HPS e a `HW_REGS_SPAN` (0x04000000), encarregada do 
+armazenamento em bytes da região de memória a ser mapeada. 
 
 ## Biblioteca CoLenda
 
@@ -483,7 +524,8 @@ serem exibidos, funções respectivas às instruções do processador gráfico, 
 <summary><b>Constantes de sprite</b></summary>
 
 ### Constantes de sprite
-As constantes de sprite implementadas visam facilitar seleção, pois nomeiam os sprites disponíveis e abstraem o número relacionado ao endereço de localização dos mesmos (*offset*). A figura 12 ilustra os sprites diponibilizados na GPU e a tabela abaixo lista a relação entre os sprites e os valores associados.
+As constantes de sprite implementadas visam facilitar seleção, pois nomeiam os sprites disponíveis e abstraem o número relacionado ao endereço de localização dos mesmos (*offset*). A 
+figura 12 ilustra os sprites diponibilizados na GPU e a tabela abaixo lista a relação entre os sprites e os valores associados.
 
 <div align="center">
 
@@ -535,7 +577,8 @@ As constantes de sprite implementadas visam facilitar seleção, pois nomeiam os
 <summary><b>Structs</b></summary>
 
 ### Structs
-As structs implementadas visam facilitar a organização das informações dos elementos a serem (ou sendo) exibidos no monitor VGA. A tabela abaixo lista as structs implementadas, assim como sua breve descrição e seus atributos.
+As structs implementadas visam facilitar a organização das informações dos elementos a serem (ou sendo) exibidos no monitor VGA. A tabela abaixo lista as structs implementadas, assim 
+como sua breve descrição e seus atributos.
 
 | Struct      | Descrição     |  Atributos    |
 |    :----:   | :-----------: | :-----------: |
@@ -550,7 +593,8 @@ As structs implementadas visam facilitar a organização das informações dos e
 
 **WARNING**
 
-As coordenadas de sprites são relativas à disposição dos pixels na tela (640x480). Já as coordenadas dos blocos de blackground são relativas à disposição dos blocos de tamanho 8x8 pixels (totalizando 80x60 blocos). Cada bloco possui um endereço na memória.
+As coordenadas de sprites são relativas à disposição dos pixels na tela (640x480). Já as coordenadas dos blocos de blackground são relativas à disposição dos blocos de tamanho 8x8 
+pixels (totalizando 80x60 blocos). Cada bloco possui um endereço na memória.
 </blockquote>
 
 </details>
@@ -559,7 +603,8 @@ As coordenadas de sprites são relativas à disposição dos pixels na tela (640
 <summary ><b>Funções correspondentes às instruções</b></summary>
 
 ### Funções correspondentes às instruções
-Estas funções, por representarem indiretamente as instruções do processador, são utilizadas pela aplicação de usuário para controlar a exibição dos elementos no monitor VGA. Dessa forma, cada função encarrega-se de um elemento. A tabela lista as funções deste tipo, bem como os arqumentos recebidos e a instrução da GPU relacionada com as mesmas.
+Estas funções, por representarem indiretamente as instruções do processador, são utilizadas pela aplicação de usuário para controlar a exibição dos elementos no monitor VGA. Dessa 
+forma, cada função encarrega-se de um elemento. A tabela lista as funções deste tipo, bem como os arqumentos recebidos e a instrução da GPU relacionada com as mesmas.
 <div align="center">
 	
 |      Função          |          Argumento         | Instrução relacionada |
@@ -577,7 +622,9 @@ Estas funções, por representarem indiretamente as instruções do processador,
 <summary ><b>Funções de pseudo-instruções</b></summary>
 	
 ### Funções de pseudo-instruções 
-Como dito anteriormente, as funções de pseudo-instruções realizam uma determinada atividade a partir da execução de um bloco de instruções da GPU. Estas facilitam o desenvolvimento de imagens por meio da GPU. As pseudo-instruções implemetadas são: desenhar uma linha vertical, desenhar uma linha horizontal, desenhar um bloco de background e limpar tela. A tabela abaixo lista as pseud instruções juntamente com suas descrições e seus argumentos.
+Como dito anteriormente, as funções de pseudo-instruções realizam uma determinada atividade a partir da execução de um bloco de instruções da GPU. Estas facilitam o desenvolvimento de 
+imagens por meio da GPU. As pseudo-instruções implemetadas são: desenhar uma linha vertical, desenhar uma linha horizontal, desenhar um bloco de background e limpar tela. A tabela 
+abaixo lista as pseud instruções juntamente com suas descrições e seus argumentos.
 
 | Função | Descrição | Argumento |
 |  :-----------:  | :-----------: | :-----------: |
@@ -604,7 +651,9 @@ Estas funções são utilizadas pela biblioteca na geração dos streams de cara
 
 ###  Validação de valores e tratamento de erros
 
-A biblioteca apresenta recursos para validação dos valores atribuídos pelo usuário aos argumentos das structs, tais como tamanho dos canais de cores, valor das coordenadas x e y dos blocos de background e dos polígonos. Estas checagens foram implementadas devido a limitação de exibição no monitor VGA devido ao tamanho fixo dos compos das intruções do processador gráfico. A detecção de um erro retorna um valor de erro à aplicação do usuário  e exibe no terminal o erro uma mensagem referente ao erro ocorrido
+A biblioteca apresenta recursos para validação dos valores atribuídos pelo usuário aos argumentos das structs, tais como tamanho dos canais de cores, valor das coordenadas x e y dos 
+blocos de background e dos polígonos. Estas checagens foram implementadas devido a limitação de exibição no monitor VGA devido ao tamanho fixo dos compos das intruções do processador 
+gráfico. A detecção de um erro retorna um valor de erro à aplicação do usuário  e exibe no terminal o erro uma mensagem referente ao erro ocorrido
 
 </details>	
 
@@ -649,7 +698,9 @@ obtidos na tela.
 <summary><b>Setando background</b></summary>
 
 ### Setando background
-Neste primeiro caso, buscou-se testar a definição da cor de fundo do monitor. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t*  com os valores RGB 0, 7 e 0, respectivamente, e realizar a chamada das funções *GPU_open*, *set_background_color* e *GPU_close*, nesta ordem,da biblioteca CoLenda. Como resultado, esperava-se que a cor de fundo do monitor VGA fosse alterada para verde.
+Neste primeiro caso, buscou-se testar a definição da cor de fundo do monitor. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t*  com os valores RGB 0, 7 e 
+0, respectivamente, e realizar a chamada das funções *GPU_open*, *set_background_color* e *GPU_close*, nesta ordem,da biblioteca CoLenda. Como resultado, esperava-se que a cor de fundo 
+do monitor VGA fosse alterada para verde.
 
 Como pode-se observar na figura 14, a cor de fundo exibida no monitor após a execução do programa condiz com o resultado esperado.
 
@@ -668,7 +719,9 @@ Como pode-se observar na figura 14, a cor de fundo exibida no monitor após a ex
 <summary><b>Setando polígonos</b></summary>
 
 ### Setando polígonos
-Neste caso de teste, buscou-se testar a exibição de polígonos. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t* com os valores RGB 7, 0 e 0, respectivamente, e a struct *polygon_t* `red_square = {512,240,0,0,1,red}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* e *GPU_close*, nesta ordem, da biblioteca CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA.
+Neste caso de teste, buscou-se testar a exibição de polígonos. Para isso, utilizou-se um aplicação de usuário para criar uma struct *color_t* com os valores RGB 7, 0 e 0, 
+respectivamente, e a struct *polygon_t* `red_square = {512,240,0,0,1,red}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* e *GPU_close*, nesta ordem, da 
+biblioteca CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA.
 
 Como pode-se observar na figura 15, o polígono exibido no monitor após a execução do programa condiz com o resultado esperado.
 
@@ -681,7 +734,9 @@ Como pode-se observar na figura 15, o polígono exibido no monitor após a execu
   </figure>
 </div>
 
-O teste foi repetido com a struct `black_triangle = {512,240,0,1,1,black}`, onde *black* é uma struct *color_t* com os valores RGB iguais a 7,7 e 7, respectivamente. Esperava-se que um triângulo preto 20x20 fosse exibido no centro do monitor VGA. Como pode-se observar na figura 16, o polígono exibido no monitor após a execução do programa condiz com o resultado esperado.  
+O teste foi repetido com a struct `black_triangle = {512,240,0,1,1,black}`, onde *black* é uma struct *color_t* com os valores RGB iguais a 7,7 e 7, respectivamente. Esperava-se que um 
+triângulo preto 20x20 fosse exibido no centro do monitor VGA. Como pode-se observar na figura 16, o polígono exibido no monitor após a execução do programa condiz com o resultado 
+esperado.  
 <div align="center">
   <figure>  
     <img src="docs/images/triangulo-teste.jpg" height=500>
@@ -697,7 +752,10 @@ O teste foi repetido com a struct `black_triangle = {512,240,0,1,1,black}`, onde
 <summary><b>Teste de sobreposição de polígonos</b></summary>
 
 ### Teste de sobreposição de polígonos
-Neste caso de teste, buscou-se testar a sobreposição de polígonos. Para isso, utilizou-se um aplicação de usuário as structs do tipo *polygon_t* `red_square = {512,240,0,0,1,red}` e `black_triangle = {512,240,1,1,1,black}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* (uma para cada polígono) e *GPU_close*, nesta ordem, da biblioteca CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA e um triângulo preto 20x20 fosse exibido no centro também no centro da tela e sobre o quadrado.
+Neste caso de teste, buscou-se testar a sobreposição de polígonos. Para isso, utilizou-se um aplicação de usuário as structs do tipo *polygon_t* `red_square = {512,240,0,0,1,red}` e 
+`black_triangle = {512,240,1,1,1,black}`. Em seguida realizou-se a chamada das funções *GPU_open*, *set_polygon* (uma para cada polígono) e *GPU_close*, nesta ordem, da biblioteca 
+CoLenda. Como resultado, esperava-se que um quadrado vermelho 20x20 fosse exibido no centro do monitor VGA e um triângulo preto 20x20 fosse exibido no centro também no centro da tela e 
+sobre o quadrado.
 
 Como pode-se observar na figura 17, a ordem de exibição dos polígonos no monitor após a execução do programa condiz com o resultado esperado.  
 <div align="center">
@@ -753,11 +811,14 @@ GPU_close();
 <summary><b>Teste de limite mínimo de posição de polígonos</b></summary>
 
 ### Teste de limite mínimo de posição de polígonos
-Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
+Neste caso, o mesmo trecho de código da seção anterior foi utilizado  alterando-se apenas as coordenas x e y do polígono. Como resultado, esperava-se que a cor de fundo fosse definida 
+para branco e um triângulo preto de tamanho 20x20 fosse exibido na posição 
 (10, 10). Como observa-se na figura 20, o 
 triângulo não foi setado corretamente. O teste foi repetido com o quadrado e o erro persistiu (figura 21). 
 
-Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos. Devido a isso, a biblioteca realiza a verificação destes campos e retorna um erro para os valores fora do range.
+Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à GPU. Todos os polígonos cujas coordenadas x e/ou y sejam menores que metade do tamanho do polígono não são 
+exibidos ou sua exibição assume um tamanho aleatório devido a erros nos cálculos. Devido a isso, a biblioteca realiza a verificação destes campos e retorna um erro para os valores fora 
+do _range_.
 
 <div align="center">
   <figure>  
@@ -784,8 +845,10 @@ Após diversas análises e múltiplos testes, concluiu-se que o erro pertence à
 <summary><b>Teste com blocos de background</b></summary>
 
 ### Teste com blocos de background
-Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse,  o que não aconteceu.
-Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contém 13 bits, ao invés dos 12 especificados no TCC. Na figura 22, estão destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits.
+Neste caso, o trecho de código abaixo foi utilizado para testar os limites de representação dos blocos de background. Como resultado, esperava-se que um erro ocorresse,  o que não 
+aconteceu.
+Novos testes foram repetidos e, a partir disto, concluiu-se que o endereçamento dos blocos de background contém 13 bits, ao invés dos 12 especificados no TCC. Na figura 22, estão 
+destacados todos os blocos de background que não seriam abrangidos caso o endereçamento tivesse 12 bits.
 
 > [!NOTE]
 > Devido a esta descoberta, a bibloteca CoLenda foi alterada para aceitar valores de endereçamento de blocos de background referente aos 13 bits.
@@ -817,7 +880,8 @@ GPU_close();
 <summary><b>Teste com a função <i>clear</i></b></summary>
 
 ### Teste com *clear*
-Neste caso, buscou-se testar a função *clear* responsável pela limpeza da tela. Para isto, setou-se o background do monitor VGA para a cor branca e exibiu-se um sprite no centro da tela. Em seguida, realizou-se a chamada da função *clear*. Como resultado, esperava-se que todos os elementos exibidos na tela fosse "apagados" e a cor de fundo fosse setada para preto. 
+Neste caso, buscou-se testar a função *clear* responsável pela limpeza da tela. Para isto, setou-se o background do monitor VGA para a cor branca e exibiu-se um sprite no centro da 
+tela. Em seguida, realizou-se a chamada da função *clear*. Como resultado, esperava-se que todos os elementos exibidos na tela fosse "apagados" e a cor de fundo fosse setada para preto. 
 
 Como observa-se na figura 23, todos os elementos foram removidos da tela e a cor de background foi definida para preto.
 
@@ -833,16 +897,15 @@ Como observa-se na figura 23, todos os elementos foram removidos da tela e a cor
 
 </details>
 
-Durante os testes, o possível problema da fila de instruções cheia foi tratado por meio de um delay a cada 12 instruções na biblioteca, garantindo que os comanandos sejam acessados pela GPU na janela de tempo após a renderização da tela.
+Durante os testes, o possível problema da fila de instruções cheia foi tratado por meio de um delay a cada 12 instruções na biblioteca, garantindo que os comanandos sejam acessados pela 
+GPU na janela de tempo após a renderização da tela.
 
 Além de compreender as políticas de gerenciamento de sistema operacional Linux em arquitetura ARM e utilizar a interface de conexão entre HPS e FPGA da DE1-SoC, este projeto proporcionou o aprofundamento e prática em uma distribuição Linux embarcada e dos conceitos de interação entre hardware e software.
 
 Assim sendo, o driver e a biblioteca atenderam aos objetivos nas variadas situações verificadas. Portanto, o produto desempenha de maneira satisfatória a intercomunicação usuário-driver-harware.
 
 ## Contribuindo
-Todas as contribuições são bem-vindas, sejam elas código ou documentação. Para isso, utilize a formatação e as versões adotada no projeto, realize os testes necessários para manter a integração, bem como adote pull requests para cada modificação.
-
-
+Todas as contribuições são bem-vindas, sejam elas para o código ou para a documentação. Para isso, utilize a formatação e as versões adotadas no projeto, realize os testes necessários para manter a integração, bem como adote _pull requests_ para cada modificação.
 
 ## Referências
 
