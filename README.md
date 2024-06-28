@@ -19,7 +19,7 @@
 <div align="center">
 	
 [Sobre o projeto](README.md#sobre-o-projeto) • [Instalação](README.md#instalação) • [Solução geral](README.md#solução-geral) • [Driver](README.md#driver-colenda-1) •
-[Biblioteca](README.md#biblioteca-colenda) • [Exemplo de utilização](#exemplos) • [Testes](README.md#produto-e-testes-realizados)
+[Biblioteca](README.md#biblioteca-colenda) • [Exemplo de utilização](#exemplo-de-utilização) • [Testes](README.md#produto-e-testes-realizados)
 
 </div>
 
@@ -66,23 +66,35 @@ A descrição do projeto está disponível [aqui](/docs/Descricao-do-problema.pd
 - [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
 	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
   	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
+- [Periféricos utilizados](#periféricos-utilizados)
+	- [Padrão VGA](#padrão-vga)
+ 	- [Saída VGA no DE1-SoC](#saída-vga-na-placa) 
 - [Processador gráfico](#processador-gráfico)
 	- [Instruções](#instruções)
+ 	- [Comunicação como processador gráfico](#comunicação-com-o-processador-gráfico) 
 - [Solução geral](#solução-geral)
 - [Driver CoLenda](#driver-colenda)
+		- [Background](#-background)
+ 		- [Arquitetura do Sistema Operacional Linux](#arquitetura-do-sistema-operacional-linux)
+		- [Mapeamento de memória](#mapeamento-de-memória)
+ 		- [Driver de dispositivo](#driver-de-dispositivo)
+  	- [Driver desenvolvido](#driver-desenvolvido)
 - [Biblioteca CoLenda](#biblioteca-colenda)
 	- [Constantes de sprites](#constantes-de-sprite)
 	- [Structs](#structs)
-  - [Funções](#funções)
-  - [Pseudo-instruções](#pseudo-instruções)
-  - [Funções internas auxiliares](#funções-internas-auxiliares)
-  - [Validação de valores](#validação-de-valores)
-- [Exemplo de utilização](#exemplos)
+  	- [Funções correspondentes às instruções](#funções-correspondentes-às-instruções)
+  	- [Funções de pseudo-instruções](#funções-de-pseudo-instruções)
+  	- [Funções internas auxiliares](#funções-internas-auxiliares)
+  	- [Validação de valores e tratamento de erros](#validação-de-valores-e-tratamento-de-erros)
+- [Exemplo de utilização](#exemplo-de-utilização)
 - [Testes](#testes)
-	- [Teste de background e limite máximo de posição de polígonos](#teste-de-background-e-limite-máximo-de-posição-de-polígonos)
-	- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
+	- [Setando background](#setando-background)
+  	- [Setando polígonos](#setando-polígonos)
+ 	- [Teste de sobreposição de polígonos](#teste-de-sobreposição-de-polígonos)
+  	- [Teste de limite máximo de posição de polígonos](#teste-de-limite-máximo-de-posição-de-polígonos)
+	- [Teste de limite mínimo de posição de polígonos](#teste-de-limite-mínimo-de-posição-de-polígonos)
 	- [Teste com blocos de background](#teste-com-blocos-de-background)
-- [Conclusão](#conclusão)
+ 	- [Teste com a função clear](#teste-com-a-função-clear)
 - [Referências](#referências)
  
 </details>
@@ -411,7 +423,7 @@ Nos módulos kernel, as funções [`ioremap()` e `iounmap()`](https://www.oreill
 <details>
 <summary><b>Driver do Dispositivo</b></summary>
 
-#### Driver do Dispositivo
+#### Driver de dispositivo
 O <i>driver</i> é uma abstração para acesso a um dispositivo de hardware que permite uma infraestrutura de interação com o aparato físico. Apesar da possibilidade de drivers sendo executados no espaço de usuário, eles são geralmente executados no espaço do kernel como módulo kernel, que podem ser carregados e descarregados em tempo de excução.
 
 Em sistemas UNIX, dispositivos de hardware são acessados pelo usuário através da sua abstração em arquivos especiais, que estão associados ao correspondente driver e hardware como representa na figura 10. Esse arquivos estão disponíveis e agrupados no diretório <code>/dev</code> e cada chamada de sistem como `open`, `read`, `write` etc. é redirecionada pelo sistema operacional para driver que faz o gerenciamento do dispositivo físico.
@@ -596,7 +608,7 @@ A biblioteca apresenta recursos para validação dos valores atribuídos pelo us
 
 </details>	
 
-## Exemplos
+## Exemplo de utilização
 Apesar do número limitado de elementos disponibilizados pelo processador gráfico, uma vasta gama de imagens podem ser renderizadas. Um exemplo de imagem que pode ser criada
 é mostrada na figura 13 na qual foram utilizados todos os recursos do hardware:
 - polígonos: usados para desenhar os botões direitos do gameboy
